@@ -1,0 +1,23 @@
+{
+  "source": "NEC 2026, Table 310.15(B)(1)(1)",
+  "note": "Ambient temperature correction factors, 30°C basis. null = not permitted at that temperature rating. Cross-verified 2026-08-15 against two full independent sources (0 mismatches, including the not-permitted dashes); unchanged in NEC 2026 per published change summaries.",
+  "basisAmbientC": 30,
+  "ranges": [
+    { "minC": -273, "maxC": 10, "factors": { "60": 1.29, "75": 1.2, "90": 1.15 } },
+    { "minC": 11, "maxC": 15, "factors": { "60": 1.22, "75": 1.15, "90": 1.12 } },
+    { "minC": 16, "maxC": 20, "factors": { "60": 1.15, "75": 1.11, "90": 1.08 } },
+    { "minC": 21, "maxC": 25, "factors": { "60": 1.08, "75": 1.05, "90": 1.04 } },
+    { "minC": 26, "maxC": 30, "factors": { "60": 1.0, "75": 1.0, "90": 1.0 } },
+    { "minC": 31, "maxC": 35, "factors": { "60": 0.91, "75": 0.94, "90": 0.96 } },
+    { "minC": 36, "maxC": 40, "factors": { "60": 0.82, "75": 0.88, "90": 0.91 } },
+    { "minC": 41, "maxC": 45, "factors": { "60": 0.71, "75": 0.82, "90": 0.87 } },
+    { "minC": 46, "maxC": 50, "factors": { "60": 0.58, "75": 0.75, "90": 0.82 } },
+    { "minC": 51, "maxC": 55, "factors": { "60": 0.41, "75": 0.67, "90": 0.76 } },
+    { "minC": 56, "maxC": 60, "factors": { "60": null, "75": 0.58, "90": 0.71 } },
+    { "minC": 61, "maxC": 65, "factors": { "60": null, "75": 0.47, "90": 0.65 } },
+    { "minC": 66, "maxC": 70, "factors": { "60": null, "75": 0.33, "90": 0.58 } },
+    { "minC": 71, "maxC": 75, "factors": { "60": null, "75": null, "90": 0.5 } },
+    { "minC": 76, "maxC": 80, "factors": { "60": null, "75": null, "90": 0.41 } },
+    { "minC": 81, "maxC": 85, "factors": { "60": null, "75": null, "90": 0.29 } }
+  ]
+}

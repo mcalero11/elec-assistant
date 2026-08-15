@@ -1,0 +1,12 @@
+{
+  "source": "NEC 2026, Table 310.15(C)(1)",
+  "note": "Adjustment factors for more than 3 current-carrying conductors in a raceway or cable. Factor applies to the ampacity of Table 310.16 (after ambient correction). Cross-verified 2026-08-15 against two full independent sources (0 mismatches); unchanged in NEC 2026 (2026 only clarifies the ≥600 mm bundling wording).",
+  "ranges": [
+    { "minCcc": 4, "maxCcc": 6, "factor": 0.8 },
+    { "minCcc": 7, "maxCcc": 9, "factor": 0.7 },
+    { "minCcc": 10, "maxCcc": 20, "factor": 0.5 },
+    { "minCcc": 21, "maxCcc": 30, "factor": 0.45 },
+    { "minCcc": 31, "maxCcc": 40, "factor": 0.4 },
+    { "minCcc": 41, "maxCcc": 9999, "factor": 0.35 }
+  ]
+}

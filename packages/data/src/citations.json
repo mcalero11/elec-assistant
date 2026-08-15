@@ -1,0 +1,46 @@
+{
+  "nec2026.t310_16": {
+    "en": "NEC 2026, Table 310.16",
+    "es": "NEC 2026, Tabla 310.16"
+  },
+  "nec2026.t310_15_b_1": {
+    "en": "NEC 2026, Table 310.15(B)(1)(1) — ambient temperature correction",
+    "es": "NEC 2026, Tabla 310.15(B)(1)(1) — corrección por temperatura ambiente"
+  },
+  "nec2026.t310_15_c_1": {
+    "en": "NEC 2026, Table 310.15(C)(1) — adjustment for >3 current-carrying conductors",
+    "es": "NEC 2026, Tabla 310.15(C)(1) — ajuste por más de 3 conductores portadores de corriente"
+  },
+  "nec2026.s110_14_c": {
+    "en": "NEC 2026, 110.14(C) — terminal temperature limitations",
+    "es": "NEC 2026, 110.14(C) — limitación por temperatura de terminales"
+  },
+  "nec2026.s210_19": {
+    "en": "NEC 2026, 210.19(A) — branch-circuit conductor sizing (125% continuous)",
+    "es": "NEC 2026, 210.19(A) — dimensionamiento de conductores de circuitos ramales (125% carga continua)"
+  },
+  "nec2026.s210_20": {
+    "en": "NEC 2026, 210.20(A) — overcurrent protection (125% continuous)",
+    "es": "NEC 2026, 210.20(A) — protección contra sobrecorriente (125% carga continua)"
+  },
+  "nec2026.s240_4_b": {
+    "en": "NEC 2026, 240.4(B) — next-higher standard rating permitted",
+    "es": "NEC 2026, 240.4(B) — se permite el valor estándar inmediato superior"
+  },
+  "nec2026.s240_4_d": {
+    "en": "NEC 2026, 240.4(D) — small conductor overcurrent limits",
+    "es": "NEC 2026, 240.4(D) — límites de sobrecorriente para conductores pequeños"
+  },
+  "nec2026.s240_6_a": {
+    "en": "NEC 2026, 240.6(A) — standard ampere ratings",
+    "es": "NEC 2026, 240.6(A) — valores nominales estándar de amperaje"
+  },
+  "nec2026.ch9_t8": {
+    "en": "NEC 2026, Chapter 9, Table 8 — conductor properties",
+    "es": "NEC 2026, Capítulo 9, Tabla 8 — propiedades de los conductores"
+  },
+  "nec2026.in210_19_vd": {
+    "en": "NEC 2026, Informational Note to 210.19 — recommended max voltage drop 3% branch / 5% total",
+    "es": "NEC 2026, Nota Informativa de 210.19 — caída de tensión máxima recomendada 3% ramal / 5% total"
+  }
+}

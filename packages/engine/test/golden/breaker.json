@@ -1,0 +1,11 @@
+{
+  "note": "Hand-verified standard breaker selection per 240.6(A), 240.4(B), 210.20(A).",
+  "cases": [
+    { "name": "24 A continuous → 30 A (125% = 30)", "input": { "loadA": 24, "continuous": true }, "expected": { "rating": 30, "nextSizeUpApplied": false } },
+    { "name": "40 A non-continuous → 40 A", "input": { "loadA": 40 }, "expected": { "rating": 40, "nextSizeUpApplied": false } },
+    { "name": "32 A with 35 A conductor → 35 A", "input": { "loadA": 32, "conductorProtectionAmpacity": 35 }, "expected": { "rating": 35, "nextSizeUpApplied": false } },
+    { "name": "52 A with 55 A conductor → 60 A via 240.4(B) next-size-up", "input": { "loadA": 52, "conductorProtectionAmpacity": 55 }, "expected": { "rating": 60, "nextSizeUpApplied": true } },
+    { "name": "24 A continuous with 30 A conductor → 30 A exactly", "input": { "loadA": 24, "continuous": true, "conductorProtectionAmpacity": 30 }, "expected": { "rating": 30, "nextSizeUpApplied": false } },
+    { "name": "29 A with 30 A conductor → 30 A", "input": { "loadA": 29, "conductorProtectionAmpacity": 30 }, "expected": { "rating": 30, "nextSizeUpApplied": false } }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "note": "Hand-verified voltage drop: 1φ VD = 2·I·R·L, 3φ VD = √3·I·R·L, with R in Ω/km (Ch. 9 Table 8) and L one-way in km.",
+  "drops": [
+    { "name": "24 A, 15 m, 10 AWG Cu, 240 V 1φ", "input": { "currentA": 24, "lengthM": 15, "size": "10", "material": "copper", "systemVoltage": 240 }, "expected": { "dropVolts": 2.9304, "dropPercent": 1.221 } },
+    { "name": "16 A, 30 m, 12 AWG Cu, 120 V 1φ (fails 3%)", "input": { "currentA": 16, "lengthM": 30, "size": "12", "material": "copper", "systemVoltage": 120 }, "expected": { "dropVolts": 6.24, "dropPercent": 5.2 } },
+    { "name": "20 A, 50 m, 8 AWG Cu, 208 V 3φ", "input": { "currentA": 20, "lengthM": 50, "size": "8", "material": "copper", "systemVoltage": 208, "phase": 3 }, "expected": { "dropVolts": 4.41673, "dropPercent": 2.12343 } },
+    { "name": "40 A, 80 m, 1/0 Al, 240 V 1φ", "input": { "currentA": 40, "lengthM": 80, "size": "1/0", "material": "aluminum", "systemVoltage": 240 }, "expected": { "dropVolts": 4.224, "dropPercent": 1.76 } }
+  ],
+  "minSizes": [
+    { "name": "16 A, 30 m, Cu, 120 V, ≤3% → 8 AWG (12 gives 5.2%, 10 gives 3.26%)", "input": { "currentA": 16, "lengthM": 30, "material": "copper", "systemVoltage": 120, "maxDropPercent": 3 }, "expected": { "size": "8", "dropPercent": 2.04 } }
+  ]
+}

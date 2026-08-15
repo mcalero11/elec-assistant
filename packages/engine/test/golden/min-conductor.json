@@ -1,0 +1,10 @@
+{
+  "note": "Hand-verified minimum-conductor cases: termination column covers 125% continuous, derated (insulation) column covers 100% load.",
+  "cases": [
+    { "name": "24 A continuous (mini-split MCA style), Cu THHN, default 60°C terminals → 10 AWG", "input": { "loadA": 24, "continuous": true, "material": "copper", "insulation": "THHN" }, "expected": { "size": "10", "protectionAmpacity": 30, "requiredTermination": 30 } },
+    { "name": "40 A non-continuous, Cu THWN, 75°C terminals → 8 AWG", "input": { "loadA": 40, "material": "copper", "insulation": "THWN", "terminalRatingC": 75 }, "expected": { "size": "8", "protectionAmpacity": 50, "requiredTermination": 40 } },
+    { "name": "100 A non-continuous, Al THWN, 75°C terminals → 1 AWG", "input": { "loadA": 100, "material": "aluminum", "insulation": "THWN", "terminalRatingC": 75 }, "expected": { "size": "1", "protectionAmpacity": 100, "requiredTermination": 100 } },
+    { "name": "17 A non-continuous, Cu THHN → 12 AWG (240.4(D) caps protection at 20 A)", "input": { "loadA": 17, "material": "copper", "insulation": "THHN" }, "expected": { "size": "12", "protectionAmpacity": 20, "requiredTermination": 17 } },
+    { "name": "60 A, Cu THWN, 40°C + 6 CCC: derating governs, 4 AWG fails at 59.84 A → 3 AWG", "input": { "loadA": 60, "material": "copper", "insulation": "THWN", "ambientC": 40, "cccCount": 6 }, "expected": { "size": "3", "protectionAmpacity": 70.4, "requiredTermination": 60 } }
+  ]
+}

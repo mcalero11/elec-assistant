@@ -1,0 +1,19 @@
+{
+  "note": "Hand-verified derated ampacity cases. base × ambient factor × CCC factor, from NEC Table 310.16 / 310.15(B)(1)(1) / 310.15(C)(1).",
+  "cases": [
+    { "name": "12 Cu THHN, table basis", "input": { "size": "12", "material": "copper", "insulation": "THHN" }, "expected": { "baseAmpacity": 30, "ampacity": 30 } },
+    { "name": "12 Cu THHN, 40°C, 6 CCC", "input": { "size": "12", "material": "copper", "insulation": "THHN", "ambientC": 40, "cccCount": 6 }, "expected": { "baseAmpacity": 30, "ampacity": 21.84 } },
+    { "name": "12 Cu TW, table basis", "input": { "size": "12", "material": "copper", "insulation": "TW" }, "expected": { "baseAmpacity": 20, "ampacity": 20 } },
+    { "name": "6 Cu THWN, table basis", "input": { "size": "6", "material": "copper", "insulation": "THWN" }, "expected": { "baseAmpacity": 65, "ampacity": 65 } },
+    { "name": "6 Cu THHN, 40°C", "input": { "size": "6", "material": "copper", "insulation": "THHN", "ambientC": 40 }, "expected": { "baseAmpacity": 75, "ampacity": 68.25 } },
+    { "name": "4/0 Al THWN, table basis", "input": { "size": "4/0", "material": "aluminum", "insulation": "THWN" }, "expected": { "baseAmpacity": 180, "ampacity": 180 } },
+    { "name": "10 Cu THHN, 45°C, 4 CCC", "input": { "size": "10", "material": "copper", "insulation": "THHN", "ambientC": 45, "cccCount": 4 }, "expected": { "baseAmpacity": 40, "ampacity": 27.84 } },
+    { "name": "1/0 Cu THWN, table basis", "input": { "size": "1/0", "material": "copper", "insulation": "THWN" }, "expected": { "baseAmpacity": 150, "ampacity": 150 } },
+    { "name": "8 Cu TW, table basis", "input": { "size": "8", "material": "copper", "insulation": "TW" }, "expected": { "baseAmpacity": 40, "ampacity": 40 } },
+    { "name": "2 Al THHN, table basis", "input": { "size": "2", "material": "aluminum", "insulation": "THHN" }, "expected": { "baseAmpacity": 100, "ampacity": 100 } },
+    { "name": "14 Cu THHN, 35°C", "input": { "size": "14", "material": "copper", "insulation": "THHN", "ambientC": 35 }, "expected": { "baseAmpacity": 25, "ampacity": 24 } },
+    { "name": "500 kcmil Cu THWN, table basis", "input": { "size": "500", "material": "copper", "insulation": "THWN" }, "expected": { "baseAmpacity": 380, "ampacity": 380 } },
+    { "name": "12 Cu THW, 55°C", "input": { "size": "12", "material": "copper", "insulation": "THW", "ambientC": 55 }, "expected": { "baseAmpacity": 25, "ampacity": 16.75 } },
+    { "name": "6 Al THWN, 9 CCC", "input": { "size": "6", "material": "aluminum", "insulation": "THWN", "cccCount": 9 }, "expected": { "baseAmpacity": 50, "ampacity": 35 } }
+  ]
+}
