@@ -1,0 +1,65 @@
+{
+  "note": "Hand-verified conduit-fill checks. Every expected value computed by hand from the transcribed Chapter 9 tables: conductor area = count × Table 5 mm² area; allowed area = the printed Table 4 fill column for the count (1 → 53%, 2 → 31%, >2 → 40%, nipple → 60%); actual percent = conductor area / Table 4 total area × 100. Arithmetic documented per case name.",
+  "cases": [
+    {
+      "name": "3× 10 THHN in 1/2 EMT: 3 × 13.61 = 40.83 ≤ 78 (40% col) → fits; 40.83/196 = 20.83%",
+      "input": { "conduitType": "EMT", "tradeSize": "1/2", "conductors": [{ "size": "10", "insulation": "THHN", "count": 3 }] },
+      "expected": { "fits": true, "fillPercentLimit": 40, "conductorAreaMm2": 40.83, "allowedFillAreaMm2": 78, "fillPercentActual": 20.8316, "note7Applied": false }
+    },
+    {
+      "name": "mini-split whip, 4× 10 THHN in 1/2 EMT: 4 × 13.61 = 54.44 ≤ 78 → fits; 54.44/196 = 27.78%",
+      "input": { "conduitType": "EMT", "tradeSize": "1/2", "conductors": [{ "size": "10", "insulation": "THHN", "count": 4 }] },
+      "expected": { "fits": true, "fillPercentLimit": 40, "conductorAreaMm2": 54.44, "allowedFillAreaMm2": 78, "fillPercentActual": 27.7755, "note7Applied": false }
+    },
+    {
+      "name": "9× 12 THHN in 1/2 EMT: 9 × 8.581 = 77.229 ≤ 78 → fits by area alone; 77.229/196 = 39.40%",
+      "input": { "conduitType": "EMT", "tradeSize": "1/2", "conductors": [{ "size": "12", "insulation": "THHN", "count": 9 }] },
+      "expected": { "fits": true, "fillPercentLimit": 40, "conductorAreaMm2": 77.229, "allowedFillAreaMm2": 78, "fillPercentActual": 39.4026, "note7Applied": false }
+    },
+    {
+      "name": "10× 12 THHN in 1/2 EMT: 85.81 > 78 and Note 7 gives 78/8.581 = 9.09 → max 9 → does not fit",
+      "input": { "conduitType": "EMT", "tradeSize": "1/2", "conductors": [{ "size": "12", "insulation": "THHN", "count": 10 }] },
+      "expected": { "fits": false, "fillPercentLimit": 40, "conductorAreaMm2": 85.81, "allowedFillAreaMm2": 78, "note7Applied": false }
+    },
+    {
+      "name": "Note 7: 22× 14 THHN in 3/4 EMT: 137.676 > 137 by area, but 137/6.258 = 21.89 → decimal ≥ 0.8 → 22 permitted",
+      "input": { "conduitType": "EMT", "tradeSize": "3/4", "conductors": [{ "size": "14", "insulation": "THHN", "count": 22 }] },
+      "expected": { "fits": true, "fillPercentLimit": 40, "conductorAreaMm2": 137.676, "allowedFillAreaMm2": 137, "fillPercentActual": 40.1388, "note7Applied": true }
+    },
+    {
+      "name": "single conductor 53% column: 1× 6 THHN in 1/2 EMT: 32.71 ≤ 104 → fits; 32.71/196 = 16.69%",
+      "input": { "conduitType": "EMT", "tradeSize": "1/2", "conductors": [{ "size": "6", "insulation": "THHN", "count": 1 }] },
+      "expected": { "fits": true, "fillPercentLimit": 53, "conductorAreaMm2": 32.71, "allowedFillAreaMm2": 104, "fillPercentActual": 16.6888, "note7Applied": false }
+    },
+    {
+      "name": "Note 7 at the 31% column: 2× 6 THHN in 1/2 EMT: 65.42 > 61 by area, but 61/32.71 = 1.86 → decimal ≥ 0.8 → 2 permitted",
+      "input": { "conduitType": "EMT", "tradeSize": "1/2", "conductors": [{ "size": "6", "insulation": "THHN", "count": 2 }] },
+      "expected": { "fits": true, "fillPercentLimit": 31, "conductorAreaMm2": 65.42, "allowedFillAreaMm2": 61, "fillPercentActual": 33.3776, "note7Applied": true }
+    },
+    {
+      "name": "two-conductor 31% column governs: 2× 4 THHN in 1/2 EMT: 106.32 > 61 and 61/53.16 = 1.15 → max 1 → does not fit",
+      "input": { "conduitType": "EMT", "tradeSize": "1/2", "conductors": [{ "size": "4", "insulation": "THHN", "count": 2 }] },
+      "expected": { "fits": false, "fillPercentLimit": 31, "conductorAreaMm2": 106.32, "allowedFillAreaMm2": 61, "note7Applied": false }
+    },
+    {
+      "name": "nipple at 60%: 6× 10 THHN in 1/2 EMT: 81.66 > 78 (40%) but ≤ 118 (60% col) → fits as nipple",
+      "input": { "conduitType": "EMT", "tradeSize": "1/2", "conductors": [{ "size": "10", "insulation": "THHN", "count": 6 }], "nipple": true },
+      "expected": { "fits": true, "fillPercentLimit": 60, "conductorAreaMm2": 81.66, "allowedFillAreaMm2": 118, "fillPercentActual": 41.6633, "note7Applied": false }
+    },
+    {
+      "name": "mixed sizes: 3× 6 THHN + 1× 10 THHN in 3/4 EMT: 98.13 + 13.61 = 111.74 ≤ 137 → fits; 111.74/343 = 32.58%",
+      "input": { "conduitType": "EMT", "tradeSize": "3/4", "conductors": [{ "size": "6", "insulation": "THHN", "count": 3 }, { "size": "10", "insulation": "THHN", "count": 1 }] },
+      "expected": { "fits": true, "fillPercentLimit": 40, "conductorAreaMm2": 111.74, "allowedFillAreaMm2": 137, "fillPercentActual": 32.5773, "note7Applied": false }
+    },
+    {
+      "name": "EMT vs PVC-40 contrast (fits EMT): 10× 10 THHN in 3/4 EMT: 136.1 ≤ 137 → fits; 136.1/343 = 39.68%",
+      "input": { "conduitType": "EMT", "tradeSize": "3/4", "conductors": [{ "size": "10", "insulation": "THHN", "count": 10 }] },
+      "expected": { "fits": true, "fillPercentLimit": 40, "conductorAreaMm2": 136.1, "allowedFillAreaMm2": 137, "fillPercentActual": 39.6793, "note7Applied": false }
+    },
+    {
+      "name": "EMT vs PVC-40 contrast (fails PVC): 10× 10 THHN in 3/4 PVC-40: 136.1 > 131, Note 7 gives 131/13.61 = 9.63 → max 9 → does not fit",
+      "input": { "conduitType": "PVC-40", "tradeSize": "3/4", "conductors": [{ "size": "10", "insulation": "THHN", "count": 10 }] },
+      "expected": { "fits": false, "fillPercentLimit": 40, "conductorAreaMm2": 136.1, "allowedFillAreaMm2": 131, "note7Applied": false }
+    }
+  ]
+}

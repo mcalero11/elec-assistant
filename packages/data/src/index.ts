@@ -3,6 +3,10 @@ import ambientCorrectionJson from './nec-2026/table-310-15-b-1.json'
 import cccAdjustmentJson from './nec-2026/table-310-15-c-1.json'
 import conductorResistanceJson from './nec-2026/chapter9-table8.json'
 import standardBreakersJson from './nec-2026/standard-breakers.json'
+import conduitFillPercentJson from './nec-2026/chapter9-table1.json'
+import conduitDimensionsJson from './nec-2026/chapter9-table4.json'
+import conductorAreasJson from './nec-2026/chapter9-table5.json'
+import egcJson from './nec-2026/table-250-122.json'
 import citationsJson from './citations.json'
 
 export const NEC_EDITION = 'nec-2026'
@@ -61,11 +65,78 @@ export interface StandardBreakerTable {
   ratings: number[]
 }
 
+/** Conduit/tubing trade sizes in ascending order (canonical iteration order, like CONDUCTOR_SIZES). */
+export const TRADE_SIZES = [
+  '3/8', '1/2', '3/4', '1', '1-1/4', '1-1/2', '2', '2-1/2', '3', '3-1/2', '4', '5', '6',
+] as const
+
+export type TradeSize = (typeof TRADE_SIZES)[number]
+
+export const CONDUIT_TYPES = ['EMT', 'PVC-40', 'LFNC-B'] as const
+export type ConduitType = (typeof CONDUIT_TYPES)[number]
+
+export interface ConduitFillPercentTable {
+  source: string
+  note: string
+  ranges: Array<{ minCount: number; maxCount: number | null; percent: number }>
+  nipplePercent: number
+}
+
+export interface ConduitSizeEntry {
+  metricDesignator: number
+  internalDiameterMm: number
+  totalAreaMm2: number
+  fill1WireMm2: number
+  fill2WiresMm2: number
+  fillOver2WiresMm2: number
+  fillNippleMm2: number
+}
+
+export interface ConduitDimensionsTable {
+  source: string
+  note: string
+  unit: string
+  types: Record<ConduitType, { article: string; sizes: Partial<Record<TradeSize, ConduitSizeEntry>> }>
+}
+
+/** Keys are insulation type names; data has no dependency on the engine's Insulation type, so plain string. */
+export interface ConductorAreaTable {
+  source: string
+  note: string
+  unit: string
+  areas: Record<string, Partial<Record<ConductorSize, number>>>
+}
+
+export interface EgcTable {
+  source: string
+  note: string
+  rows: Array<{ maxOcpdA: number; copper: ConductorSize; aluminum: ConductorSize }>
+}
+
 export const table31016: AmpacityTable = table31016Json
 export const ambientCorrection: AmbientCorrectionTable = ambientCorrectionJson
 export const cccAdjustment: CccAdjustmentTable = cccAdjustmentJson
 export const conductorResistance: ConductorResistanceTable = conductorResistanceJson
 export const standardBreakers: StandardBreakerTable = standardBreakersJson
+export const conduitFillPercent: ConduitFillPercentTable = conduitFillPercentJson
+export const conduitDimensions: ConduitDimensionsTable = conduitDimensionsJson
+export const conductorAreas: ConductorAreaTable = conductorAreasJson
+
+/** JSON widens the size strings to `string`; validate them against CONDUCTOR_SIZES at load. */
+function asConductorSize(value: string): ConductorSize {
+  if ((CONDUCTOR_SIZES as readonly string[]).includes(value)) return value as ConductorSize
+  throw new Error(`table-250-122.json contains an unknown conductor size: ${value}`)
+}
+
+export const egcTable: EgcTable = {
+  source: egcJson.source,
+  note: egcJson.note,
+  rows: egcJson.rows.map((r) => ({
+    maxOcpdA: r.maxOcpdA,
+    copper: asConductorSize(r.copper),
+    aluminum: asConductorSize(r.aluminum),
+  })),
+}
 
 export const citations = citationsJson
 export type CitationKey = keyof typeof citationsJson

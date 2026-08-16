@@ -35,9 +35,33 @@
     "en": "NEC 2026, 240.6(A) — standard ampere ratings",
     "es": "NEC 2026, 240.6(A) — valores nominales estándar de amperaje"
   },
+  "nec2026.ch9_t1": {
+    "en": "NEC 2026, Chapter 9, Table 1 — maximum percent conduit fill",
+    "es": "NEC 2026, Capítulo 9, Tabla 1 — porcentaje máximo de relleno de tubería"
+  },
+  "nec2026.ch9_t4": {
+    "en": "NEC 2026, Chapter 9, Table 4 — conduit and tubing dimensions",
+    "es": "NEC 2026, Capítulo 9, Tabla 4 — dimensiones de tuberías y canalizaciones"
+  },
+  "nec2026.ch9_t5": {
+    "en": "NEC 2026, Chapter 9, Table 5 — insulated conductor dimensions",
+    "es": "NEC 2026, Capítulo 9, Tabla 5 — dimensiones de conductores aislados"
+  },
+  "nec2026.ch9_note4": {
+    "en": "NEC 2026, Chapter 9, Notes to Tables, Note 4 — nipples ≤ 600 mm may be filled to 60%",
+    "es": "NEC 2026, Capítulo 9, Notas a las Tablas, Nota 4 — niples ≤ 600 mm pueden llenarse al 60%"
+  },
+  "nec2026.ch9_note7": {
+    "en": "NEC 2026, Chapter 9, Notes to Tables, Note 7 — next whole conductor permitted where the decimal is ≥ 0.8",
+    "es": "NEC 2026, Capítulo 9, Notas a las Tablas, Nota 7 — se permite el siguiente conductor entero cuando el decimal es ≥ 0.8"
+  },
   "nec2026.ch9_t8": {
     "en": "NEC 2026, Chapter 9, Table 8 — conductor properties",
     "es": "NEC 2026, Capítulo 9, Tabla 8 — propiedades de los conductores"
+  },
+  "nec2026.t250_122": {
+    "en": "NEC 2026, Table 250.122 — minimum size equipment grounding conductors",
+    "es": "NEC 2026, Tabla 250.122 — tamaño mínimo de conductores de puesta a tierra de equipos"
   },
   "nec2026.in210_19_vd": {
     "en": "NEC 2026, Informational Note to 210.19 — recommended max voltage drop 3% branch / 5% total",

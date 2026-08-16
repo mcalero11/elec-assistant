@@ -1,0 +1,40 @@
+{
+  "note": "Hand-verified minimum trade-size searches. Expected size found by walking the Table 4 fill columns upward by hand; percentages = conductor area / Table 4 total area × 100 at the chosen size. Arithmetic documented per case name.",
+  "cases": [
+    {
+      "name": "3× 10 THHN (mini-split: 2 hots + EGC), EMT: 40.83 ≤ 78 at 1/2 → 1/2",
+      "input": { "conduitType": "EMT", "conductors": [{ "size": "10", "insulation": "THHN", "count": 3 }] },
+      "expected": { "tradeSize": "1/2", "fillPercentLimit": 40, "fillPercentActual": 20.8316 }
+    },
+    {
+      "name": "3× 10 THHN, PVC-40: 40.83 ≤ 74 at 1/2 → 1/2; 40.83/184 = 22.19%",
+      "input": { "conduitType": "PVC-40", "conductors": [{ "size": "10", "insulation": "THHN", "count": 3 }] },
+      "expected": { "tradeSize": "1/2", "fillPercentLimit": 40, "fillPercentActual": 22.1902 }
+    },
+    {
+      "name": "3× 10 THHN, LFNC-B: 40.83 ≤ 49 at 3/8 → 3/8 (math allows it; use minTradeSize for practical floors)",
+      "input": { "conduitType": "LFNC-B", "conductors": [{ "size": "10", "insulation": "THHN", "count": 3 }] },
+      "expected": { "tradeSize": "3/8", "fillPercentLimit": 40, "fillPercentActual": 33.1951 }
+    },
+    {
+      "name": "3× 10 THHN, LFNC-B with minTradeSize 1/2: skips 3/8 → 1/2; 40.83/204 = 20.01%",
+      "input": { "conduitType": "LFNC-B", "conductors": [{ "size": "10", "insulation": "THHN", "count": 3 }], "minTradeSize": "1/2" },
+      "expected": { "tradeSize": "1/2", "fillPercentLimit": 40, "fillPercentActual": 20.0147 }
+    },
+    {
+      "name": "feeder: 4× 1/0 THWN-2, EMT: 478.8 > 387 (1-1/4) but ≤ 526 (1-1/2) → 1-1/2; 478.8/1314 = 36.44%",
+      "input": { "conduitType": "EMT", "conductors": [{ "size": "1/0", "insulation": "THWN-2", "count": 4 }] },
+      "expected": { "tradeSize": "1-1/2", "fillPercentLimit": 40, "fillPercentActual": 36.4384 }
+    },
+    {
+      "name": "large mixed set: 3× 4/0 THHN + 1× 4 THHN, EMT: 626.4 + 53.16 = 679.56 > 526 (1-1/2) but ≤ 866 (2) → 2",
+      "input": { "conduitType": "EMT", "conductors": [{ "size": "4/0", "insulation": "THHN", "count": 3 }, { "size": "4", "insulation": "THHN", "count": 1 }] },
+      "expected": { "tradeSize": "2", "fillPercentLimit": 40, "fillPercentActual": 31.3885 }
+    },
+    {
+      "name": "single conductor governed by 53%: 1× 500 THHN, EMT: 456.3 > 295 (1) but ≤ 513 (1-1/4 @ 53%) → 1-1/4",
+      "input": { "conduitType": "EMT", "conductors": [{ "size": "500", "insulation": "THHN", "count": 1 }] },
+      "expected": { "tradeSize": "1-1/4", "fillPercentLimit": 53, "fillPercentActual": 47.1384 }
+    }
+  ]
+}

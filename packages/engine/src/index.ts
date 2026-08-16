@@ -21,6 +21,15 @@ export {
 export { standardBreaker, type BreakerInput, type BreakerResult } from './breaker.js'
 export { sizeCircuit, type CircuitInput, type CircuitResult } from './circuit.js'
 export {
+  conduitFill,
+  sizeConduit,
+  type ConductorFillEntry,
+  type ConduitFillInput,
+  type ConduitFillResult,
+  type SizeConduitInput,
+} from './conduit-fill.js'
+export { egcSize, type EgcInput, type EgcResult } from './egc.js'
+export {
   EngineError,
   INSULATION_TEMP_RATING,
   mergeAssumptions,

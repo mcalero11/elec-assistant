@@ -1,0 +1,51 @@
+{
+  "source": "NEC 2026, Chapter 9, Table 4",
+  "note": "Internal diameter, total cross-section area, and the printed percent-fill columns per conduit type, in millimeters / mm² exactly as printed in the metric columns (never derived from total area × Table 1 percentages, so each cell is verifiable digit-for-digit against print). Types covered: EMT (Article 358), rigid PVC Schedule 40 (printed under the combined 'Articles 352 and 353' heading — HDPE shares the identical rows; Schedule 80 has smaller internal areas and would be a separate key), and LFNC-B (Article 356 Type B, the common flexible «poliducto»; LFNC-A and LFNC-C print separately with different values and are not included). Cross-verified 2026-08-16 against two full independent sources (0 mismatches): all 203 cells checked digit-for-digit against the NFPA 2017 print (page images, native metric columns) and an independent 2014 HTML transcription; LFNC values confirmed to be the Type B set specifically. Official 2026 text paywalled; dimension tables unchanged across editions per change summaries.",
+  "unit": "mm2",
+  "types": {
+    "EMT": {
+      "article": "358",
+      "sizes": {
+        "1/2": { "metricDesignator": 16, "internalDiameterMm": 15.8, "totalAreaMm2": 196, "fill1WireMm2": 104, "fill2WiresMm2": 61, "fillOver2WiresMm2": 78, "fillNippleMm2": 118 },
+        "3/4": { "metricDesignator": 21, "internalDiameterMm": 20.9, "totalAreaMm2": 343, "fill1WireMm2": 182, "fill2WiresMm2": 106, "fillOver2WiresMm2": 137, "fillNippleMm2": 206 },
+        "1": { "metricDesignator": 27, "internalDiameterMm": 26.6, "totalAreaMm2": 556, "fill1WireMm2": 295, "fill2WiresMm2": 172, "fillOver2WiresMm2": 222, "fillNippleMm2": 333 },
+        "1-1/4": { "metricDesignator": 35, "internalDiameterMm": 35.1, "totalAreaMm2": 968, "fill1WireMm2": 513, "fill2WiresMm2": 300, "fillOver2WiresMm2": 387, "fillNippleMm2": 581 },
+        "1-1/2": { "metricDesignator": 41, "internalDiameterMm": 40.9, "totalAreaMm2": 1314, "fill1WireMm2": 696, "fill2WiresMm2": 407, "fillOver2WiresMm2": 526, "fillNippleMm2": 788 },
+        "2": { "metricDesignator": 53, "internalDiameterMm": 52.5, "totalAreaMm2": 2165, "fill1WireMm2": 1147, "fill2WiresMm2": 671, "fillOver2WiresMm2": 866, "fillNippleMm2": 1299 },
+        "2-1/2": { "metricDesignator": 63, "internalDiameterMm": 69.4, "totalAreaMm2": 3783, "fill1WireMm2": 2005, "fill2WiresMm2": 1173, "fillOver2WiresMm2": 1513, "fillNippleMm2": 2270 },
+        "3": { "metricDesignator": 78, "internalDiameterMm": 85.2, "totalAreaMm2": 5701, "fill1WireMm2": 3022, "fill2WiresMm2": 1767, "fillOver2WiresMm2": 2280, "fillNippleMm2": 3421 },
+        "3-1/2": { "metricDesignator": 91, "internalDiameterMm": 97.4, "totalAreaMm2": 7451, "fill1WireMm2": 3949, "fill2WiresMm2": 2310, "fillOver2WiresMm2": 2980, "fillNippleMm2": 4471 },
+        "4": { "metricDesignator": 103, "internalDiameterMm": 110.1, "totalAreaMm2": 9521, "fill1WireMm2": 5046, "fill2WiresMm2": 2951, "fillOver2WiresMm2": 3808, "fillNippleMm2": 5712 }
+      }
+    },
+    "PVC-40": {
+      "article": "352",
+      "sizes": {
+        "1/2": { "metricDesignator": 16, "internalDiameterMm": 15.3, "totalAreaMm2": 184, "fill1WireMm2": 97, "fill2WiresMm2": 57, "fillOver2WiresMm2": 74, "fillNippleMm2": 110 },
+        "3/4": { "metricDesignator": 21, "internalDiameterMm": 20.4, "totalAreaMm2": 327, "fill1WireMm2": 173, "fill2WiresMm2": 101, "fillOver2WiresMm2": 131, "fillNippleMm2": 196 },
+        "1": { "metricDesignator": 27, "internalDiameterMm": 26.1, "totalAreaMm2": 535, "fill1WireMm2": 284, "fill2WiresMm2": 166, "fillOver2WiresMm2": 214, "fillNippleMm2": 321 },
+        "1-1/4": { "metricDesignator": 35, "internalDiameterMm": 34.5, "totalAreaMm2": 935, "fill1WireMm2": 495, "fill2WiresMm2": 290, "fillOver2WiresMm2": 374, "fillNippleMm2": 561 },
+        "1-1/2": { "metricDesignator": 41, "internalDiameterMm": 40.4, "totalAreaMm2": 1282, "fill1WireMm2": 679, "fill2WiresMm2": 397, "fillOver2WiresMm2": 513, "fillNippleMm2": 769 },
+        "2": { "metricDesignator": 53, "internalDiameterMm": 52.0, "totalAreaMm2": 2124, "fill1WireMm2": 1126, "fill2WiresMm2": 658, "fillOver2WiresMm2": 849, "fillNippleMm2": 1274 },
+        "2-1/2": { "metricDesignator": 63, "internalDiameterMm": 62.1, "totalAreaMm2": 3029, "fill1WireMm2": 1605, "fill2WiresMm2": 939, "fillOver2WiresMm2": 1212, "fillNippleMm2": 1817 },
+        "3": { "metricDesignator": 78, "internalDiameterMm": 77.3, "totalAreaMm2": 4693, "fill1WireMm2": 2487, "fill2WiresMm2": 1455, "fillOver2WiresMm2": 1877, "fillNippleMm2": 2816 },
+        "3-1/2": { "metricDesignator": 91, "internalDiameterMm": 89.4, "totalAreaMm2": 6277, "fill1WireMm2": 3327, "fill2WiresMm2": 1946, "fillOver2WiresMm2": 2511, "fillNippleMm2": 3766 },
+        "4": { "metricDesignator": 103, "internalDiameterMm": 101.5, "totalAreaMm2": 8091, "fill1WireMm2": 4288, "fill2WiresMm2": 2508, "fillOver2WiresMm2": 3237, "fillNippleMm2": 4855 },
+        "5": { "metricDesignator": 129, "internalDiameterMm": 127.4, "totalAreaMm2": 12748, "fill1WireMm2": 6756, "fill2WiresMm2": 3952, "fillOver2WiresMm2": 5099, "fillNippleMm2": 7649 },
+        "6": { "metricDesignator": 155, "internalDiameterMm": 153.2, "totalAreaMm2": 18433, "fill1WireMm2": 9770, "fill2WiresMm2": 5714, "fillOver2WiresMm2": 7373, "fillNippleMm2": 11060 }
+      }
+    },
+    "LFNC-B": {
+      "article": "356",
+      "sizes": {
+        "3/8": { "metricDesignator": 12, "internalDiameterMm": 12.5, "totalAreaMm2": 123, "fill1WireMm2": 65, "fill2WiresMm2": 38, "fillOver2WiresMm2": 49, "fillNippleMm2": 74 },
+        "1/2": { "metricDesignator": 16, "internalDiameterMm": 16.1, "totalAreaMm2": 204, "fill1WireMm2": 108, "fill2WiresMm2": 63, "fillOver2WiresMm2": 81, "fillNippleMm2": 122 },
+        "3/4": { "metricDesignator": 21, "internalDiameterMm": 21.1, "totalAreaMm2": 350, "fill1WireMm2": 185, "fill2WiresMm2": 108, "fillOver2WiresMm2": 140, "fillNippleMm2": 210 },
+        "1": { "metricDesignator": 27, "internalDiameterMm": 26.8, "totalAreaMm2": 564, "fill1WireMm2": 299, "fill2WiresMm2": 175, "fillOver2WiresMm2": 226, "fillNippleMm2": 338 },
+        "1-1/4": { "metricDesignator": 35, "internalDiameterMm": 35.4, "totalAreaMm2": 984, "fill1WireMm2": 522, "fill2WiresMm2": 305, "fillOver2WiresMm2": 394, "fillNippleMm2": 591 },
+        "1-1/2": { "metricDesignator": 41, "internalDiameterMm": 40.3, "totalAreaMm2": 1276, "fill1WireMm2": 676, "fill2WiresMm2": 395, "fillOver2WiresMm2": 510, "fillNippleMm2": 765 },
+        "2": { "metricDesignator": 53, "internalDiameterMm": 51.6, "totalAreaMm2": 2091, "fill1WireMm2": 1108, "fill2WiresMm2": 648, "fillOver2WiresMm2": 836, "fillNippleMm2": 1255 }
+      }
+    }
+  }
+}

@@ -13,10 +13,10 @@ Scope and acceptance criteria for each feature live in [PRD.md](./PRD.md).
 | Voltage drop + min-size-for-drop (Ch. 9 T8) | ✅ shipped | 2026-08-15 · DC-resistance method; AC impedance (T9) later |
 | Standard breaker sizing (240.4, 240.6) | ✅ shipped | 2026-08-15 · incl. next-size-up + small-conductor caps |
 | Circuit composer (load → conductor → breaker) | ✅ shipped | 2026-08-15 · `sizeCircuit`, mini-split scenario verified |
-| Conduit fill (Ch. 9) | 📋 planned | |
+| Conduit fill (Ch. 9) | ✅ shipped | 2026-08-16 · golden + property tests; EMT / PVC Sch 40 / LFNC-B, nipple 60%, Note 7; bare EGC later (needs T8 area column) |
 | Box fill (314.16) | 📋 planned | |
 | Residential load calc (Art. 220) | 📋 planned | |
-| Grounding (250.66, 250.122) | 📋 planned | |
+| Grounding (250.66, 250.122) | 🚧 in progress | 2026-08-16 · `egcSize` (T250.122) shipped for BOMs; 250.66 GEC + 250.122(B) upsizing later |
 | Solar sizing (Art. 690 + panels/inverter/battery) | 📋 planned | |
 
 ## Data
@@ -24,6 +24,7 @@ Scope and acceptance criteria for each feature live in [PRD.md](./PRD.md).
 | Feature | Status | Notes |
 |---|---|---|
 | NEC 2026 core tables (310.16, corrections, T8, 240.6) | ✅ shipped | 2026-08-15 · cross-verified vs published sources, 0 mismatches (official 2026 text paywalled; unchanged per change summaries) |
+| NEC Ch. 9 Tables 1/4/5 + Table 250.122 | ✅ shipped | 2026-08-16 · cross-verified vs two independent sources each; verification caught + fixed a THW 14–8 AWG row-group error |
 | Bilingual citation labels (en/es) | ✅ shipped | 2026-08-15 |
 | Device catalog (wattages, synonyms, photos) | 📋 planned | |
 | Glossary / regional terminology DB | 📋 planned | the moat |

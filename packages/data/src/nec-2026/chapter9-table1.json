@@ -1,0 +1,10 @@
+{
+  "source": "NEC 2026, Chapter 9, Table 1",
+  "note": "Maximum percent of conduit/tubing cross-section occupied by conductors, keyed by conductor count. nipplePercent comes from Chapter 9 Notes to Tables, Note 4 (conduit nipple not exceeding 600 mm between enclosures may be filled to 60%), kept here for locality. Cross-verified 2026-08-16 against two full independent sources (0 mismatches): the NFPA 2017 print (page images) and an independent continuing-education reproduction. Official 2026 text paywalled; values unchanged across editions per change summaries.",
+  "ranges": [
+    { "minCount": 1, "maxCount": 1, "percent": 53 },
+    { "minCount": 2, "maxCount": 2, "percent": 31 },
+    { "minCount": 3, "maxCount": null, "percent": 40 }
+  ],
+  "nipplePercent": 60
+}

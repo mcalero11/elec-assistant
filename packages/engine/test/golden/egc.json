@@ -1,0 +1,18 @@
+{
+  "note": "Hand-verified Table 250.122 lookups. The table rows are 'not exceeding' thresholds: a 25 A breaker falls under the 30 A row. Values read straight off the transcribed table.",
+  "cases": [
+    { "name": "15 A Cu → 14", "input": { "ocpdA": 15, "material": "copper" }, "expected": { "size": "14" } },
+    { "name": "20 A Cu → 12", "input": { "ocpdA": 20, "material": "copper" }, "expected": { "size": "12" } },
+    { "name": "25 A Cu → 10 (30 A row)", "input": { "ocpdA": 25, "material": "copper" }, "expected": { "size": "10" } },
+    { "name": "30 A Cu → 10 (mini-split breaker)", "input": { "ocpdA": 30, "material": "copper" }, "expected": { "size": "10" } },
+    { "name": "40 A Cu → 10", "input": { "ocpdA": 40, "material": "copper" }, "expected": { "size": "10" } },
+    { "name": "60 A Cu → 10", "input": { "ocpdA": 60, "material": "copper" }, "expected": { "size": "10" } },
+    { "name": "70 A Cu → 8 (100 A row)", "input": { "ocpdA": 70, "material": "copper" }, "expected": { "size": "8" } },
+    { "name": "100 A Cu → 8", "input": { "ocpdA": 100, "material": "copper" }, "expected": { "size": "8" } },
+    { "name": "200 A Cu → 6", "input": { "ocpdA": 200, "material": "copper" }, "expected": { "size": "6" } },
+    { "name": "20 A Al → 10", "input": { "ocpdA": 20, "material": "aluminum" }, "expected": { "size": "10" } },
+    { "name": "30 A Al → 8", "input": { "ocpdA": 30, "material": "aluminum" }, "expected": { "size": "8" } },
+    { "name": "100 A Al → 6", "input": { "ocpdA": 100, "material": "aluminum" }, "expected": { "size": "6" } },
+    { "name": "200 A Al → 4", "input": { "ocpdA": 200, "material": "aluminum" }, "expected": { "size": "4" } }
+  ]
+}
