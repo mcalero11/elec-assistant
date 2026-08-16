@@ -10,10 +10,13 @@ El Salvador: interactive calculators, job-based purchase lists, and solar sizing
 
 pnpm workspace:
 
-- `packages/engine` — pure TypeScript NEC calculation engine (no framework, no I/O)
-- `packages/data` — versioned NEC value tables, citations, and (later) device
-  catalog / glossary / job templates / price catalog
-- `packages/web` — (later) Next.js PWA
+- `packages/engine` — pure TypeScript NEC calculation engine (no framework, no I/O),
+  including the declarative job-template interpreter (`runTemplate`)
+- `packages/data` — versioned NEC value tables, citations, item/device catalogs,
+  job templates, and the price catalog (refreshed per
+  [packages/data/PRICES.md](./packages/data/PRICES.md))
+- `packages/web` — Next.js App Router PWA shell (static export, Tailwind v4 +
+  shadcn/ui, Spanish-first): interactive calculators and job flows
 
 ## Develop
 
@@ -21,6 +24,8 @@ pnpm workspace:
 pnpm install
 pnpm typecheck
 pnpm test
+pnpm build            # static export → packages/web/out/
+pnpm --filter @elec-assistant/web dev
 ```
 
 > Results are calculation aids, not a substitute for a licensed electrician or

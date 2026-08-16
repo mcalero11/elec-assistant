@@ -30,6 +30,14 @@ export {
 } from './conduit-fill.js'
 export { egcSize, type EgcInput, type EgcResult } from './egc.js'
 export {
+  runTemplate,
+  type BomLine,
+  type ResolvedParameter,
+  type ResolvedWarning,
+  type TemplateRunInput,
+  type TemplateRunResult,
+} from './template.js'
+export {
   EngineError,
   INSULATION_TEMP_RATING,
   mergeAssumptions,

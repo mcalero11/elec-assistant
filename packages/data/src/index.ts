@@ -7,7 +7,9 @@ import conduitFillPercentJson from './nec-2026/chapter9-table1.json'
 import conduitDimensionsJson from './nec-2026/chapter9-table4.json'
 import conductorAreasJson from './nec-2026/chapter9-table5.json'
 import egcJson from './nec-2026/table-250-122.json'
+import pricesJson from './catalog/prices.json'
 import citationsJson from './citations.json'
+import { RETAILERS, type PriceEntry, type Retailer } from './catalog/types.js'
 
 export const NEC_EDITION = 'nec-2026'
 
@@ -137,6 +139,38 @@ export const egcTable: EgcTable = {
     aluminum: asConductorSize(r.aluminum),
   })),
 }
+
+/* ------------------------- catalog / templates / prices ------------------------- */
+
+export * from './catalog/types.js'
+export { catalogItems, type CatalogItemId } from './catalog/items.js'
+export { acPresets, type AcPresetId } from './catalog/ac-presets.js'
+export { acMinisplitTemplate } from './templates/ac-minisplit.js'
+
+/** prices.json is written by the research procedure in PRICES.md — validate at load. */
+function asPriceEntry(raw: Record<string, unknown>): PriceEntry {
+  const { itemId, retailer, priceUsd, updatedAt, sourceUrl, note } = raw
+  if (typeof itemId !== 'string' || itemId.length === 0)
+    throw new Error(`prices.json: bad itemId in ${JSON.stringify(raw)}`)
+  if (typeof retailer !== 'string' || !(RETAILERS as readonly string[]).includes(retailer))
+    throw new Error(`prices.json: unknown retailer for ${itemId}: ${String(retailer)}`)
+  if (typeof priceUsd !== 'number' || !(priceUsd > 0))
+    throw new Error(`prices.json: bad priceUsd for ${itemId}`)
+  if (typeof updatedAt !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(updatedAt))
+    throw new Error(`prices.json: bad updatedAt for ${itemId}`)
+  return {
+    itemId,
+    retailer: retailer as Retailer,
+    priceUsd,
+    updatedAt,
+    ...(typeof sourceUrl === 'string' ? { sourceUrl } : {}),
+    ...(typeof note === 'string' ? { note } : {}),
+  }
+}
+
+export const priceEntries: PriceEntry[] = (
+  (pricesJson as { entries: Array<Record<string, unknown>> }).entries ?? []
+).map(asPriceEntry)
 
 export const citations = citationsJson
 export type CitationKey = keyof typeof citationsJson

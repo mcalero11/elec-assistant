@@ -9,6 +9,15 @@ export default function HomePage() {
       </p>
       <div className="mt-8 grid gap-4">
         <Link
+          href="/trabajos"
+          className="rounded-lg border p-4 transition-colors hover:bg-accent"
+        >
+          <h2 className="font-semibold">Trabajos</h2>
+          <p className="text-sm text-muted-foreground">
+            Escriba «aire», conteste 4 preguntas y obtenga la lista de materiales con precios.
+          </p>
+        </Link>
+        <Link
           href="/calculadoras/calibre"
           className="rounded-lg border p-4 transition-colors hover:bg-accent"
         >

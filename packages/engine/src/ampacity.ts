@@ -22,6 +22,9 @@ const ASSUME_DRY: Assumption = {
   es: 'La temperatura nominal del aislamiento asume ubicación seca (p. ej. THHN a 90°C). Para ubicaciones húmedas use aislamiento tipo -2/W.',
 }
 
+/** Types whose listed temperature rating holds only in dry/damp locations — the caveat above applies to these alone. */
+const DRY_ONLY_INSULATIONS: readonly Insulation[] = ['THHN']
+
 const ASSUME_AMBIENT_DEFAULT: Assumption = {
   key: 'ambient-30c',
   en: 'Ambient temperature assumed 30°C (table basis).',
@@ -96,7 +99,8 @@ export function deratedAmpacity(input: DeratedAmpacityInput): DeratedAmpacityRes
   const fAmbient = ambientFactor(ambientC, rating)
   const fCcc = cccFactor(cccCount)
 
-  const assumptions: Assumption[] = [ASSUME_DRY]
+  const assumptions: Assumption[] = []
+  if (DRY_ONLY_INSULATIONS.includes(input.insulation)) assumptions.push(ASSUME_DRY)
   if (input.ambientC == null) assumptions.push(ASSUME_AMBIENT_DEFAULT)
 
   return {

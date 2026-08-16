@@ -127,3 +127,15 @@
     @apply font-sans;
     }
 }
+
+/* «Exportar PDF» = print stylesheet: the results column becomes the document. */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  main {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+}

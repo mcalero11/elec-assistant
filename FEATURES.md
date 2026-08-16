@@ -26,10 +26,10 @@ Scope and acceptance criteria for each feature live in [PRD.md](./PRD.md).
 | NEC 2026 core tables (310.16, corrections, T8, 240.6) | ✅ shipped | 2026-08-15 · cross-verified vs published sources, 0 mismatches (official 2026 text paywalled; unchanged per change summaries) |
 | NEC Ch. 9 Tables 1/4/5 + Table 250.122 | ✅ shipped | 2026-08-16 · cross-verified vs two independent sources each; verification caught + fixed a THW 14–8 AWG row-group error |
 | Bilingual citation labels (en/es) | ✅ shipped | 2026-08-15 |
-| Device catalog (wattages, synonyms, photos) | 📋 planned | |
+| Device catalog (wattages, synonyms, photos) | 🚧 in progress | 2026-08-16 · AC nameplate presets (5, MCA/MOCP) seeded; wattages/photos for the load calc later |
 | Glossary / regional terminology DB | 📋 planned | the moat |
-| Job templates (5 seed jobs) | 📋 planned | |
-| Price catalog (per-retailer, updatedAt-stamped) | 📋 planned | |
+| Job templates (5 seed jobs) | 🚧 in progress | 2026-08-16 · 1/5 shipped: aire mini-split — declarative schema + engine interpreter (`runTemplate`), 3 hand-verified BOM fixtures |
+| Price catalog (per-retailer, updatedAt-stamped) | 🚧 in progress | 2026-08-16 · 30 Vidrí prices via reproducible run (PRICES.md); Freund/EPA opt out of AI access → manual entry pending; 4 documented gaps |
 
 ## Web app
 
@@ -37,9 +37,9 @@ Scope and acceptance criteria for each feature live in [PRD.md](./PRD.md).
 |---|---|---|
 | Next.js PWA shell (Spanish-first, offline) | 🚧 in progress | 2026-08-16 · static-export shell live (Tailwind v4 + shadcn/ui, es-SV, imperial toggle); service worker/PWA later |
 | Interactive calculators (live inputs, URL state) | 🚧 in progress | 2026-08-16 · calibre live: sliders, URL state, supuestos, citas por línea, gráfico caída-vs-distancia, modo «fijar calibre»; 4 calculators pending |
-| Job flows → configurable priced BOM | 📋 planned | headline feature |
+| Job flows → configurable priced BOM | ✅ shipped | 2026-08-16 · headline: «aire» → 4 preguntas → parámetros citados + BOM con precios; toggles EMT/PVC/poliducto y curvas/dobladora re-cotizan en vivo; overrides, staleness badges, canasta más barata |
 | Tooltips backed by glossary | 🚧 in progress | 2026-08-16 · seed mini-glossary (12 términos) in web; full DB (the moat) later |
-| Memoria de cálculo (PDF) | 📋 planned | |
+| Memoria de cálculo (PDF) | 🚧 in progress | 2026-08-16 · «Exportar PDF» print-stylesheet on the job flow; full memoria document later |
 
 ## Later ideas (build when needed)
 

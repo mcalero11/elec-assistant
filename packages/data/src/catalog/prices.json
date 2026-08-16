@@ -1,0 +1,245 @@
+{
+  "note": "Seeded and refreshed by the reproducible research procedure in packages/data/PRICES.md. Never hand-invent a price: every entry carries the run date (updatedAt) and, when available, the product page (sourceUrl). Entries older than 60 days render a staleness badge in the app.",
+  "entries": [
+    {
+      "itemId": "breaker-2p-15",
+      "retailer": "vidri",
+      "priceUsd": 14.95,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/29595/dado-termico-15a-2-polos-q215.html",
+      "note": "Dado termico 15a 2 polos q215 — enchufable tipo Q (Q215)"
+    },
+    {
+      "itemId": "breaker-2p-20",
+      "retailer": "vidri",
+      "priceUsd": 14.95,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/5033/dado-termico-20a-2-polos-q220.html",
+      "note": "Dado termico 20a 2 polos q220 — enchufable tipo Q (Q220)"
+    },
+    {
+      "itemId": "breaker-2p-30",
+      "retailer": "vidri",
+      "priceUsd": 14.95,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/5034/dado-termico-30a-2-polos-q230.html",
+      "note": "Dado termico 30a 2 polos q230 — enchufable tipo Q (Q230)"
+    },
+    {
+      "itemId": "breaker-2p-40",
+      "retailer": "vidri",
+      "priceUsd": 16.9,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/5035/dado-termico-40a-2-polos-q240.html",
+      "note": "Dado termico 40a 2 polos q240 — enchufable tipo Q (Q240)"
+    },
+    {
+      "itemId": "thhn-cu-14",
+      "retailer": "vidri",
+      "priceUsd": 0.56,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/355/alambre-electrico-thhn-14-208-mm2-color-negro.html",
+      "note": "Alambre eléctrico thhn 14 (2.08 mm2) color negro — alambre sólido, venta por metro"
+    },
+    {
+      "itemId": "thhn-cu-12",
+      "retailer": "vidri",
+      "priceUsd": 0.8,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/356/alambre-electrico-thhn-12-331-mm2-color-negro.html",
+      "note": "Alambre eléctrico thhn 12 (3.31 mm2) color negro — alambre sólido, venta por metro"
+    },
+    {
+      "itemId": "thhn-cu-10",
+      "retailer": "vidri",
+      "priceUsd": 1.25,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/357/alambre-electrico-thhn-10-526-mm2-negro.html",
+      "note": "Alambre eléctrico thhn 10 (5.26 mm2) negro — alambre sólido, venta por metro"
+    },
+    {
+      "itemId": "thhn-cu-8",
+      "retailer": "vidri",
+      "priceUsd": 1.55,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/57465/cable-electrico-thhn-8-837-mm2-blanco-enerwire.html",
+      "note": "Cable electrico thhn 8 (8.37 mm2) blanco enerwire — cable trenzado, venta por metro"
+    },
+    {
+      "itemId": "thhn-cu-6",
+      "retailer": "vidri",
+      "priceUsd": 2.75,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/444780/cable-electrico-thhn-6-133-mm2-negro.html",
+      "note": "Cable electrico thhn 6 (13.3 mm2) negro — cable trenzado, venta por metro"
+    },
+    {
+      "itemId": "emt-tube-12",
+      "retailer": "vidri",
+      "priceUsd": 4.9,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/106323/tubo-emt-aluminio-1-2-pulg-127-mm.html",
+      "note": "Tubo emt aluminio 1/2 pulg (12.7 mm) — EMT de aluminio, tramo de 3 m"
+    },
+    {
+      "itemId": "emt-tube-34",
+      "retailer": "vidri",
+      "priceUsd": 7.45,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/106324/tubo-emt-aluminio-3-4-pulg-1905-mm.html",
+      "note": "Tubo emt aluminio 3/4 pulg (19.05 mm) — EMT de aluminio, tramo de 3 m"
+    },
+    {
+      "itemId": "emt-connector-12",
+      "retailer": "vidri",
+      "priceUsd": 0.4,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/23739/conector-recto-para-tubo-emt-de-1270-mm-1-2-pulg.html",
+      "note": "Conector recto para tubo emt de 12.70 mm (1/2 pulg) — conector recto de tornillo"
+    },
+    {
+      "itemId": "emt-connector-34",
+      "retailer": "vidri",
+      "priceUsd": 0.45,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/454373/conector-recto-para-emt-3-4-pulg-1905-mm-de-tornillo.html",
+      "note": "Conector recto para emt 3/4 pulg (19.05 mm) de tornillo — conector recto de tornillo"
+    },
+    {
+      "itemId": "emt-coupling-12",
+      "retailer": "vidri",
+      "priceUsd": 0.4,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/23742/union-para-tubo-emt-1-2-pulg-1270-mm.html",
+      "note": "Unión para tubo emt 1/2 pulg (12.70 mm) — unión/copla EMT"
+    },
+    {
+      "itemId": "emt-coupling-34",
+      "retailer": "vidri",
+      "priceUsd": 0.4,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/454378/union-para-tubo-emt-3-4-pulg-1905-mm.html",
+      "note": "Union para tubo emt 3/4 pulg (19.05 mm) — unión/copla EMT"
+    },
+    {
+      "itemId": "emt-elbow-12",
+      "retailer": "vidri",
+      "priceUsd": 1.75,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/30473/codo-conduit-emt-1-2-pulg-1270-mm-galvanizado.html",
+      "note": "Codo conduit emt 1/2 pulg (12.70 mm) galvanizado — codo/curva EMT galvanizado"
+    },
+    {
+      "itemId": "emt-elbow-34",
+      "retailer": "vidri",
+      "priceUsd": 1.1,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/454383/codo-emt-galvanizado-3-4-pulg-1905-mm.html",
+      "note": "Codo emt galvanizado 3/4 pulg (19.05 mm) — codo/curva EMT galvanizado"
+    },
+    {
+      "itemId": "pvc-tube-12",
+      "retailer": "vidri",
+      "priceUsd": 1.2,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/78722/tubo-conduit-pvc-1-2-pulg-1270-mm.html",
+      "note": "Tubo conduit pvc 1/2 pulg (12.70 mm) — tubo conduit PVC, tramo de 3 m"
+    },
+    {
+      "itemId": "pvc-tube-34",
+      "retailer": "vidri",
+      "priceUsd": 1.8,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/78723/tubo-conduit-pvc-3-4-pulg-1905-mm.html",
+      "note": "Tubo conduit pvc 3/4 pulg (19.05 mm) — tubo conduit PVC, tramo de 3 m"
+    },
+    {
+      "itemId": "pvc-elbow-12",
+      "retailer": "vidri",
+      "priceUsd": 0.3,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/78728/curva-conduit-pvc-1-2-pulg-1270-mm.html",
+      "note": "Curva conduit pvc 1/2 pulg (12.70 mm) — curva conduit PVC"
+    },
+    {
+      "itemId": "pvc-elbow-34",
+      "retailer": "vidri",
+      "priceUsd": 0.35,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/78729/curva-conduit-pvc-3-4-pulg-1905-mm.html",
+      "note": "Curva conduit pvc 3/4 pulg (19.05 mm) — curva conduit PVC"
+    },
+    {
+      "itemId": "pvc-adapter-12",
+      "retailer": "vidri",
+      "priceUsd": 0.24,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/78731/conector-recto-para-tubo-conduit-pvc-1-2-pulg-1270-mm.html",
+      "note": "Conector recto para tubo conduit pvc 1/2 pulg (12.70 mm) — conector recto (adaptador terminal) PVC"
+    },
+    {
+      "itemId": "pvc-adapter-34",
+      "retailer": "vidri",
+      "priceUsd": 0.35,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/78732/conector-recto-para-tubo-conduit-pvc-3-4-pulg-1905-mm.html",
+      "note": "Conector recto para tubo conduit pvc 3/4 pulg (19.05 mm) — conector recto (adaptador terminal) PVC"
+    },
+    {
+      "itemId": "pvc-cement",
+      "retailer": "vidri",
+      "priceUsd": 10.25,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/77412/pegamento-para-pvc-1-8-gal-473-ml.html",
+      "note": "Pegamento para pvc 1/8 gal (473 ml) — bote de 1/8 gal (473 ml)"
+    },
+    {
+      "itemId": "lfnc-12",
+      "retailer": "vidri",
+      "priceUsd": 0.18,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/12227/poliducto-negro-de-1270-mm.html",
+      "note": "Poliducto negro de 12.70 mm — poliducto negro 12.70 mm; precio de lista $0.16 por 0.914 m ÷ 0.914"
+    },
+    {
+      "itemId": "lfnc-34",
+      "retailer": "vidri",
+      "priceUsd": 0.26,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/12228/poliducto-negro-de-1905-mm.html",
+      "note": "Poliducto negro de 19.05 mm — poliducto negro 19.05 mm; precio de lista $0.24 por 0.914 m ÷ 0.914"
+    },
+    {
+      "itemId": "lfnc-connector-34",
+      "retailer": "vidri",
+      "priceUsd": 0.99,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/73288/conector-recto-para-tubo-conduit-flexible-3-4-pulg-1905-mm.html",
+      "note": "Conector recto para tubo conduit flexible 3/4 pulg (19.05 mm) — conector recto para tubo conduit flexible"
+    },
+    {
+      "itemId": "strap-12",
+      "retailer": "vidri",
+      "priceUsd": 0.1,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/454400/grapa-para-tubo-emt-1-2-pulg-1270-mm.html",
+      "note": "Grapa para tubo emt 1/2 pulg (12.70 mm) — grapa/abrazadera para tubo EMT"
+    },
+    {
+      "itemId": "strap-34",
+      "retailer": "vidri",
+      "priceUsd": 0.2,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/18130/grapa-conduit-emt-3-4-pulg-1905-mm.html",
+      "note": "Grapa conduit emt 3/4 pulg (19.05 mm) — grapa/abrazadera conduit EMT"
+    },
+    {
+      "itemId": "bender-12",
+      "retailer": "vidri",
+      "priceUsd": 99.0,
+      "updatedAt": "2026-08-16",
+      "sourceUrl": "https://www.vidri.com.sv/producto/437610/dobladora-de-tubo-emt-1-2-pulg.html",
+      "note": "Dobladora de tubo emt 1/2 pulg — dobladora EMT 1/2\""
+    }
+  ]
+}

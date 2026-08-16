@@ -1,0 +1,111 @@
+{
+  "note": "Hand-verified end-to-end template runs (PRD requires ≥2 fixture configurations per template). Every quantity computed by hand: hots = run × (1+wastage) × 2 rounded up to whole meters; EGC = run × (1+wastage); EMT sticks = ceil(run×1.1 / 3.05); couplings = ceil(run/3.05); EMT straps = ceil(run/3)+1 (358.30); LFNC straps = ceil(run/0.9)+1 (356.30). Circuit values anchor to the hand-verified mini-split circuit golden (24 A MCA continuous, 15 m, 240 V → #10 Cu, 30 A, 1.221% drop); fixture 3 hand-checked: 10 A continuous → #14 (protection min(25, 15@60C, 15 cap) = 15 ≥ 12.5), drop 2×8×10×10.3/1000 = 1.648 V = 0.6867%.",
+  "cases": [
+    {
+      "name": "ac-36k, 15 m, exterior, EMT + curvas (wastage 10%, 3 vueltas)",
+      "answers": {
+        "device": { "id": "ac-36k", "mcaA": 24, "mocpA": 40 },
+        "runLengthM": 15,
+        "location": "exterior",
+        "panelSlots": "2polos"
+      },
+      "options": { "conduitType": "emt", "bends": "curvas", "bendCount": 3, "wastagePercent": 10 },
+      "expected": {
+        "parameters": {
+          "conductor": "10",
+          "insulation": "THWN-2",
+          "breaker": 30,
+          "mocp": 40,
+          "disconnect": 30,
+          "conduit": "1/2"
+        },
+        "dropPercent": 1.221,
+        "bom": [
+          { "ruleId": "breaker", "itemId": "breaker-2p-30", "qty": 1 },
+          { "ruleId": "hots", "itemId": "thhn-cu-10", "qty": 33 },
+          { "ruleId": "egc-wire", "itemId": "thhn-cu-10", "qty": 17 },
+          { "ruleId": "conduit-emt", "itemId": "emt-tube-12", "qty": 6 },
+          { "ruleId": "emt-connectors", "itemId": "emt-connector-12", "qty": 2 },
+          { "ruleId": "emt-couplings", "itemId": "emt-coupling-12", "qty": 5 },
+          { "ruleId": "emt-elbows", "itemId": "emt-elbow-12", "qty": 3 },
+          { "ruleId": "emt-straps", "itemId": "strap-12", "qty": 6 },
+          { "ruleId": "disconnect", "itemId": "disconnect-60-3r", "qty": 1 },
+          { "ruleId": "whip", "itemId": "ac-whip-12", "qty": 1 }
+        ],
+        "assumptionKeys": ["continuous-125", "jam-not-evaluated", "min-trade-size", "egc-not-upsized", "disconnect-nonfused"],
+        "absentAssumptionKeys": ["dry-location"],
+        "warningCount": 0
+      }
+    },
+    {
+      "name": "ac-36k, 15 m, exterior, EMT + dobladora — elbows out, bender in as optional tool",
+      "answers": {
+        "device": { "id": "ac-36k", "mcaA": 24, "mocpA": 40 },
+        "runLengthM": 15,
+        "location": "exterior",
+        "panelSlots": "2polos"
+      },
+      "options": { "conduitType": "emt", "bends": "dobladora", "bendCount": 3, "wastagePercent": 10 },
+      "expected": {
+        "parameters": {
+          "conductor": "10",
+          "insulation": "THWN-2",
+          "breaker": 30,
+          "mocp": 40,
+          "disconnect": 30,
+          "conduit": "1/2"
+        },
+        "dropPercent": 1.221,
+        "bom": [
+          { "ruleId": "breaker", "itemId": "breaker-2p-30", "qty": 1 },
+          { "ruleId": "hots", "itemId": "thhn-cu-10", "qty": 33 },
+          { "ruleId": "egc-wire", "itemId": "thhn-cu-10", "qty": 17 },
+          { "ruleId": "conduit-emt", "itemId": "emt-tube-12", "qty": 6 },
+          { "ruleId": "emt-connectors", "itemId": "emt-connector-12", "qty": 2 },
+          { "ruleId": "emt-couplings", "itemId": "emt-coupling-12", "qty": 5 },
+          { "ruleId": "emt-straps", "itemId": "strap-12", "qty": 6 },
+          { "ruleId": "disconnect", "itemId": "disconnect-60-3r", "qty": 1 },
+          { "ruleId": "whip", "itemId": "ac-whip-12", "qty": 1 },
+          { "ruleId": "bender", "itemId": "bender-12", "qty": 1, "optional": true }
+        ],
+        "assumptionKeys": ["continuous-125", "jam-not-evaluated", "disconnect-nonfused"],
+        "absentAssumptionKeys": ["dry-location"],
+        "warningCount": 0
+      }
+    },
+    {
+      "name": "ac-12k, 8 m, interior, poliducto (LFNC) — bends option inapplicable",
+      "answers": {
+        "device": { "id": "ac-12k", "mcaA": 10, "mocpA": 15 },
+        "runLengthM": 8,
+        "location": "interior",
+        "panelSlots": "2polos"
+      },
+      "options": { "conduitType": "lfnc", "bends": "dobladora", "bendCount": 3, "wastagePercent": 10 },
+      "expected": {
+        "parameters": {
+          "conductor": "14",
+          "insulation": "THHN",
+          "breaker": 15,
+          "mocp": 15,
+          "disconnect": 30,
+          "conduit": "1/2"
+        },
+        "dropPercent": 0.6867,
+        "bom": [
+          { "ruleId": "breaker", "itemId": "breaker-2p-15", "qty": 1 },
+          { "ruleId": "hots", "itemId": "thhn-cu-14", "qty": 18 },
+          { "ruleId": "egc-wire", "itemId": "thhn-cu-14", "qty": 9 },
+          { "ruleId": "conduit-lfnc", "itemId": "lfnc-12", "qty": 9 },
+          { "ruleId": "lfnc-connectors", "itemId": "lfnc-connector-12", "qty": 2 },
+          { "ruleId": "lfnc-straps", "itemId": "strap-12", "qty": 10 },
+          { "ruleId": "disconnect", "itemId": "disconnect-60-3r", "qty": 1 },
+          { "ruleId": "whip", "itemId": "ac-whip-12", "qty": 1 }
+        ],
+        "assumptionKeys": ["dry-location", "continuous-125", "lfnc-b", "disconnect-nonfused"],
+        "absentAssumptionKeys": [],
+        "warningCount": 0
+      }
+    }
+  ]
+}
