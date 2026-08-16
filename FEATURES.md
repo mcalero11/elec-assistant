@@ -35,10 +35,10 @@ Scope and acceptance criteria for each feature live in [PRD.md](./PRD.md).
 
 | Feature | Status | Notes |
 |---|---|---|
-| Next.js PWA shell (Spanish-first, offline) | 📋 planned | |
-| Interactive calculators (live inputs, URL state) | 📋 planned | |
+| Next.js PWA shell (Spanish-first, offline) | 🚧 in progress | 2026-08-16 · static-export shell live (Tailwind v4 + shadcn/ui, es-SV, imperial toggle); service worker/PWA later |
+| Interactive calculators (live inputs, URL state) | 🚧 in progress | 2026-08-16 · calibre live: sliders, URL state, supuestos, citas por línea, gráfico caída-vs-distancia, modo «fijar calibre»; 4 calculators pending |
 | Job flows → configurable priced BOM | 📋 planned | headline feature |
-| Tooltips backed by glossary | 📋 planned | |
+| Tooltips backed by glossary | 🚧 in progress | 2026-08-16 · seed mini-glossary (12 términos) in web; full DB (the moat) later |
 | Memoria de cálculo (PDF) | 📋 planned | |
 
 ## Later ideas (build when needed)
