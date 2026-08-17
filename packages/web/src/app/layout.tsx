@@ -7,6 +7,7 @@ import { TooltipProvider } from '@/components/ui/tooltip'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/shell/app-sidebar'
 import { AppHeader } from '@/components/shell/app-header'
+import { SwRegister } from '@/components/sw-register'
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 const geistMono = Geist_Mono({subsets:['latin'],variable:'--font-mono'});
@@ -22,6 +23,19 @@ export const metadata: Metadata = {
   },
   description:
     'Calculadoras eléctricas NEC en español: calibre de conductor, relleno de tubería y listas de materiales para El Salvador.',
+  manifest: '/manifest.webmanifest',
+  icons: {
+    icon: [
+      { url: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: '/icons/apple-touch-icon.png',
+  },
+  appleWebApp: {
+    capable: true,
+    title: 'Asistente Eléctrico',
+    statusBarStyle: 'black-translucent',
+  },
 }
 
 export const viewport: Viewport = {
@@ -35,7 +49,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es" suppressHydrationWarning className={cn("dark font-sans", geist.variable, geistMono.variable)}>
       <body className="min-h-screen bg-background text-foreground antialiased">
+        {/* THEME_INIT must stay the first node in body — it runs pre-paint. */}
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT }} />
+        <SwRegister />
         <NuqsAdapter>
           <TooltipProvider>
             <SidebarProvider>

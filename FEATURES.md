@@ -35,7 +35,7 @@ Scope and acceptance criteria for each feature live in [PRD.md](./PRD.md).
 
 | Feature | Status | Notes |
 |---|---|---|
-| Next.js PWA shell (Spanish-first, offline) | 🚧 in progress | 2026-08-17 · static-export shell live (Tailwind v4 + shadcn/ui, es-SV, imperial toggle); service worker/PWA later |
+| Next.js PWA shell (Spanish-first, offline) | ✅ shipped | 2026-08-17 · installable offline PWA: content-hashed precache service worker (all routes + assets), manifest + maskable icons, query-string-aware navigation fallback — success criterion 4 |
 | Mission-control panel (app shell + dashboard) | ✅ shipped | 2026-08-17 · sidebar nav + breadcrumb + dark-default theme toggle (print stays light); home = status strip (real package data), module launchers, quick-launch chips; blue/amber technical palette, Geist Mono numerals, WCAG AA both themes |
 | Interactive calculators (live inputs, URL state) | 🚧 in progress | 2026-08-17 · 3/5 live: calibre (sliders, gráfico, «fijar calibre»), relleno de tubería (mín/verificar, niple, Nota 7), tierra (T250.122 + 250.122(B)); box fill + load calc pending |
 | Job flows → configurable priced BOM | ✅ shipped | 2026-08-16 · headline: «aire» → 4 preguntas → parámetros citados + BOM con precios; toggles EMT/PVC/poliducto y curvas/dobladora re-cotizan en vivo; overrides, staleness badges, canasta más barata |
