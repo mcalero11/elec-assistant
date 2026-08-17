@@ -20,6 +20,7 @@ describe('sizeCircuit (end-to-end)', () => {
     expect(result.breaker.rating).toBe(30)
     expect(result.voltageDrop.dropPercent).toBeCloseTo(1.221, 3)
     expect(result.governedBy).toBe('ampacity')
+    expect(result.ampacityMinimumSize).toBe('10')
   })
 
   it('long 120 V run: 16 A, 30 m → voltage drop governs, 8 AWG + 20 A breaker', () => {
@@ -36,6 +37,8 @@ describe('sizeCircuit (end-to-end)', () => {
     expect(result.breaker.rating).toBe(20)
     expect(result.governedBy).toBe('voltage-drop')
     expect(result.voltageDrop.dropPercent).toBeLessThanOrEqual(3)
+    // The 250.122(B) baseline: ampacity alone needed only 12 AWG.
+    expect(result.ampacityMinimumSize).toBe('12')
   })
 
   it('merges citations and assumptions from all stages', () => {

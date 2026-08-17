@@ -1,18 +1,43 @@
 {
-  "note": "Hand-verified Table 250.122 lookups. The table rows are 'not exceeding' thresholds: a 25 A breaker falls under the 30 A row. Values read straight off the transcribed table.",
+  "note": "Hand-verified Table 250.122 lookups plus 250.122(B) proportional upsizing. Table rows are 'not exceeding' thresholds (a 25 A breaker falls under the 30 A row). Upsizing arithmetic uses Chapter 9 Table 8 circular mils: target = cmil(table EGC) × cmil(installed)/cmil(required); the boundary cases are exact by construction (e.g. 10380 × 16510/10380 = 16510 = #8). 250.122(A) caps the result at the circuit-conductor size; the plain table value is the floor.",
   "cases": [
-    { "name": "15 A Cu → 14", "input": { "ocpdA": 15, "material": "copper" }, "expected": { "size": "14" } },
-    { "name": "20 A Cu → 12", "input": { "ocpdA": 20, "material": "copper" }, "expected": { "size": "12" } },
-    { "name": "25 A Cu → 10 (30 A row)", "input": { "ocpdA": 25, "material": "copper" }, "expected": { "size": "10" } },
-    { "name": "30 A Cu → 10 (mini-split breaker)", "input": { "ocpdA": 30, "material": "copper" }, "expected": { "size": "10" } },
-    { "name": "40 A Cu → 10", "input": { "ocpdA": 40, "material": "copper" }, "expected": { "size": "10" } },
-    { "name": "60 A Cu → 10", "input": { "ocpdA": 60, "material": "copper" }, "expected": { "size": "10" } },
-    { "name": "70 A Cu → 8 (100 A row)", "input": { "ocpdA": 70, "material": "copper" }, "expected": { "size": "8" } },
-    { "name": "100 A Cu → 8", "input": { "ocpdA": 100, "material": "copper" }, "expected": { "size": "8" } },
-    { "name": "200 A Cu → 6", "input": { "ocpdA": 200, "material": "copper" }, "expected": { "size": "6" } },
-    { "name": "20 A Al → 10", "input": { "ocpdA": 20, "material": "aluminum" }, "expected": { "size": "10" } },
-    { "name": "30 A Al → 8", "input": { "ocpdA": 30, "material": "aluminum" }, "expected": { "size": "8" } },
-    { "name": "100 A Al → 6", "input": { "ocpdA": 100, "material": "aluminum" }, "expected": { "size": "6" } },
-    { "name": "200 A Al → 4", "input": { "ocpdA": 200, "material": "aluminum" }, "expected": { "size": "4" } }
+    { "name": "15 A Cu → 14", "input": { "ocpdA": 15, "material": "copper" }, "expected": { "size": "14", "tableSize": "14", "upsized": false, "assumptionKeys": ["egc-not-upsized"], "absentAssumptionKeys": ["egc-upsized-250-122b"] } },
+    { "name": "20 A Cu → 12", "input": { "ocpdA": 20, "material": "copper" }, "expected": { "size": "12", "tableSize": "12", "upsized": false, "assumptionKeys": ["egc-not-upsized"], "absentAssumptionKeys": ["egc-upsized-250-122b"] } },
+    { "name": "25 A Cu → 10 (30 A row)", "input": { "ocpdA": 25, "material": "copper" }, "expected": { "size": "10", "tableSize": "10", "upsized": false, "assumptionKeys": ["egc-not-upsized"], "absentAssumptionKeys": ["egc-upsized-250-122b"] } },
+    { "name": "30 A Cu → 10 (mini-split breaker)", "input": { "ocpdA": 30, "material": "copper" }, "expected": { "size": "10", "tableSize": "10", "upsized": false, "assumptionKeys": ["egc-not-upsized"], "absentAssumptionKeys": ["egc-upsized-250-122b"] } },
+    { "name": "40 A Cu → 10", "input": { "ocpdA": 40, "material": "copper" }, "expected": { "size": "10", "tableSize": "10", "upsized": false, "assumptionKeys": ["egc-not-upsized"], "absentAssumptionKeys": ["egc-upsized-250-122b"] } },
+    { "name": "60 A Cu → 10", "input": { "ocpdA": 60, "material": "copper" }, "expected": { "size": "10", "tableSize": "10", "upsized": false, "assumptionKeys": ["egc-not-upsized"], "absentAssumptionKeys": ["egc-upsized-250-122b"] } },
+    { "name": "70 A Cu → 8 (100 A row)", "input": { "ocpdA": 70, "material": "copper" }, "expected": { "size": "8", "tableSize": "8", "upsized": false, "assumptionKeys": ["egc-not-upsized"], "absentAssumptionKeys": ["egc-upsized-250-122b"] } },
+    { "name": "100 A Cu → 8", "input": { "ocpdA": 100, "material": "copper" }, "expected": { "size": "8", "tableSize": "8", "upsized": false, "assumptionKeys": ["egc-not-upsized"], "absentAssumptionKeys": ["egc-upsized-250-122b"] } },
+    { "name": "200 A Cu → 6", "input": { "ocpdA": 200, "material": "copper" }, "expected": { "size": "6", "tableSize": "6", "upsized": false, "assumptionKeys": ["egc-not-upsized"], "absentAssumptionKeys": ["egc-upsized-250-122b"] } },
+    { "name": "20 A Al → 10", "input": { "ocpdA": 20, "material": "aluminum" }, "expected": { "size": "10", "tableSize": "10", "upsized": false, "assumptionKeys": ["egc-not-upsized"], "absentAssumptionKeys": ["egc-upsized-250-122b"] } },
+    { "name": "30 A Al → 8", "input": { "ocpdA": 30, "material": "aluminum" }, "expected": { "size": "8", "tableSize": "8", "upsized": false, "assumptionKeys": ["egc-not-upsized"], "absentAssumptionKeys": ["egc-upsized-250-122b"] } },
+    { "name": "100 A Al → 6", "input": { "ocpdA": 100, "material": "aluminum" }, "expected": { "size": "6", "tableSize": "6", "upsized": false, "assumptionKeys": ["egc-not-upsized"], "absentAssumptionKeys": ["egc-upsized-250-122b"] } },
+    { "name": "200 A Al → 4", "input": { "ocpdA": 200, "material": "aluminum" }, "expected": { "size": "4", "tableSize": "4", "upsized": false, "assumptionKeys": ["egc-not-upsized"], "absentAssumptionKeys": ["egc-upsized-250-122b"] } },
+    {
+      "name": "250.122(B) passthrough: 30 A Cu, installed = required = 10 → 10, rule evaluated, nothing assumed",
+      "input": { "ocpdA": 30, "material": "copper", "installedSize": "10", "requiredSize": "10" },
+      "expected": { "size": "10", "tableSize": "10", "upsized": false, "assumptionKeys": [], "absentAssumptionKeys": ["egc-not-upsized", "egc-upsized-250-122b"] }
+    },
+    {
+      "name": "250.122(B) exact boundary: 30 A Cu, required 10 installed 8 → EGC 10380×16510/10380 = 16510 = #8 exactly",
+      "input": { "ocpdA": 30, "material": "copper", "installedSize": "8", "requiredSize": "10" },
+      "expected": { "size": "8", "tableSize": "10", "upsized": true, "assumptionKeys": ["egc-upsized-250-122b"], "absentAssumptionKeys": ["egc-not-upsized"] }
+    },
+    {
+      "name": "250.122(B) non-exact: 60 A Cu, required 6 installed 3 → target 10380×52620/26240 = 20815 cmil → #6 (26240)",
+      "input": { "ocpdA": 60, "material": "copper", "installedSize": "3", "requiredSize": "6" },
+      "expected": { "size": "6", "tableSize": "10", "upsized": true, "assumptionKeys": ["egc-upsized-250-122b"], "absentAssumptionKeys": ["egc-not-upsized"] }
+    },
+    {
+      "name": "250.122(A) cap: 100 A Cu, required 10 installed 6 → raw upsize 16510×26240/10380 = 41737 cmil → #4, capped at installed #6",
+      "input": { "ocpdA": 100, "material": "copper", "installedSize": "6", "requiredSize": "10" },
+      "expected": { "size": "6", "tableSize": "8", "upsized": true, "assumptionKeys": ["egc-upsized-250-122b"], "absentAssumptionKeys": ["egc-not-upsized"] }
+    },
+    {
+      "name": "250.122(B) aluminum: 40 A Al, required 8 installed 4 → target 16510×41740/16510 = 41740 = #4 exactly",
+      "input": { "ocpdA": 40, "material": "aluminum", "installedSize": "4", "requiredSize": "8" },
+      "expected": { "size": "4", "tableSize": "8", "upsized": true, "assumptionKeys": ["egc-upsized-250-122b"], "absentAssumptionKeys": ["egc-not-upsized"] }
+    }
   ]
 }

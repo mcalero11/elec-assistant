@@ -137,6 +137,8 @@ export const acMinisplitTemplate: JobTemplate = {
       input: {
         ocpdA: { $ref: 'calls.circuit.breaker.rating' },
         material: 'copper',
+        installedSize: { $ref: 'calls.circuit.conductor.size' },
+        requiredSize: { $ref: 'calls.circuit.ampacityMinimumSize' },
       },
     },
     {

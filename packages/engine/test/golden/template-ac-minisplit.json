@@ -32,8 +32,8 @@
           { "ruleId": "disconnect", "itemId": "disconnect-60-3r", "qty": 1 },
           { "ruleId": "whip", "itemId": "ac-whip-12", "qty": 1 }
         ],
-        "assumptionKeys": ["continuous-125", "jam-not-evaluated", "min-trade-size", "egc-not-upsized", "disconnect-nonfused"],
-        "absentAssumptionKeys": ["dry-location"],
+        "assumptionKeys": ["continuous-125", "jam-not-evaluated", "min-trade-size", "disconnect-nonfused"],
+        "absentAssumptionKeys": ["dry-location", "egc-not-upsized", "egc-upsized-250-122b"],
         "warningCount": 0
       }
     },
@@ -69,7 +69,7 @@
           { "ruleId": "bender", "itemId": "bender-12", "qty": 1, "optional": true }
         ],
         "assumptionKeys": ["continuous-125", "jam-not-evaluated", "disconnect-nonfused"],
-        "absentAssumptionKeys": ["dry-location"],
+        "absentAssumptionKeys": ["dry-location", "egc-not-upsized", "egc-upsized-250-122b"],
         "warningCount": 0
       }
     },
@@ -103,7 +103,43 @@
           { "ruleId": "whip", "itemId": "ac-whip-12", "qty": 1 }
         ],
         "assumptionKeys": ["dry-location", "continuous-125", "lfnc-b", "disconnect-nonfused"],
-        "absentAssumptionKeys": [],
+        "absentAssumptionKeys": ["egc-not-upsized", "egc-upsized-250-122b"],
+        "warningCount": 0
+      }
+    },
+    {
+      "name": "ac-36k, 40 m, exterior, EMT + curvas — drop-governed: #10 = 3.26% > 3% → #8 (2.04%); EGC upsized #10→#8 per 250.122(B) (10380×16510/10380 = 16510 exactly)",
+      "answers": {
+        "device": { "id": "ac-36k", "mcaA": 24, "mocpA": 40 },
+        "runLengthM": 40,
+        "location": "exterior",
+        "panelSlots": "2polos"
+      },
+      "options": { "conduitType": "emt", "bends": "curvas", "bendCount": 3, "wastagePercent": 10 },
+      "expected": {
+        "parameters": {
+          "conductor": "8",
+          "insulation": "THWN-2",
+          "breaker": 30,
+          "mocp": 40,
+          "disconnect": 30,
+          "conduit": "1/2"
+        },
+        "dropPercent": 2.04,
+        "bom": [
+          { "ruleId": "breaker", "itemId": "breaker-2p-30", "qty": 1 },
+          { "ruleId": "hots", "itemId": "thhn-cu-8", "qty": 88 },
+          { "ruleId": "egc-wire", "itemId": "thhn-cu-8", "qty": 44 },
+          { "ruleId": "conduit-emt", "itemId": "emt-tube-12", "qty": 15 },
+          { "ruleId": "emt-connectors", "itemId": "emt-connector-12", "qty": 2 },
+          { "ruleId": "emt-couplings", "itemId": "emt-coupling-12", "qty": 14 },
+          { "ruleId": "emt-elbows", "itemId": "emt-elbow-12", "qty": 3 },
+          { "ruleId": "emt-straps", "itemId": "strap-12", "qty": 15 },
+          { "ruleId": "disconnect", "itemId": "disconnect-60-3r", "qty": 1 },
+          { "ruleId": "whip", "itemId": "ac-whip-12", "qty": 1 }
+        ],
+        "assumptionKeys": ["continuous-125", "jam-not-evaluated", "min-trade-size", "egc-upsized-250-122b", "disconnect-nonfused"],
+        "absentAssumptionKeys": ["dry-location", "egc-not-upsized"],
         "warningCount": 0
       }
     }

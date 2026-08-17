@@ -1,4 +1,4 @@
-import { CONDUCTOR_SIZES, table31016 } from '@elec-assistant/data'
+import { CONDUCTOR_SIZES, table31016, type ConductorSize } from '@elec-assistant/data'
 import {
   evaluateConductor,
   minConductorForLoad,
@@ -24,6 +24,12 @@ export interface CircuitResult extends WithProvenance {
   breaker: BreakerResult
   /** Which constraint forced the final conductor size. */
   governedBy: 'ampacity' | 'voltage-drop' | 'protection'
+  /**
+   * Smallest size with sufficient ampacity alone (incl. 310.15(B)/(C) derating and
+   * terminal limits) — the 250.122(B) baseline: any increase beyond it (voltage drop,
+   * protection) triggers proportional EGC upsizing.
+   */
+  ampacityMinimumSize: ConductorSize
 }
 
 /** Size a complete circuit: conductor (ampacity ∧ voltage drop), then its overcurrent protection. */
@@ -70,6 +76,7 @@ export function sizeCircuit(input: CircuitInput): CircuitResult {
       voltageDrop: vd,
       breaker,
       governedBy: size === base.size ? 'ampacity' : (lastSkip ?? 'ampacity'),
+      ampacityMinimumSize: base.size,
       citations: mergeCitations(conductor.citations, vd.citations, breaker.citations),
       assumptions: mergeAssumptions(conductor.assumptions, vd.assumptions, breaker.assumptions),
     }

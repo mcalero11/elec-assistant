@@ -63,6 +63,10 @@
     "en": "NEC 2026, Table 250.122 — minimum size equipment grounding conductors",
     "es": "NEC 2026, Tabla 250.122 — tamaño mínimo de conductores de puesta a tierra de equipos"
   },
+  "nec2026.s250_122_b": {
+    "en": "NEC 2026, 250.122(D) — EGC increased proportionally (circular-mil area) when circuit conductors are upsized beyond ampacity requirements (250.122(B) in pre-2026 editions)",
+    "es": "NEC 2026, 250.122(D) — aumento proporcional del conductor de tierra (área en circular mils) cuando los conductores del circuito se agrandan más allá de lo requerido por ampacidad (250.122(B) en ediciones anteriores)"
+  },
   "nec2026.s352_30": {
     "en": "NEC 2026, 352.30 — securing and supporting rigid PVC conduit",
     "es": "NEC 2026, 352.30 — fijación y soporte de tubería PVC rígida"

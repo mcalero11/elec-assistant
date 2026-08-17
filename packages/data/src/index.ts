@@ -57,6 +57,8 @@ export interface ConductorResistanceTable {
   note: string
   unit: string
   temperatureC: number
+  /** Conductor area in circular mils (material-independent), Chapter 9 Table 8 area column. */
+  areaCmil: Record<ConductorSize, number>
   copper: Partial<Record<ConductorSize, number>>
   aluminum: Partial<Record<ConductorSize, number>>
 }
