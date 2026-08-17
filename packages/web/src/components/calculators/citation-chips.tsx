@@ -1,8 +1,19 @@
 import { citationLabel, type CitationKey } from '@elec-assistant/data'
 import { Badge } from '@/components/ui/badge'
+import { cn } from '@/lib/utils'
 
-/** PRD: NEC citation on every output line. Renders compact article badges. */
-export function CitationChips({ keys }: { keys: readonly CitationKey[] }) {
+/**
+ * PRD: NEC citation on every output line. Renders compact article badges.
+ * `chipClassName` recolors the chips on non-default surfaces (e.g. the inverted
+ * tooltip, where the outline badge's text-foreground would be invisible).
+ */
+export function CitationChips({
+  keys,
+  chipClassName,
+}: {
+  keys: readonly CitationKey[]
+  chipClassName?: string
+}) {
   return (
     <span className="inline-flex flex-wrap gap-1 align-middle">
       {keys.map((key) => {
@@ -10,7 +21,12 @@ export function CitationChips({ keys }: { keys: readonly CitationKey[] }) {
         // Compact chip text: strip the leading edition prefix, keep the article reference.
         const short = label.replace(/^NEC \d+,\s*/, '').split('—')[0]?.trim() ?? label
         return (
-          <Badge key={key} variant="outline" title={label} className="font-normal text-[10px]">
+          <Badge
+            key={key}
+            variant="outline"
+            title={label}
+            className={cn('font-normal text-[10px]', chipClassName)}
+          >
             {short}
           </Badge>
         )

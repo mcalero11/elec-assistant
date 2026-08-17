@@ -19,7 +19,9 @@ export function Term({ id, children }: { id: GlossaryId; children: React.ReactNo
           {children}
         </span>
       </TooltipTrigger>
-      <TooltipContent className="max-w-72">
+      {/* The base tooltip is an inverted inline-flex pill: force block flow and
+          recolor the citation chips for the inverted surface (both themes). */}
+      <TooltipContent className="max-w-72 flex-col items-start py-2">
         <p className="font-medium">{entry.es}</p>
         <p className="mt-1">{entry.definition.es}</p>
         <p className="mt-1 text-xs opacity-80">
@@ -27,7 +29,10 @@ export function Term({ id, children }: { id: GlossaryId; children: React.ReactNo
         </p>
         {entry.necArticles ? (
           <span className="mt-1.5 block">
-            <CitationChips keys={entry.necArticles} />
+            <CitationChips
+              keys={entry.necArticles}
+              chipClassName="border-background/40 text-background"
+            />
           </span>
         ) : null}
       </TooltipContent>
