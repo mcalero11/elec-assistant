@@ -29,7 +29,7 @@ Scope and acceptance criteria for each feature live in [PRD.md](./PRD.md).
 | Device catalog (wattages, synonyms, photos) | 🚧 in progress | 2026-08-16 · AC nameplate presets (5, MCA/MOCP) seeded; wattages/photos for the load calc later |
 | Glossary / regional terminology DB | 🚧 in progress | 2026-08-17 · 36 entries in data (definición + sinónimos es-SV + inglés + artículos NEC), CI coverage lint; photos + growth toward ~100 terms pending — the moat |
 | Job templates (5 seed jobs) | 🚧 in progress | 2026-08-16 · 1/5 shipped: aire mini-split — declarative schema + engine interpreter (`runTemplate`), 3 hand-verified BOM fixtures |
-| Price catalog (per-retailer, updatedAt-stamped) | 🚧 in progress | 2026-08-16 · 30 Vidrí prices via reproducible run (PRICES.md); Freund/EPA opt out of AI access → manual entry pending; 4 documented gaps |
+| Price catalog (per-retailer, updatedAt-stamped) | 🚧 in progress | 2026-08-17 · 33 entries: 30 Vidrí (reproducible run) + 3 manual Freund/Vidrí (user-verified; Freund/EPA block AI access); cheapest-basket live on dual-priced lines; 2 documented gaps (25 A breaker, ½″ LFNC connector — market availability) |
 
 ## Web app
 

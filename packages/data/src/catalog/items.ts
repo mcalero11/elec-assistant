@@ -49,9 +49,12 @@ export const catalogItems = [
   { id: 'strap-12', name: { es: 'abrazadera 1/2"', en: 'conduit strap 1/2"' }, unit: 'unidad', category: 'material', synonyms: ['grapa', 'gaza'] },
   { id: 'strap-34', name: { es: 'abrazadera 3/4"', en: 'conduit strap 3/4"' }, unit: 'unidad', category: 'material', synonyms: ['grapa', 'gaza'] },
 
-  // Equipo del circuito de aire
-  { id: 'disconnect-60-3r', name: { es: 'desconectador para A/C 60 A NEMA 3R (sin fusibles)', en: 'A/C disconnect 60 A NEMA 3R (non-fused)' }, unit: 'unidad', category: 'material', synonyms: ['caja de seguridad', 'switch de aire'] },
-  { id: 'ac-whip-12', name: { es: 'whip para A/C 1/2" × 6 pies (manguera con conectores)', en: 'A/C whip 1/2" × 6 ft (conduit kit with connectors)' }, unit: 'unidad', category: 'material', synonyms: ['whip', 'conexión flexible aire'] },
+  // Equipo del circuito de aire. Local practice (verified 2026-08-17): dedicated
+  // pull-out A/C disconnects are not sold here — a small NEMA 3R «caja térmica»
+  // (2-space breaker enclosure) next to the unit serves as the disconnecting means.
+  // Pre-made whips are also not sold; the flexible connection is assembled on site
+  // from poliducto + wire (see the template's whip rule).
+  { id: 'disconnect-60-3r', name: { es: 'caja térmica NEMA 3R 2 espacios (desconectador junto al A/C)', en: 'NEMA 3R 2-space enclosure (A/C disconnecting means)' }, unit: 'unidad', category: 'material', synonyms: ['caja de seguridad', 'switch de aire', 'caja térmica intemperie'] },
 
   // Herramientas
   { id: 'bender-12', name: { es: 'dobladora de tubo EMT 1/2"', en: 'EMT conduit bender 1/2"' }, unit: 'unidad', category: 'herramienta', synonyms: ['grifa'] },

@@ -240,6 +240,27 @@
       "updatedAt": "2026-08-16",
       "sourceUrl": "https://www.vidri.com.sv/producto/437610/dobladora-de-tubo-emt-1-2-pulg.html",
       "note": "Dobladora de tubo emt 1/2 pulg — dobladora EMT 1/2\""
+    },
+    {
+      "itemId": "breaker-2p-30",
+      "retailer": "freund",
+      "priceUsd": 17.95,
+      "updatedAt": "2026-08-17",
+      "note": "Switch térmico THQL 30 A 2 polos — entrada manual (verificado por el usuario en tienda en línea)"
+    },
+    {
+      "itemId": "disconnect-60-3r",
+      "retailer": "freund",
+      "priceUsd": 36.0,
+      "updatedAt": "2026-08-17",
+      "note": "Eaton BR24L70RP, caja térmica NEMA 3R 2 circuitos 70 A monofásico (código 707495) — entrada manual (verificado por el usuario)"
+    },
+    {
+      "itemId": "disconnect-60-3r",
+      "retailer": "vidri",
+      "priceUsd": 29.95,
+      "updatedAt": "2026-08-17",
+      "note": "JF Products, caja térmica monofásica 2 espacios 100 A NEMA 3R — entrada manual (verificado por el usuario)"
     }
   ]
 }

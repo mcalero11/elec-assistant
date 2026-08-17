@@ -17,17 +17,17 @@ import {
 const TEMPLATES: JobTemplate[] = [acMinisplitTemplate]
 
 /**
- * Documented pricing gaps from the 2026-08-16 research run (packages/data/PRICES.md):
- * Vidrí does not stock these, and Freund/EPA currently opt out of AI-agent access,
- * so they cannot be priced by the reproducible procedure. The UI renders them as
- * «sin precio» with per-quote manual override. A companion test below fails the
- * moment one of these gains a price, forcing this list to shrink honestly.
+ * Documented pricing gaps (packages/data/PRICES.md, updated 2026-08-17 with the
+ * user's market research): breaker-2p-25 is not commercialized locally (only
+ * 20/30 A; kept because it is the code-correct output for MOCP-25 nameplates —
+ * special order), and the ½" LFNC connector is effectively unavailable (searches
+ * return water-hose fittings; the ¾" is sold). The UI renders both as «sin precio»
+ * with per-quote manual override. A companion test below fails the moment one of
+ * these gains a price, forcing this list to shrink honestly.
  */
 const KNOWN_UNPRICED = new Set([
   'breaker-2p-25',
   'lfnc-connector-12',
-  'disconnect-60-3r',
-  'ac-whip-12',
 ])
 
 function reachableItemIds(rules: readonly BomRule[]): Set<string> {

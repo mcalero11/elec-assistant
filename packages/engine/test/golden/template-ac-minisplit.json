@@ -30,7 +30,7 @@
           { "ruleId": "emt-elbows", "itemId": "emt-elbow-12", "qty": 3 },
           { "ruleId": "emt-straps", "itemId": "strap-12", "qty": 6 },
           { "ruleId": "disconnect", "itemId": "disconnect-60-3r", "qty": 1 },
-          { "ruleId": "whip", "itemId": "ac-whip-12", "qty": 1 }
+          { "ruleId": "whip", "itemId": "lfnc-12", "qty": 2 }
         ],
         "assumptionKeys": ["continuous-125", "jam-not-evaluated", "min-trade-size", "disconnect-nonfused"],
         "absentAssumptionKeys": ["dry-location", "egc-not-upsized", "egc-upsized-250-122b"],
@@ -65,7 +65,7 @@
           { "ruleId": "emt-couplings", "itemId": "emt-coupling-12", "qty": 5 },
           { "ruleId": "emt-straps", "itemId": "strap-12", "qty": 6 },
           { "ruleId": "disconnect", "itemId": "disconnect-60-3r", "qty": 1 },
-          { "ruleId": "whip", "itemId": "ac-whip-12", "qty": 1 },
+          { "ruleId": "whip", "itemId": "lfnc-12", "qty": 2 },
           { "ruleId": "bender", "itemId": "bender-12", "qty": 1, "optional": true }
         ],
         "assumptionKeys": ["continuous-125", "jam-not-evaluated", "disconnect-nonfused"],
@@ -100,7 +100,7 @@
           { "ruleId": "lfnc-connectors", "itemId": "lfnc-connector-12", "qty": 2 },
           { "ruleId": "lfnc-straps", "itemId": "strap-12", "qty": 10 },
           { "ruleId": "disconnect", "itemId": "disconnect-60-3r", "qty": 1 },
-          { "ruleId": "whip", "itemId": "ac-whip-12", "qty": 1 }
+          { "ruleId": "whip", "itemId": "lfnc-12", "qty": 2 }
         ],
         "assumptionKeys": ["dry-location", "continuous-125", "lfnc-b", "disconnect-nonfused"],
         "absentAssumptionKeys": ["egc-not-upsized", "egc-upsized-250-122b"],
@@ -136,7 +136,7 @@
           { "ruleId": "emt-elbows", "itemId": "emt-elbow-12", "qty": 3 },
           { "ruleId": "emt-straps", "itemId": "strap-12", "qty": 15 },
           { "ruleId": "disconnect", "itemId": "disconnect-60-3r", "qty": 1 },
-          { "ruleId": "whip", "itemId": "ac-whip-12", "qty": 1 }
+          { "ruleId": "whip", "itemId": "lfnc-12", "qty": 2 }
         ],
         "assumptionKeys": ["continuous-125", "jam-not-evaluated", "min-trade-size", "egc-upsized-250-122b", "disconnect-nonfused"],
         "absentAssumptionKeys": ["dry-location", "egc-not-upsized"],

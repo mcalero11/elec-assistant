@@ -387,10 +387,16 @@ export const acMinisplitTemplate: JobTemplate = {
       note: { es: 'NEMA 3R — apto para intemperie', en: 'NEMA 3R — weather-rated' },
     },
     {
+      // Pre-made whips are not sold locally — the flexible stretch to the condenser
+      // is assembled on site from poliducto; its conductors come out of the same
+      // wire rolls (covered by the wastage allowance).
       id: 'whip',
-      item: { itemId: 'ac-whip-12' },
-      qty: { fixed: 1 },
-      note: { es: 'conexión flexible del desconectador al condensador', en: 'flexible connection from disconnect to condenser' },
+      item: { itemId: 'lfnc-12' },
+      qty: { fixed: 2 },
+      note: {
+        es: 'conexión flexible al condensador, armada en sitio (~2 m de manguera; conductores del mismo rollo)',
+        en: 'flexible run to the condenser, assembled on site (~2 m of conduit; conductors from the same rolls)',
+      },
     },
     {
       id: 'bender',

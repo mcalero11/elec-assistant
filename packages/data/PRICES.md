@@ -33,17 +33,33 @@ AI agent (Claude Code subagent) or a human, so prices stay reproducible and audi
 AI-agent access, the agent must not work around them (no spoofed user agents); record
 the retailer as opted-out in the run report and leave its column to manual research.
 
-## Known gaps (as of 2026-08-16)
+## Known gaps and market notes (as of 2026-08-17)
 
-Unpriced anywhere reachable — listed in `KNOWN_UNPRICED` in
-`packages/engine/test/catalog-coverage.test.ts` (that test forces the list to shrink
-the moment a price lands): `breaker-2p-25` (Vidrí stocks 15/20/30/40/50/60 but no 25 A),
-`lfnc-connector-12` (delisted at Vidrí; ¾″ still sold), `disconnect-60-3r` and
-`ac-whip-12` (Vidrí doesn't carry them; Freund/EPA likely do — manual entry welcome).
-Also note: all current entries are single-retailer (Vidrí), so the cheapest-basket
-comparison is inert until a second retailer column exists; Vidrí's EMT sticks are
-**aluminum, 3.00 m** (galvanized out of stock), and poliducto is sold **per yard**
-(converted to per-meter in the entries, divisor recorded in `note`).
+Unpriced — listed in `KNOWN_UNPRICED` in `packages/engine/test/catalog-coverage.test.ts`
+(that test forces the list to shrink the moment a price lands):
+
+- `breaker-2p-25` — **not commercialized locally** (user-verified: stores carry 20 A
+  and 30 A only). Kept in the catalog because it is the code-correct output for
+  MOCP-25 nameplates; treat as special order.
+- `lfnc-connector-12` — effectively unavailable (user searches return water-hose
+  fittings; Vidrí delisted the ½″; the ¾″ is still sold).
+
+Market adaptations recorded 2026-08-17 from the user's manual research:
+
+- **A/C disconnect = «caja térmica» NEMA 3R.** Dedicated pull-out disconnects are
+  not sold locally; a 2-space NEMA 3R breaker enclosure next to the unit is the
+  disconnecting means. `disconnect-60-3r` was renamed accordingly and priced at
+  Freund (Eaton BR24L70RP, $36.00) and Vidrí (JF Products 2 espacios 100 A, $29.95).
+- **No pre-made A/C whips.** The flexible run to the condenser is assembled on site
+  from poliducto + wire; the template's whip rule now emits ~2 m of `lfnc-12`
+  instead of a kit item (`ac-whip-12` was removed from the catalog).
+- `breaker-2p-30` now has a second retailer (Freund THQL, $17.95), so the
+  cheapest-basket comparison is live for that line.
+
+Other transcription notes: Vidrí's EMT sticks are **aluminum, 3.00 m** (galvanized
+out of stock), and poliducto is sold **per yard** (converted to per-meter in the
+entries, divisor recorded in `note`). Manual entries carry
+`note: "… entrada manual (verificado por el usuario)"` and no `sourceUrl`.
 
 ## Unit normalization
 
