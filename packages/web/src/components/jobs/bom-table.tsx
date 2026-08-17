@@ -7,6 +7,15 @@ import { RETAILERS } from '@elec-assistant/data'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { getMessages, fmtNumber } from '@/lib/i18n'
 import { RETAILER_LABELS, fmtUsd, type PricedLine, type PricingSummary } from '@/lib/pricing'
@@ -16,7 +25,7 @@ function UnitLabel({ unit }: { unit: PricedLine['line']['unit'] }) {
   const m = getMessages()
   const label =
     unit === 'm' ? m.jobs.unitMeter : unit === 'tramo-3m' ? m.jobs.unitStick : m.jobs.unitEach
-  return <span className="text-xs text-muted-foreground">{label}</span>
+  return <span className="font-sans text-xs text-muted-foreground">{label}</span>
 }
 
 function PriceCell({
@@ -40,7 +49,7 @@ function PriceCell({
         min={0}
         step={0.01}
         defaultValue={unitPriceUsd ?? 0}
-        className="h-7 w-24 text-right text-xs tabular-nums"
+        className="h-7 w-24 text-right font-mono text-xs tabular-nums"
         onBlur={(e) => {
           const v = Number(e.target.value)
           if (Number.isFinite(v) && v > 0) onOverride(line.itemId, v)
@@ -61,7 +70,9 @@ function PriceCell({
           {m.jobs.noPrice}
         </Badge>
       ) : (
-        <span className={`tabular-nums ${overrideUsd !== undefined ? 'font-semibold text-primary' : ''}`}>
+        <span
+          className={`font-mono tabular-nums ${overrideUsd !== undefined ? 'font-semibold text-primary' : ''}`}
+        >
           {fmtUsd(unitPriceUsd)}
         </span>
       )}
@@ -86,7 +97,7 @@ function PriceCell({
         </Button>
       ) : null}
       {stale ? (
-        <TriangleAlert className="size-3.5 text-amber-500" aria-label={m.jobs.verifyStale} />
+        <TriangleAlert className="size-3.5 text-warning" aria-label={m.jobs.verifyStale} />
       ) : null}
     </span>
   )
@@ -105,8 +116,8 @@ function LineRow({
   const { line, prices, overrideUsd, lineTotalUsd, stale } = priced
   const staleEntry = Object.values(prices).find((p) => p !== undefined)
   return (
-    <tr className="border-b last:border-0 align-top">
-      <td className="py-2 pr-2">
+    <TableRow className="align-top hover:bg-accent/50">
+      <TableCell className="whitespace-normal py-2 pl-0 pr-2">
         <span className="text-sm">{line.name.es}</span>
         {line.note ? <span className="block text-xs text-muted-foreground">{line.note.es}</span> : null}
         {line.citations.length > 0 ? (
@@ -120,26 +131,26 @@ function LineRow({
           </span>
         ) : null}
         {stale && staleEntry ? (
-          <span className="mt-0.5 block text-[10px] text-amber-600">
+          <span className="mt-0.5 block text-[10px] text-warning">
             {m.jobs.priceFrom} {staleEntry.updatedAt} — {m.jobs.verifyStale}
           </span>
         ) : null}
-      </td>
-      <td className="py-2 pr-2 text-right tabular-nums">
+      </TableCell>
+      <TableCell className="py-2 pr-2 text-right font-mono tabular-nums">
         {fmtNumber(line.qty)} <UnitLabel unit={line.unit} />
         {line.computedMeters !== undefined && line.unit === 'tramo-3m' ? (
-          <span className="block text-[10px] text-muted-foreground">
+          <span className="block font-sans text-[10px] text-muted-foreground">
             ({m.jobs.metersComputed}: {fmtNumber(line.computedMeters)} m)
           </span>
         ) : null}
-      </td>
-      <td className="py-2 pr-2 text-right">
+      </TableCell>
+      <TableCell className="py-2 pr-2 text-right">
         <PriceCell priced={priced} onOverride={onOverride} onReset={onReset} />
-      </td>
-      <td className="py-2 text-right tabular-nums">
+      </TableCell>
+      <TableCell className="py-2 pr-0 text-right font-mono tabular-nums">
         {lineTotalUsd !== undefined ? fmtUsd(lineTotalUsd) : '—'}
-      </td>
-    </tr>
+      </TableCell>
+    </TableRow>
   )
 }
 
@@ -179,60 +190,60 @@ export function BomTable({
         </ToggleGroup>
       </div>
 
-      <table className="w-full text-sm">
-        <thead>
-          <tr className="border-b text-left text-xs text-muted-foreground">
-            <th className="py-1.5 pr-2 font-medium">{m.jobs.colItem}</th>
-            <th className="py-1.5 pr-2 text-right font-medium">{m.jobs.colQty}</th>
-            <th className="py-1.5 pr-2 text-right font-medium">
+      <Table>
+        <TableHeader>
+          <TableRow className="text-xs">
+            <TableHead className="h-8 pl-0 pr-2 font-medium text-muted-foreground">{m.jobs.colItem}</TableHead>
+            <TableHead className="h-8 pr-2 text-right font-medium text-muted-foreground">{m.jobs.colQty}</TableHead>
+            <TableHead className="h-8 pr-2 text-right font-medium text-muted-foreground">
               {m.jobs.colPrice} ({RETAILER_LABELS[retailer]})
-            </th>
-            <th className="py-1.5 text-right font-medium">{m.jobs.colTotal}</th>
-          </tr>
-        </thead>
-        <tbody>
+            </TableHead>
+            <TableHead className="h-8 pr-0 text-right font-medium text-muted-foreground">{m.jobs.colTotal}</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {consumables.map((priced) => (
             <LineRow key={priced.line.ruleId} priced={priced} onOverride={onOverride} onReset={onReset} />
           ))}
-        </tbody>
-        <tfoot>
-          <tr className="border-t">
-            <td colSpan={3} className="py-2 pr-2 text-right text-sm font-medium">
+        </TableBody>
+        <TableFooter className="bg-transparent">
+          <TableRow className="hover:bg-transparent">
+            <TableCell colSpan={3} className="py-2 pl-0 pr-2 text-right text-sm font-medium">
               {m.jobs.subtotal} ({RETAILER_LABELS[retailer]})
               {summary.unpricedCount > 0 ? (
                 <span className="block text-[10px] font-normal text-muted-foreground">
                   +{summary.unpricedCount} {m.jobs.unpricedCount}
                 </span>
               ) : null}
-            </td>
-            <td className="py-2 text-right text-base font-bold tabular-nums">
+            </TableCell>
+            <TableCell className="py-2 pr-0 text-right font-mono text-base font-bold tabular-nums">
               {fmtUsd(summary.subtotalUsd)}
-            </td>
-          </tr>
-          <tr>
-            <td colSpan={3} className="py-1 pr-2 text-right text-xs text-muted-foreground">
+            </TableCell>
+          </TableRow>
+          <TableRow className="border-0 hover:bg-transparent">
+            <TableCell colSpan={3} className="py-1 pl-0 pr-2 text-right text-xs text-muted-foreground">
               {m.jobs.cheapestBasket}
               {summary.cheapestUnpricedCount > 0
                 ? ` (+${summary.cheapestUnpricedCount} ${m.jobs.unpricedCount})`
                 : ''}
-            </td>
-            <td className="py-1 text-right text-sm font-semibold tabular-nums">
+            </TableCell>
+            <TableCell className="py-1 pr-0 text-right font-mono text-sm font-semibold tabular-nums">
               {fmtUsd(summary.cheapestBasketUsd)}
-            </td>
-          </tr>
-        </tfoot>
-      </table>
+            </TableCell>
+          </TableRow>
+        </TableFooter>
+      </Table>
 
       {tools.length > 0 ? (
         <div className="rounded-lg border border-dashed p-3">
           <p className="mb-1 text-xs font-medium text-muted-foreground">{m.jobs.toolsTitle}</p>
-          <table className="w-full text-sm">
-            <tbody>
+          <Table>
+            <TableBody>
               {tools.map((priced) => (
                 <LineRow key={priced.line.ruleId} priced={priced} onOverride={onOverride} onReset={onReset} />
               ))}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
         </div>
       ) : null}
     </div>
