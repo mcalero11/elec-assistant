@@ -7,6 +7,7 @@ import {
   table31016,
 } from '@elec-assistant/data'
 import {
+  ambientFactor,
   cccFactor,
   conduitFill,
   deratedAmpacity,
@@ -31,6 +32,15 @@ describe('monotonicity properties', () => {
     let previous = 1
     for (let ccc = 1; ccc <= 45; ccc++) {
       const factor = cccFactor(ccc)
+      expect(factor).toBeLessThanOrEqual(previous)
+      previous = factor
+    }
+  })
+
+  it('hotter ambients never increase the correction factor (90°C rating)', () => {
+    let previous = Number.POSITIVE_INFINITY
+    for (let ambientC = 21; ambientC <= 55; ambientC++) {
+      const factor = ambientFactor(ambientC, 90)
       expect(factor).toBeLessThanOrEqual(previous)
       previous = factor
     }

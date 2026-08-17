@@ -35,20 +35,22 @@ import {
 
 const ASSUME_JAM: Assumption = {
   key: 'jam-not-evaluated',
-  en: 'Conductor jamming (Chapter 9 informational note, conduit ID / conductor OD ratio ≈ 2.8–3.2) is not evaluated.',
-  es: 'El atascamiento de conductores (nota informativa del Capítulo 9, relación diámetro interno / diámetro del conductor ≈ 2.8–3.2) no se evalúa.',
+  en: 'The risk of wires jamming while being pulled through the conduit (happens with certain size combinations) is not evaluated.',
+  es: 'No se evalúa el riesgo de que los alambres se atasquen al jalarlos por el tubo (pasa con ciertas combinaciones de medidas).',
 }
 
 const ASSUME_PVC_SCH40: Assumption = {
   key: 'conduit-pvc-sch40',
-  en: 'PVC dimensions assume Schedule 40; Schedule 80 has a smaller internal area.',
-  es: 'Las dimensiones de PVC asumen cédula 40; la cédula 80 tiene un área interna menor.',
+  en: 'PVC measurements are Schedule 40; Schedule 80 has less room inside.',
+  es: 'Las medidas de PVC son de cédula 40; la cédula 80 tiene menos espacio interno.',
+  citations: ['nec2026.ch9_t4'],
 }
 
 const ASSUME_LFNC_B: Assumption = {
   key: 'lfnc-b',
-  en: 'Flexible conduit uses LFNC-B («poliducto») dimensions.',
-  es: 'La tubería flexible usa dimensiones de LFNC-B («poliducto»).',
+  en: 'Flexible conduit is calculated with LFNC-B («poliducto») measurements.',
+  es: 'La manguera flexible se calcula con las medidas de LFNC-B («poliducto»).',
+  citations: ['nec2026.ch9_t4'],
 }
 
 const ASSUME_PV_DIMS: Assumption = {
@@ -72,8 +74,8 @@ export const CONDUIT_FILL_INSULATIONS: readonly Insulation[] = [
 function minTradeSizeAssumption(size: TradeSize): Assumption {
   return {
     key: 'min-trade-size',
-    en: `Practical minimum trade size ${size} in. enforced (smaller sizes not considered).`,
-    es: `Se aplicó un diámetro comercial mínimo práctico de ${size} pulg (no se consideraron diámetros menores).`,
+    en: `${size} in. was used as the practical minimum trade size (thinner conduits are not considered).`,
+    es: `Se usó ${size} pulg como diámetro mínimo práctico (no se consideran tubos más delgados).`,
   }
 }
 

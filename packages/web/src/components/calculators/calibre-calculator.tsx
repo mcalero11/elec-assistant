@@ -79,7 +79,8 @@ export function CalibreCalculator() {
   // URL state is canonical and always metric — a shared link reproduces the exact scenario.
   const [loadA, setLoadA] = useQueryState('a', parseAsFloat.withDefault(24))
   const [lengthM, setLengthM] = useQueryState('m', parseAsFloat.withDefault(15))
-  const [ambientC, setAmbientC] = useQueryState('t', parseAsFloat.withDefault(30))
+  // 35°C default: El Salvador runs hotter than the 30°C table basis (user feedback).
+  const [ambientC, setAmbientC] = useQueryState('t', parseAsFloat.withDefault(35))
   const [continuous, setContinuous] = useQueryState('c', parseAsBoolean.withDefault(true))
   const [material, setMaterial] = useQueryState('mat', parseAsStringLiteral(MATERIALS).withDefault('copper'))
   const [insulation, setInsulation] = useQueryState('ais', parseAsStringLiteral(INSULATIONS).withDefault('THHN'))

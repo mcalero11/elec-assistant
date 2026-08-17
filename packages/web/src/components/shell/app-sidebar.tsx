@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { AirVent, Cable, Cylinder, Earth, LayoutDashboard, Search, Zap } from 'lucide-react'
+import { AirVent, BookOpen, Cable, Cylinder, Earth, LayoutDashboard, Search, Zap } from 'lucide-react'
 import {
   Sidebar,
   SidebarContent,
@@ -57,6 +57,14 @@ export function AppSidebar() {
                   <Link href="/">
                     <LayoutDashboard aria-hidden />
                     <span>{m.nav.panel}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={isActive('/glosario/')} tooltip={m.nav.glosario} className="min-h-11 md:min-h-8">
+                  <Link href="/glosario/">
+                    <BookOpen aria-hidden />
+                    <span>{m.nav.glosario}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

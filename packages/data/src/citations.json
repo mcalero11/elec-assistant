@@ -1,102 +1,152 @@
 {
   "nec2026.t310_16": {
     "en": "NEC 2026, Table 310.16",
-    "es": "NEC 2026, Tabla 310.16"
+    "es": "NEC 2026, Tabla 310.16",
+    "reasonEn": "base ampacity table",
+    "reasonEs": "tabla base de ampacidad"
   },
   "nec2026.t310_15_b_1": {
     "en": "NEC 2026, Table 310.15(B)(1)(1) — ambient temperature correction",
-    "es": "NEC 2026, Tabla 310.15(B)(1)(1) — corrección por temperatura ambiente"
+    "es": "NEC 2026, Tabla 310.15(B)(1)(1) — corrección por temperatura ambiente",
+    "reasonEn": "temperature correction",
+    "reasonEs": "corrección por temperatura"
   },
   "nec2026.t310_15_c_1": {
     "en": "NEC 2026, Table 310.15(C)(1) — adjustment for >3 current-carrying conductors",
-    "es": "NEC 2026, Tabla 310.15(C)(1) — ajuste por más de 3 conductores portadores de corriente"
+    "es": "NEC 2026, Tabla 310.15(C)(1) — ajuste por más de 3 conductores portadores de corriente",
+    "reasonEn": "bundling adjustment",
+    "reasonEs": "ajuste por agrupamiento"
   },
   "nec2026.s110_14_c": {
     "en": "NEC 2026, 110.14(C) — terminal temperature limitations",
-    "es": "NEC 2026, 110.14(C) — limitación por temperatura de terminales"
+    "es": "NEC 2026, 110.14(C) — limitación por temperatura de terminales",
+    "reasonEn": "terminal limit",
+    "reasonEs": "límite de los bornes"
   },
   "nec2026.s210_19": {
     "en": "NEC 2026, 210.19(A) — branch-circuit conductor sizing (125% continuous)",
-    "es": "NEC 2026, 210.19(A) — dimensionamiento de conductores de circuitos ramales (125% carga continua)"
+    "es": "NEC 2026, 210.19(A) — dimensionamiento de conductores de circuitos ramales (125% carga continua)",
+    "reasonEn": "125% continuous load (wire)",
+    "reasonEs": "125% por carga continua (alambre)"
   },
   "nec2026.s210_20": {
     "en": "NEC 2026, 210.20(A) — overcurrent protection (125% continuous)",
-    "es": "NEC 2026, 210.20(A) — protección contra sobrecorriente (125% carga continua)"
+    "es": "NEC 2026, 210.20(A) — protección contra sobrecorriente (125% carga continua)",
+    "reasonEn": "125% continuous load (breaker)",
+    "reasonEs": "125% por carga continua (térmico)"
   },
   "nec2026.s240_4_b": {
     "en": "NEC 2026, 240.4(B) — next-higher standard rating permitted",
-    "es": "NEC 2026, 240.4(B) — se permite el valor estándar inmediato superior"
+    "es": "NEC 2026, 240.4(B) — se permite el valor estándar inmediato superior",
+    "reasonEn": "next standard rating allowed",
+    "reasonEs": "siguiente valor estándar permitido"
   },
   "nec2026.s240_4_d": {
     "en": "NEC 2026, 240.4(D) — small conductor overcurrent limits",
-    "es": "NEC 2026, 240.4(D) — límites de sobrecorriente para conductores pequeños"
+    "es": "NEC 2026, 240.4(D) — límites de sobrecorriente para conductores pequeños",
+    "reasonEn": "small-wire limit",
+    "reasonEs": "límite para calibres delgados"
   },
   "nec2026.s240_6_a": {
     "en": "NEC 2026, 240.6(A) — standard ampere ratings",
-    "es": "NEC 2026, 240.6(A) — valores nominales estándar de amperaje"
+    "es": "NEC 2026, 240.6(A) — valores nominales estándar de amperaje",
+    "reasonEn": "standard breaker ratings",
+    "reasonEs": "valores estándar de térmicos"
   },
   "nec2026.ch9_t1": {
     "en": "NEC 2026, Chapter 9, Table 1 — maximum percent conduit fill",
-    "es": "NEC 2026, Capítulo 9, Tabla 1 — porcentaje máximo de relleno de tubería"
+    "es": "NEC 2026, Capítulo 9, Tabla 1 — porcentaje máximo de relleno de tubería",
+    "reasonEn": "max conduit fill",
+    "reasonEs": "% máximo de relleno"
   },
   "nec2026.ch9_t4": {
     "en": "NEC 2026, Chapter 9, Table 4 — conduit and tubing dimensions",
-    "es": "NEC 2026, Capítulo 9, Tabla 4 — dimensiones de tuberías y canalizaciones"
+    "es": "NEC 2026, Capítulo 9, Tabla 4 — dimensiones de tuberías y canalizaciones",
+    "reasonEn": "conduit dimensions",
+    "reasonEs": "medidas de tubería"
   },
   "nec2026.ch9_t5": {
     "en": "NEC 2026, Chapter 9, Table 5 — insulated conductor dimensions",
-    "es": "NEC 2026, Capítulo 9, Tabla 5 — dimensiones de conductores aislados"
+    "es": "NEC 2026, Capítulo 9, Tabla 5 — dimensiones de conductores aislados",
+    "reasonEn": "insulated-wire dimensions",
+    "reasonEs": "medidas del alambre con forro"
   },
   "nec2026.ch9_note4": {
     "en": "NEC 2026, Chapter 9, Notes to Tables, Note 4 — nipples ≤ 600 mm may be filled to 60%",
-    "es": "NEC 2026, Capítulo 9, Notas a las Tablas, Nota 4 — niples ≤ 600 mm pueden llenarse al 60%"
+    "es": "NEC 2026, Capítulo 9, Notas a las Tablas, Nota 4 — niples ≤ 600 mm pueden llenarse al 60%",
+    "reasonEn": "nipples up to 60%",
+    "reasonEs": "niples al 60%"
   },
   "nec2026.ch9_note5": {
     "en": "NEC 2026, Chapter 9, Notes to Tables, Note 5 — actual dimensions used for conductors not included in the tables",
-    "es": "NEC 2026, Capítulo 9, Notas a las Tablas, Nota 5 — se usan las dimensiones reales para conductores no incluidos en las tablas"
+    "es": "NEC 2026, Capítulo 9, Notas a las Tablas, Nota 5 — se usan las dimensiones reales para conductores no incluidos en las tablas",
+    "reasonEn": "actual wire dimensions",
+    "reasonEs": "medidas reales del cable"
   },
   "nec2026.ch9_note7": {
     "en": "NEC 2026, Chapter 9, Notes to Tables, Note 7 — next whole conductor permitted where the decimal is ≥ 0.8",
-    "es": "NEC 2026, Capítulo 9, Notas a las Tablas, Nota 7 — se permite el siguiente conductor entero cuando el decimal es ≥ 0.8"
+    "es": "NEC 2026, Capítulo 9, Notas a las Tablas, Nota 7 — se permite el siguiente conductor entero cuando el decimal es ≥ 0.8",
+    "reasonEn": "rounding allowance",
+    "reasonEs": "redondeo permitido"
   },
   "nec2026.ch9_t8": {
     "en": "NEC 2026, Chapter 9, Table 8 — conductor properties",
-    "es": "NEC 2026, Capítulo 9, Tabla 8 — propiedades de los conductores"
+    "es": "NEC 2026, Capítulo 9, Tabla 8 — propiedades de los conductores",
+    "reasonEn": "wire resistance",
+    "reasonEs": "resistencia del alambre"
   },
   "nec2026.t250_122": {
     "en": "NEC 2026, Table 250.122 — minimum size equipment grounding conductors",
-    "es": "NEC 2026, Tabla 250.122 — tamaño mínimo de conductores de puesta a tierra de equipos"
+    "es": "NEC 2026, Tabla 250.122 — tamaño mínimo de conductores de puesta a tierra de equipos",
+    "reasonEn": "ground-wire size",
+    "reasonEs": "calibre del alambre de tierra"
   },
   "nec2026.s250_122_b": {
     "en": "NEC 2026, 250.122(D) — EGC increased proportionally (circular-mil area) when circuit conductors are upsized beyond ampacity requirements (250.122(B) in pre-2026 editions)",
-    "es": "NEC 2026, 250.122(D) — aumento proporcional del conductor de tierra (área en circular mils) cuando los conductores del circuito se agrandan más allá de lo requerido por ampacidad (250.122(B) en ediciones anteriores)"
+    "es": "NEC 2026, 250.122(D) — aumento proporcional del conductor de tierra (área en circular mils) cuando los conductores del circuito se agrandan más allá de lo requerido por ampacidad (250.122(B) en ediciones anteriores)",
+    "reasonEn": "ground upsized in proportion",
+    "reasonEs": "tierra agrandada en proporción"
   },
   "nec2026.s352_30": {
     "en": "NEC 2026, 352.30 — securing and supporting rigid PVC conduit",
-    "es": "NEC 2026, 352.30 — fijación y soporte de tubería PVC rígida"
+    "es": "NEC 2026, 352.30 — fijación y soporte de tubería PVC rígida",
+    "reasonEn": "PVC supports",
+    "reasonEs": "soportes de PVC"
   },
   "nec2026.s356_30": {
     "en": "NEC 2026, 356.30 — securing and supporting LFNC",
-    "es": "NEC 2026, 356.30 — fijación y soporte de tubería flexible no metálica (LFNC)"
+    "es": "NEC 2026, 356.30 — fijación y soporte de tubería flexible no metálica (LFNC)",
+    "reasonEn": "flexible-conduit supports",
+    "reasonEs": "soportes de poliducto"
   },
   "nec2026.s358_30": {
     "en": "NEC 2026, 358.30 — securing and supporting EMT",
-    "es": "NEC 2026, 358.30 — fijación y soporte de tubería EMT"
+    "es": "NEC 2026, 358.30 — fijación y soporte de tubería EMT",
+    "reasonEn": "EMT supports",
+    "reasonEs": "soportes de EMT"
   },
   "nec2026.s440_4_b": {
     "en": "NEC 2026, 440.4(B) — nameplate marking of MCA and MOCP",
-    "es": "NEC 2026, 440.4(B) — datos de placa: MCA y MOCP"
+    "es": "NEC 2026, 440.4(B) — datos de placa: MCA y MOCP",
+    "reasonEn": "nameplate data (MCA/MOCP)",
+    "reasonEs": "datos de placa (MCA/MOCP)"
   },
   "nec2026.s440_14": {
     "en": "NEC 2026, 440.14 — disconnecting means location and rating for A/C equipment",
-    "es": "NEC 2026, 440.14 — ubicación y capacidad del desconectador para equipos de A/C"
+    "es": "NEC 2026, 440.14 — ubicación y capacidad del desconectador para equipos de A/C",
+    "reasonEn": "A/C disconnect",
+    "reasonEs": "desconectador de A/C"
   },
   "nec2026.s440_22": {
     "en": "NEC 2026, 440.22 — branch-circuit protection not exceeding nameplate MOCP",
-    "es": "NEC 2026, 440.22 — protección del circuito ramal sin exceder el MOCP de placa"
+    "es": "NEC 2026, 440.22 — protección del circuito ramal sin exceder el MOCP de placa",
+    "reasonEn": "stay at or below nameplate MOCP",
+    "reasonEs": "no exceder el MOCP de placa"
   },
   "nec2026.in210_19_vd": {
     "en": "NEC 2026, Informational Note to 210.19 — recommended max voltage drop 3% branch / 5% total",
-    "es": "NEC 2026, Nota Informativa de 210.19 — caída de tensión máxima recomendada 3% ramal / 5% total"
+    "es": "NEC 2026, Nota Informativa de 210.19 — caída de tensión máxima recomendada 3% ramal / 5% total",
+    "reasonEn": "recommended max drop",
+    "reasonEs": "caída máxima recomendada"
   }
 }

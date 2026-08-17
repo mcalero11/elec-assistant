@@ -62,6 +62,24 @@ export const acMinisplitTemplate: JobTemplate = {
       label: { es: 'Recorrido de la tubería', en: 'Conduit routing' },
     },
     {
+      // El Salvador runs hot: 30°C (the NEC table basis) undersizes real installs.
+      // Default depends on the location answer above (questions resolve in order).
+      id: 'ambientC',
+      type: 'number',
+      unit: '°C',
+      min: 25,
+      max: 50,
+      step: 1,
+      default: {
+        $cond: {
+          if: { ref: 'answers.location', eq: 'exterior' },
+          then: 40,
+          else: 35,
+        },
+      },
+      label: { es: 'Temperatura donde pasa el cable', en: 'Ambient temperature along the run' },
+    },
+    {
       id: 'panelSlots',
       type: 'choice',
       default: '2polos',
@@ -128,6 +146,7 @@ export const acMinisplitTemplate: JobTemplate = {
         systemVoltage: 240,
         material: 'copper',
         insulation: INSULATION_BY_LOCATION,
+        ambientC: { $ref: 'answers.ambientC' },
         cccCount: 2,
       },
     },
@@ -184,8 +203,9 @@ export const acMinisplitTemplate: JobTemplate = {
       citations: ['nec2026.s440_14'],
       assumption: {
         key: 'disconnect-nonfused',
-        en: 'Non-fused disconnect sized to the smallest standard rating at or above the breaker; NEMA 3R housing suits outdoor mounting.',
-        es: 'Desconectador sin fusibles dimensionado al valor estándar más pequeño igual o mayor al térmico; caja NEMA 3R apta para exterior.',
+        en: 'Non-fused disconnect, at the standard rating equal to or above the breaker; the NEMA 3R box withstands weather.',
+        es: 'Desconectador sin fusibles, del valor estándar igual o mayor al térmico; la caja NEMA 3R aguanta intemperie.',
+        citations: ['nec2026.s440_14'],
       },
       label: { es: 'Desconectador', en: 'Disconnect' },
     },
@@ -214,7 +234,7 @@ export const acMinisplitTemplate: JobTemplate = {
     },
     {
       id: 'mocp',
-      label: { es: 'MOCP de placa (máximo permitido)', en: 'Nameplate MOCP (maximum permitted)' },
+      label: { es: 'Protección máxima (MOCP) según la placa', en: 'Maximum protection (MOCP) per nameplate' },
       value: { $ref: 'answers.device.mocpA' },
       unit: 'A',
       citations: ['nec2026.s440_4_b', 'nec2026.s440_22'],

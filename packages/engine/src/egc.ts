@@ -9,14 +9,16 @@ import { EngineError, type Assumption, type WithProvenance } from './types.js'
 
 const ASSUME_NOT_UPSIZED: Assumption = {
   key: 'egc-not-upsized',
-  en: 'EGC taken straight from Table 250.122; the 250.122(B) proportional increase for circuit conductors upsized (e.g., for voltage drop) is not applied — pass installedSize/requiredSize to apply it.',
-  es: 'El conductor de puesta a tierra se tomó directamente de la Tabla 250.122; no se aplicó el aumento proporcional de 250.122(B) cuando los conductores del circuito se agrandan (p. ej., por caída de tensión).',
+  en: 'The ground wire comes straight from the table; if the phase conductors were upsized (e.g., for distance), the ground may need a proportional increase — verify it.',
+  es: 'El alambre de tierra sale directo de la tabla; si el calibre de las fases se subió (p. ej. por distancia), la tierra podría necesitar subirse en proporción — verifíquelo.',
+  citations: ['nec2026.t250_122'],
 }
 
 const ASSUME_UPSIZED: Assumption = {
   key: 'egc-upsized-250-122b',
-  en: 'Circuit conductors are larger than their ampacity minimum, so the EGC was increased in proportion to the circular-mil area ratio per 250.122(B) (capped at the circuit-conductor size per 250.122(A)).',
-  es: 'Los conductores del circuito son mayores que el mínimo por ampacidad, así que el conductor de tierra se aumentó en proporción al área en circular mils según 250.122(B) (limitado al calibre de los conductores del circuito según 250.122(A)).',
+  en: 'Because the phase conductors were upsized beyond the minimum, the ground wire was also increased in proportion (never above the phase-conductor size).',
+  es: 'Como las fases se agrandaron más de lo mínimo, el alambre de tierra también se subió en proporción (sin pasar del calibre de las fases).',
+  citations: ['nec2026.t250_122', 'nec2026.s250_122_b'],
 }
 
 export interface EgcInput {

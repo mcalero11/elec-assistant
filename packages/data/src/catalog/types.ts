@@ -85,7 +85,8 @@ export type TemplateQuestion =
       min: number
       max: number
       step: number
-      default: number
+      /** Plain number, or a ValueSpec referencing EARLIER questions (answers resolve in declaration order). */
+      default: ValueSpec
       label: TemplateLabel
     }
   | {
@@ -129,7 +130,7 @@ export interface TemplateDerived {
   ratings: number[]
   atLeast: ValueSpec
   citations: CitationKey[]
-  assumption?: { key: string; en: string; es: string }
+  assumption?: { key: string; en: string; es: string; citations?: CitationKey[] }
   label: TemplateLabel
 }
 

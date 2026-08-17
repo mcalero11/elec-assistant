@@ -20,6 +20,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { getMessages, fmtNumber } from '@/lib/i18n'
 import { RETAILER_LABELS, fmtUsd, type PricedLine, type PricingSummary } from '@/lib/pricing'
 import { CitationChips } from '@/components/calculators/citation-chips'
+import { GlossaryText } from '@/components/glossary-text'
 
 function UnitLabel({ unit }: { unit: PricedLine['line']['unit'] }) {
   const m = getMessages()
@@ -118,8 +119,14 @@ function LineRow({
   return (
     <TableRow className="align-top hover:bg-accent/50">
       <TableCell className="whitespace-normal py-2 pl-0 pr-2">
-        <span className="text-sm">{line.name.es}</span>
-        {line.note ? <span className="block text-xs text-muted-foreground">{line.note.es}</span> : null}
+        <span className="text-sm">
+          <GlossaryText text={line.name.es} />
+        </span>
+        {line.note ? (
+          <span className="block text-xs text-muted-foreground">
+            <GlossaryText text={line.note.es} />
+          </span>
+        ) : null}
         {line.citations.length > 0 ? (
           <span className="mt-0.5 block">
             <CitationChips keys={line.citations} />

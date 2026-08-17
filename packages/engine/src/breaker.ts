@@ -1,5 +1,5 @@
 import { standardBreakers } from '@elec-assistant/data'
-import { EngineError, type Assumption, type WithProvenance } from './types.js'
+import { ASSUME_CONTINUOUS_125, EngineError, type Assumption, type WithProvenance } from './types.js'
 
 export interface BreakerInput {
   /** Load current in amperes. */
@@ -39,11 +39,7 @@ export function standardBreaker(input: BreakerInput): BreakerResult {
   const assumptions: Assumption[] = []
   if (continuous) {
     citations.push('nec2026.s210_20')
-    assumptions.push({
-      key: 'continuous-125',
-      en: 'Load treated as 100% continuous: 125% factor applied per 210.20(A).',
-      es: 'Carga tratada como 100% continua: se aplicó el factor de 125% según 210.20(A).',
-    })
+    assumptions.push(ASSUME_CONTINUOUS_125)
   }
 
   let nextSizeUpApplied = false
@@ -61,7 +57,8 @@ export function standardBreaker(input: BreakerInput): BreakerResult {
       )
     }
     nextSizeUpApplied = candidate > ampacity
-    citations.push('nec2026.s240_4_b')
+    // Cite the next-size-up allowance only when the rounding was actually used.
+    if (nextSizeUpApplied) citations.push('nec2026.s240_4_b')
   }
 
   return { rating: candidate, requiredA, nextSizeUpApplied, citations, assumptions }

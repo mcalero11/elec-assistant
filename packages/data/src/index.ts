@@ -195,3 +195,22 @@ export type CitationKey = keyof typeof citationsJson
 export function citationLabel(key: CitationKey, locale: 'en' | 'es' = 'es'): string {
   return citations[key][locale]
 }
+
+/**
+ * Short plain-language reason for a citation — what the rule DID to the result
+ * («ajuste por agrupamiento»), for chip text aimed at beginners; the article
+ * number stays in the full label shown on tap. Falls back to the compact
+ * article reference while an entry has no reason fields yet.
+ */
+export function citationReason(key: CitationKey, locale: 'en' | 'es' = 'es'): string {
+  const entry = citations[key] as {
+    en: string
+    es: string
+    reasonEn?: string
+    reasonEs?: string
+  }
+  const reason = locale === 'es' ? entry.reasonEs : entry.reasonEn
+  if (reason) return reason
+  const label = entry[locale]
+  return label.replace(/^NEC \d+,\s*/, '').split('—')[0]?.trim() ?? label
+}

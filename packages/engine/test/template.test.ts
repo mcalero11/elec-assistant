@@ -10,6 +10,35 @@ const baseAnswers = {
   panelSlots: '2polos',
 }
 
+describe('ambient temperature question', () => {
+  it('defaults from the location answer: exterior → 40°C, interior → 35°C', () => {
+    const exterior = runTemplate(acMinisplitTemplate, { answers: baseAnswers })
+    const extAmbient = exterior.assumptions.find((a) => a.key === 'ambient-used')
+    expect(extAmbient?.es).toContain('40 °C')
+
+    const interior = runTemplate(acMinisplitTemplate, {
+      answers: { ...baseAnswers, location: 'interior' },
+    })
+    const intAmbient = interior.assumptions.find((a) => a.key === 'ambient-used')
+    expect(intAmbient?.es).toContain('35 °C')
+  })
+
+  it('an explicit ambientC answer overrides the location default', () => {
+    const result = runTemplate(acMinisplitTemplate, {
+      answers: { ...baseAnswers, ambientC: 45 },
+    })
+    expect(result.assumptions.find((a) => a.key === 'ambient-used')?.es).toContain('45 °C')
+  })
+
+  it('conductor line cites ambient correction (40°C) but not bundling (2 CCC)', () => {
+    const result = runTemplate(acMinisplitTemplate, { answers: baseAnswers })
+    const conductor = result.parameters.find((p) => p.id === 'conductor')
+    expect(conductor?.citations).toContain('nec2026.t310_16')
+    expect(conductor?.citations).toContain('nec2026.t310_15_b_1')
+    expect(conductor?.citations).not.toContain('nec2026.t310_15_c_1')
+  })
+})
+
 describe('runTemplate ac-minisplit (golden)', () => {
   for (const c of golden.cases) {
     it(c.name, () => {

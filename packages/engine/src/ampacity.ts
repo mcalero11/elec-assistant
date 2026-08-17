@@ -9,6 +9,7 @@ import {
   type TempRatingKey,
 } from '@elec-assistant/data'
 import {
+  ASSUME_CONTINUOUS_125,
   EngineError,
   INSULATION_TEMP_RATING,
   type Assumption,
@@ -18,17 +19,40 @@ import {
 
 const ASSUME_DRY: Assumption = {
   key: 'dry-location',
-  en: 'Insulation temperature rating assumes a dry location (e.g. THHN at 90°C). For wet locations use a -2/W-rated insulation.',
-  es: 'La temperatura nominal del aislamiento asume ubicación seca (p. ej. THHN a 90°C). Para ubicaciones húmedas use aislamiento tipo -2/W.',
+  en: 'THHN jacket withstands 90°C only in dry locations; if the run is outdoors or can get wet, use a THWN-2 or equivalent type.',
+  es: 'El forro THHN aguanta 90 °C solo en lugares secos; si el recorrido va a la intemperie o se puede mojar, use tipo THWN-2 o equivalente.',
 }
 
 /** Types whose listed temperature rating holds only in dry/damp locations — the caveat above applies to these alone. */
 const DRY_ONLY_INSULATIONS: readonly Insulation[] = ['THHN']
 
-const ASSUME_AMBIENT_DEFAULT: Assumption = {
-  key: 'ambient-30c',
-  en: 'Ambient temperature assumed 30°C (table basis).',
-  es: 'Temperatura ambiente asumida de 30°C (base de la tabla).',
+/**
+ * The ambient temperature the calculation ran at is ALWAYS surfaced (a silent 30°C
+ * default undersizes hot-climate installs — the whole point of asking for it).
+ */
+function ambientAssumption(ambientC: number, provided: boolean, factor: number): Assumption {
+  if (!provided) {
+    return {
+      key: 'ambient-30c',
+      en: 'Calculated at 30°C ambient (the table basis); if the run gets hotter, the wire carries less current.',
+      es: 'Se calculó con 30 °C de temperatura ambiente (la base de la tabla); si donde pasa el cable hace más calor, el alambre soporta menos corriente.',
+      citations: ['nec2026.t310_15_b_1'],
+    }
+  }
+  if (factor < 1) {
+    return {
+      key: 'ambient-used',
+      en: `Calculated for ${ambientC}°C ambient; heat reduces the wire's capacity to ${Math.round(factor * 100)}% of the table value.`,
+      es: `Se calculó para ${ambientC} °C de temperatura ambiente; el calor reduce la capacidad del alambre a ${Math.round(factor * 100)}% de la tabla.`,
+      citations: ['nec2026.t310_15_b_1'],
+    }
+  }
+  return {
+    key: 'ambient-used',
+    en: `Calculated for ${ambientC}°C ambient (no reduction at that temperature).`,
+    es: `Se calculó para ${ambientC} °C de temperatura ambiente (a esa temperatura no hay reducción).`,
+    citations: ['nec2026.t310_15_b_1'],
+  }
 }
 
 export function ambientFactor(ambientC: number, rating: TempRating): number {
@@ -101,7 +125,13 @@ export function deratedAmpacity(input: DeratedAmpacityInput): DeratedAmpacityRes
 
   const assumptions: Assumption[] = []
   if (DRY_ONLY_INSULATIONS.includes(input.insulation)) assumptions.push(ASSUME_DRY)
-  if (input.ambientC == null) assumptions.push(ASSUME_AMBIENT_DEFAULT)
+  assumptions.push(ambientAssumption(ambientC, input.ambientC != null, fAmbient))
+
+  // Cite the correction/adjustment tables only when their factor actually
+  // changed the result — an unconditional chip is noise (user feedback).
+  const citations: DeratedAmpacityResult['citations'] = ['nec2026.t310_16']
+  if (fAmbient !== 1) citations.push('nec2026.t310_15_b_1')
+  if (fCcc !== 1) citations.push('nec2026.t310_15_c_1')
 
   return {
     size: input.size,
@@ -110,7 +140,7 @@ export function deratedAmpacity(input: DeratedAmpacityInput): DeratedAmpacityRes
     ambientFactor: fAmbient,
     cccFactor: fCcc,
     ampacity: base * fAmbient * fCcc,
-    citations: ['nec2026.t310_16', 'nec2026.t310_15_b_1', 'nec2026.t310_15_c_1'],
+    citations,
     assumptions,
   }
 }
@@ -186,21 +216,20 @@ export function evaluateConductor(
   if (input.terminalRatingC == null) {
     assumptions.push({
       key: 'terminal-rating-default',
-      en: `Terminal rating assumed ${terminalRatingC}°C per 110.14(C)(1) (${requiredTermination > 100 ? '>' : '≤'}100 A circuit); override if equipment is marked otherwise.`,
-      es: `Temperatura de terminales asumida de ${terminalRatingC}°C según 110.14(C)(1) (circuito ${requiredTermination > 100 ? 'mayor a' : 'de hasta'} 100 A); ajuste si el equipo indica otro valor.`,
+      en: `Equipment terminals assumed rated ${terminalRatingC}°C (typical for circuits ${requiredTermination > 100 ? 'over' : 'up to'} 100 A); adjust if the nameplate says otherwise.`,
+      es: `Los bornes del equipo se asumen para ${terminalRatingC} °C (lo típico en circuitos ${requiredTermination > 100 ? 'mayores a' : 'de hasta'} 100 A); si la placa indica otra cosa, ajústelo.`,
+      citations: ['nec2026.s110_14_c'],
     })
   }
-  if (continuous) {
-    assumptions.push({
-      key: 'continuous-125',
-      en: 'Load treated as 100% continuous: 125% factor applied per 210.19(A)/210.20(A).',
-      es: 'Carga tratada como 100% continua: se aplicó el factor de 125% según 210.19(A)/210.20(A).',
-    })
-  }
+  if (continuous) assumptions.push(ASSUME_CONTINUOUS_125)
 
   const citations = [...derated.citations, 'nec2026.s110_14_c' as const]
   if (continuous) citations.push('nec2026.s210_19', 'nec2026.s210_20')
-  if (cap !== undefined) citations.push('nec2026.s240_4_d')
+  // Cite the small-conductor limit only when it actually constrains the
+  // protection ampacity below the other limits (conditional-citation rule).
+  if (cap !== undefined && cap < Math.min(derated.ampacity, terminationAmpacity)) {
+    citations.push('nec2026.s240_4_d')
+  }
 
   return {
     size,

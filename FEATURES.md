@@ -25,10 +25,10 @@ Scope and acceptance criteria for each feature live in [PRD.md](./PRD.md).
 |---|---|---|
 | NEC 2026 core tables (310.16, corrections, T8, 240.6) | ✅ shipped | 2026-08-15 · cross-verified vs published sources, 0 mismatches (official 2026 text paywalled; unchanged per change summaries) |
 | NEC Ch. 9 Tables 1/4/5 + Table 250.122 | ✅ shipped | 2026-08-16 · cross-verified vs two independent sources each; verification caught + fixed a THW 14–8 AWG row-group error |
-| Bilingual citation labels (en/es) | ✅ shipped | 2026-08-15 |
+| Bilingual citation labels (en/es) | ✅ shipped | 2026-08-15 · 2026-08-17: + plain-language reasons (`reasonEs/reasonEn`, `citationReason()`) for beginner-facing chips |
 | Device catalog (wattages, synonyms, photos) | 🚧 in progress | 2026-08-16 · AC nameplate presets (5, MCA/MOCP) seeded; wattages/photos for the load calc later |
 | Glossary / regional terminology DB | 🚧 in progress | 2026-08-17 · 36 entries in data (definición + sinónimos es-SV + inglés + artículos NEC), CI coverage lint; photos + growth toward ~100 terms pending — the moat |
-| Job templates (5 seed jobs) | 🚧 in progress | 2026-08-16 · 1/5 shipped: aire mini-split — declarative schema + engine interpreter (`runTemplate`), 3 hand-verified BOM fixtures |
+| Job templates (5 seed jobs) | 🚧 in progress | 2026-08-16 · 1/5 shipped: aire mini-split — declarative schema + engine interpreter (`runTemplate`), 4 hand-verified BOM fixtures; 2026-08-17: ambient-temperature question (location-aware default 40°C exterior / 35°C interior — El Salvador runs hotter than the 30°C table basis), question defaults can be ValueSpecs |
 | Price catalog (per-retailer, updatedAt-stamped) | 🚧 in progress | 2026-08-17 · 33 entries: 30 Vidrí (reproducible run) + 3 manual Freund/Vidrí (user-verified; Freund/EPA block AI access); cheapest-basket live on dual-priced lines; 2 documented gaps (25 A breaker, ½″ LFNC connector — market availability) |
 
 ## Web app
@@ -39,7 +39,9 @@ Scope and acceptance criteria for each feature live in [PRD.md](./PRD.md).
 | Mission-control panel (app shell + dashboard) | ✅ shipped | 2026-08-17 · sidebar nav + breadcrumb + dark-default theme toggle (print stays light); home = status strip (real package data), module launchers, quick-launch chips; blue/amber technical palette, Geist Mono numerals, WCAG AA both themes |
 | Interactive calculators (live inputs, URL state) | 🚧 in progress | 2026-08-17 · 3/5 live: calibre (sliders, gráfico, «fijar calibre»), relleno de tubería (mín/verificar, niple, Nota 7), tierra (T250.122 + 250.122(B)); box fill + load calc pending |
 | Job flows → configurable priced BOM | ✅ shipped | 2026-08-16 · headline: «aire» → 4 preguntas → parámetros citados + BOM con precios; toggles EMT/PVC/poliducto y curvas/dobladora re-cotizan en vivo; overrides, staleness badges, canasta más barata |
-| Tooltips backed by glossary | ✅ shipped | 2026-08-17 · Term ids compile-time checked against the data glossary; tooltips show definición, sinónimos, inglés y artículos NEC; coverage CI-enforced (success criterion 5 v1) |
+| Tooltips backed by glossary | ✅ shipped | 2026-08-17 · Term ids compile-time checked against the data glossary; popovers (tap-friendly on mobile) show definición, sinónimos, inglés y artículos NEC; coverage CI-enforced (success criterion 5 v1); auto-linking (`GlossaryText`) wraps terms in labels/BOM/supuestos |
+| Beginner-readable provenance (chips + supuestos) | ✅ shipped | 2026-08-17 · citation chips lead with the plain-Spanish reason («ajuste por agrupamiento»), full NEC cite on tap; correction/adjustment tables cited only when their factor ≠ 1; assumption prose rewritten plain with structured `citations` chips |
+| Glossary page (`/glosario`) | ✅ shipped | 2026-08-17 · searchable by término/sinónimo es-SV/inglés, NEC chips per entry; linked from sidebar |
 | Memoria de cálculo (PDF) | 🚧 in progress | 2026-08-16 · «Exportar PDF» print-stylesheet on the job flow; full memoria document later |
 
 ## Later ideas (build when needed)

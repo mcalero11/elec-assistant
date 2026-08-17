@@ -202,7 +202,9 @@ export function runTemplate(template: JobTemplate, run: TemplateRunInput): Templ
       }
       ctx.answers[q.id] = provided
     } else {
-      ctx.answers[q.id] = provided ?? q.default
+      // Defaults may be ValueSpecs referencing EARLIER answers (declaration order),
+      // e.g. an ambient-temperature default that depends on the location answer.
+      ctx.answers[q.id] = provided ?? resolveDeep(q.default, ctx)
     }
   }
 

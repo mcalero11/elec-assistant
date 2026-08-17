@@ -29,6 +29,7 @@ import {
 } from '@/components/ui/select'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { Disclaimer } from '@/components/disclaimer'
+import { GlossaryText } from '@/components/glossary-text'
 import { Term } from '@/components/term'
 import { AssumptionsPanel } from '@/components/calculators/assumptions-panel'
 import { InputSlider } from '@/components/calculators/input-slider'
@@ -57,6 +58,9 @@ export function JobRunner() {
   const [mocp, setMocp] = useQueryState('mocp', parseAsFloat.withDefault(15))
   const [lengthM, setLengthM] = useQueryState('l', parseAsFloat.withDefault(10))
   const [location, setLocation] = useQueryState('loc', parseAsStringLiteral(LOCATIONS).withDefault('exterior'))
+  // No .withDefault: while untouched, the ambient follows the location choice
+  // (mirrors the template's declarative default — 40°C outdoors, 35°C indoors).
+  const [amb, setAmb] = useQueryState('amb', parseAsFloat)
   const [panelSlots, setPanelSlots] = useQueryState('p', parseAsStringLiteral(PANEL).withDefault('2polos'))
   const [conduitType, setConduitType] = useQueryState('cd', parseAsStringLiteral(CONDUITS).withDefault('emt'))
   const [bends, setBends] = useQueryState('bd', parseAsStringLiteral(BENDS).withDefault('curvas'))
@@ -72,10 +76,12 @@ export function JobRunner() {
     ? { id: preset.id, mcaA: preset.typicalMcaA, mocpA: preset.typicalMocpA }
     : { mcaA: mca, mocpA: mocp }
 
+  const ambientC = amb ?? (location === 'exterior' ? 40 : 35)
+
   const computation: Computation = useMemo(() => {
     try {
       const result = runTemplate(template, {
-        answers: { device, runLengthM: lengthM, location, panelSlots },
+        answers: { device, runLengthM: lengthM, location, ambientC, panelSlots },
         options: { conduitType, bends, bendCount, wastagePercent: wastage },
       })
       return { ok: true, result }
@@ -84,7 +90,7 @@ export function JobRunner() {
       throw e
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [device.mcaA, device.mocpA, lengthM, location, panelSlots, conduitType, bends, bendCount, wastage])
+  }, [device.mcaA, device.mocpA, lengthM, location, ambientC, panelSlots, conduitType, bends, bendCount, wastage])
 
   const summary = useMemo(
     () => (computation.ok ? priceBom(computation.result.bom, retailer, overrides, today) : null),
@@ -124,7 +130,7 @@ export function JobRunner() {
                 <SelectContent>
                   {acPresets.map((p) => (
                     <SelectItem key={p.id} value={p.id}>
-                      {p.label.es} — MCA {p.typicalMcaA} A
+                      {p.label.es} — corriente mínima (MCA) {p.typicalMcaA} A
                     </SelectItem>
                   ))}
                   <SelectItem value="manual">{m.jobs.manualEntry}</SelectItem>
@@ -195,6 +201,20 @@ export function JobRunner() {
                   : null}
               </ToggleGroup>
             </div>
+
+            <InputSlider
+              label={
+                <Term id="temperaturaAmbiente" icon>
+                  {questionDef('ambientC')?.label.es ?? ''}
+                </Term>
+              }
+              value={ambientC}
+              onChange={setAmb}
+              min={25}
+              max={50}
+              step={1}
+              unit="°C"
+            />
 
             <div className="space-y-1.5">
               <Label className="text-xs">{panelDef?.label.es}</Label>
@@ -341,7 +361,7 @@ export function JobRunner() {
               {computation.result.parameters.map((p) => (
                 <ResultLine
                   key={p.id}
-                  label={p.label.es}
+                  label={<GlossaryText text={p.label.es} />}
                   value={
                     p.id === 'drop'
                       ? fmtPercent(p.value as number)

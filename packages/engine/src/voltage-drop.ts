@@ -8,8 +8,9 @@ import { EngineError, type Assumption, type WithProvenance } from './types.js'
 
 const ASSUME_DC_RESISTANCE: Assumption = {
   key: 'dc-resistance-pf1',
-  en: 'Voltage drop uses DC resistance (Ch. 9 Table 8, 75°C) with power factor 1.0; AC impedance (Ch. 9 Table 9) is a refinement for large sizes/long runs.',
-  es: 'La caída de tensión usa resistencia DC (Cap. 9 Tabla 8, 75°C) con factor de potencia 1.0; la impedancia AC (Cap. 9 Tabla 9) es un refinamiento para calibres grandes/tramos largos.',
+  en: 'Voltage drop was calculated with the wire’s DC resistance (sufficient for residential sizes); on very thick wires or very long runs the real value can differ a bit.',
+  es: 'La caída de tensión se calculó con la resistencia del alambre en corriente directa (suficiente para calibres residenciales); en calibres muy gruesos o tramos muy largos el valor real puede variar un poco.',
+  citations: ['nec2026.ch9_t8'],
 }
 
 export interface VoltageDropInput {

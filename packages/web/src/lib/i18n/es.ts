@@ -30,6 +30,7 @@ export const es = {
     tuberia: 'Relleno de tubería',
     tierra: 'Puesta a tierra',
     buscarTrabajo: 'Buscar trabajo',
+    glosario: 'Glosario',
     abrirMenu: 'Abrir menú',
     temaClaro: 'Cambiar a tema claro',
     temaOscuro: 'Cambiar a tema oscuro',
@@ -170,6 +171,16 @@ export const es = {
     unitMeter: 'm',
     unitStick: 'tramo 10 pies',
     metersComputed: 'calculado',
+  },
+  glosario: {
+    title: 'Glosario',
+    subtitle:
+      'Los términos del oficio en lenguaje llano: qué significan, cómo les dicen en El Salvador y qué artículo del NEC los respalda.',
+    searchPlaceholder: 'Buscar término, sinónimo o nombre en inglés…',
+    resultCount: 'términos',
+    noResults: 'Sin resultados — pruebe con otro nombre o con el sinónimo local.',
+    also: 'También',
+    inEnglish: 'en inglés',
   },
 } as const satisfies Record<string, Record<string, string>>
 

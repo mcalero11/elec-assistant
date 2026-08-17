@@ -29,6 +29,7 @@ export const en = {
     tuberia: 'Conduit fill',
     tierra: 'Grounding',
     buscarTrabajo: 'Find a job',
+    glosario: 'Glossary',
     abrirMenu: 'Open menu',
     temaClaro: 'Switch to light theme',
     temaOscuro: 'Switch to dark theme',
@@ -168,5 +169,15 @@ export const en = {
     unitMeter: 'm',
     unitStick: '10-ft stick',
     metersComputed: 'computed',
+  },
+  glosario: {
+    title: 'Glossary',
+    subtitle:
+      'The trade’s terms in plain language: what they mean, what they’re called in El Salvador, and the NEC article behind them.',
+    searchPlaceholder: 'Search by term, synonym, or English name…',
+    resultCount: 'terms',
+    noResults: 'No results — try another name or the local synonym.',
+    also: 'Also',
+    inEnglish: 'in English',
   },
 } satisfies Messages
