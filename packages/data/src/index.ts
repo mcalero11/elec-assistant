@@ -145,6 +145,7 @@ export const egcTable: EgcTable = {
 /* ------------------------- catalog / templates / prices ------------------------- */
 
 export * from './catalog/types.js'
+export { glossary, type GlossaryEntry, type GlossaryId } from './glossary.js'
 export { catalogItems, type CatalogItemId } from './catalog/items.js'
 export { acPresets, type AcPresetId } from './catalog/ac-presets.js'
 export { acMinisplitTemplate } from './templates/ac-minisplit.js'

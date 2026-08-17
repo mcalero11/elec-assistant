@@ -27,7 +27,7 @@ Scope and acceptance criteria for each feature live in [PRD.md](./PRD.md).
 | NEC Ch. 9 Tables 1/4/5 + Table 250.122 | ✅ shipped | 2026-08-16 · cross-verified vs two independent sources each; verification caught + fixed a THW 14–8 AWG row-group error |
 | Bilingual citation labels (en/es) | ✅ shipped | 2026-08-15 |
 | Device catalog (wattages, synonyms, photos) | 🚧 in progress | 2026-08-16 · AC nameplate presets (5, MCA/MOCP) seeded; wattages/photos for the load calc later |
-| Glossary / regional terminology DB | 📋 planned | the moat |
+| Glossary / regional terminology DB | 🚧 in progress | 2026-08-17 · 36 entries in data (definición + sinónimos es-SV + inglés + artículos NEC), CI coverage lint; photos + growth toward ~100 terms pending — the moat |
 | Job templates (5 seed jobs) | 🚧 in progress | 2026-08-16 · 1/5 shipped: aire mini-split — declarative schema + engine interpreter (`runTemplate`), 3 hand-verified BOM fixtures |
 | Price catalog (per-retailer, updatedAt-stamped) | 🚧 in progress | 2026-08-16 · 30 Vidrí prices via reproducible run (PRICES.md); Freund/EPA opt out of AI access → manual entry pending; 4 documented gaps |
 
@@ -39,7 +39,7 @@ Scope and acceptance criteria for each feature live in [PRD.md](./PRD.md).
 | Mission-control panel (app shell + dashboard) | ✅ shipped | 2026-08-17 · sidebar nav + breadcrumb + dark-default theme toggle (print stays light); home = status strip (real package data), module launchers, quick-launch chips; blue/amber technical palette, Geist Mono numerals, WCAG AA both themes |
 | Interactive calculators (live inputs, URL state) | 🚧 in progress | 2026-08-17 · 3/5 live: calibre (sliders, gráfico, «fijar calibre»), relleno de tubería (mín/verificar, niple, Nota 7), tierra (T250.122 + 250.122(B)); box fill + load calc pending |
 | Job flows → configurable priced BOM | ✅ shipped | 2026-08-16 · headline: «aire» → 4 preguntas → parámetros citados + BOM con precios; toggles EMT/PVC/poliducto y curvas/dobladora re-cotizan en vivo; overrides, staleness badges, canasta más barata |
-| Tooltips backed by glossary | 🚧 in progress | 2026-08-16 · seed mini-glossary (12 términos) in web; full DB (the moat) later |
+| Tooltips backed by glossary | ✅ shipped | 2026-08-17 · Term ids compile-time checked against the data glossary; tooltips show definición, sinónimos, inglés y artículos NEC; coverage CI-enforced (success criterion 5 v1) |
 | Memoria de cálculo (PDF) | 🚧 in progress | 2026-08-16 · «Exportar PDF» print-stylesheet on the job flow; full memoria document later |
 
 ## Later ideas (build when needed)

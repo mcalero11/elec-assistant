@@ -1,15 +1,17 @@
 'use client'
 
-import { GLOSSARY } from '@/lib/glossary'
+import { glossary, type GlossaryEntry, type GlossaryId } from '@elec-assistant/data'
+import { CitationChips } from '@/components/calculators/citation-chips'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
 /**
  * Wraps a technical term with a glossary tooltip: plain-Spanish definition,
- * regional synonyms, and the English name. PRD: «never blocked by a name».
+ * regional synonyms, English name, and related NEC articles. PRD: «never
+ * blocked by a name». `id` is compile-time checked against the data glossary.
  */
-export function Term({ id, children }: { id: keyof typeof GLOSSARY; children: React.ReactNode }) {
-  const entry = GLOSSARY[id]
-  if (!entry) return <>{children}</>
+export function Term({ id, children }: { id: GlossaryId; children: React.ReactNode }) {
+  // Widen from the per-entry literal type so optional fields are accessible.
+  const entry: GlossaryEntry = glossary[id]
   return (
     <Tooltip>
       <TooltipTrigger asChild>
@@ -23,6 +25,11 @@ export function Term({ id, children }: { id: keyof typeof GLOSSARY; children: Re
         <p className="mt-1 text-xs opacity-80">
           También: {entry.synonyms.join(', ')} · en inglés: {entry.en}
         </p>
+        {entry.necArticles ? (
+          <span className="mt-1.5 block">
+            <CitationChips keys={entry.necArticles} />
+          </span>
+        ) : null}
       </TooltipContent>
     </Tooltip>
   )
