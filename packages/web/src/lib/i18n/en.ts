@@ -18,6 +18,18 @@ export const en = {
     volts: 'V',
     percent: '%',
   },
+  nav: {
+    panel: 'Panel',
+    calculadoras: 'Calculators',
+    trabajos: 'Jobs',
+    calibre: 'Conductor sizing',
+    tuberia: 'Conduit fill',
+    tierra: 'Grounding',
+    buscarTrabajo: 'Find a job',
+    abrirMenu: 'Open menu',
+    temaClaro: 'Switch to light theme',
+    temaOscuro: 'Switch to dark theme',
+  },
   home: {
     tagline: 'NEC calculators in Spanish, built for real work.',
     calculators: 'Calculators',

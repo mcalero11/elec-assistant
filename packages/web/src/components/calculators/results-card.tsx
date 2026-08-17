@@ -24,7 +24,7 @@ export function ResultLine({
       <div className="flex items-baseline justify-between gap-3">
         <span className="text-sm text-muted-foreground">{label}</span>
         <span
-          className={`text-right text-base font-semibold tabular-nums ${
+          className={`text-right font-mono text-base font-semibold tabular-nums ${
             tone === 'destructive' ? 'text-destructive' : ''
           }`}
         >

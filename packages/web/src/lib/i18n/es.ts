@@ -19,6 +19,18 @@ export const es = {
     volts: 'V',
     percent: '%',
   },
+  nav: {
+    panel: 'Panel',
+    calculadoras: 'Calculadoras',
+    trabajos: 'Trabajos',
+    calibre: 'Calibre de conductor',
+    tuberia: 'Relleno de tubería',
+    tierra: 'Puesta a tierra',
+    buscarTrabajo: 'Buscar trabajo',
+    abrirMenu: 'Abrir menú',
+    temaClaro: 'Cambiar a tema claro',
+    temaOscuro: 'Cambiar a tema oscuro',
+  },
   home: {
     tagline: 'Calculadoras NEC en español, hechas para el trabajo real.',
     calculators: 'Calculadoras',

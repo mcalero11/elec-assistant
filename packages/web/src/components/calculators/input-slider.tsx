@@ -38,7 +38,7 @@ export function InputSlider({
             id={id}
             type="number"
             inputMode="decimal"
-            className="h-8 w-20 text-right tabular-nums"
+            className="h-8 w-20 text-right font-mono tabular-nums"
             value={Number.isInteger(value) ? value : Number(value.toFixed(1))}
             min={min}
             max={max}
