@@ -24,12 +24,8 @@ import {
 } from '@elec-assistant/engine'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import {
-  CONDUCTOR_SIZES,
-  citationLabel,
-  conductorAreas,
-  type ConductorSize,
-} from '@elec-assistant/data'
+import { CONDUCTOR_SIZES, citationLabel, type ConductorSize } from '@elec-assistant/data'
+import { CONDUIT_FILL_INSULATIONS } from '@elec-assistant/engine'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
@@ -353,7 +349,7 @@ export function CalibreCalculator() {
         ) : null}
 
         {/* PRD US-3 chaining: hand the sized conductors to the conduit-fill calculator. */}
-        {computation.kind === 'auto' && insulation in conductorAreas.areas ? (
+        {computation.kind === 'auto' && CONDUIT_FILL_INSULATIONS.includes(insulation) ? (
           <div className="space-y-1">
             <Button asChild variant="outline" size="sm">
               <Link

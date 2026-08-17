@@ -359,6 +359,16 @@ export const glossary = {
       en: 'Typical residential service: two 120 V legs that combine to 240 V for large loads like A/C.',
     },
   },
+  cablePv: {
+    es: 'cable fotovoltaico (PV)',
+    en: 'PV wire (UL 4703)',
+    synonyms: ['cable solar', 'PV wire', 'cable para paneles'],
+    definition: {
+      es: 'Cable para paneles solares: resistente al sol y a la intemperie, aislamiento XLPE de 90 °C en mojado; su relleno de tubería se calcula con las dimensiones del fabricante.',
+      en: 'Solar-panel wire: sunlight- and weather-resistant, 90 °C wet XLPE insulation; conduit fill uses the manufacturer’s actual dimensions.',
+    },
+    necArticles: ['nec2026.ch9_note5'],
+  },
   desperdicio: {
     es: 'desperdicio',
     en: 'wastage allowance',
@@ -367,6 +377,35 @@ export const glossary = {
       es: 'Porcentaje extra de material que se compra para cubrir cortes, puntas y errores (típico 10%).',
       en: 'Extra material bought to cover cuts, tails, and mistakes (typically 10%).',
     },
+  },
+  kcmil: {
+    es: 'kcmil',
+    en: 'kcmil (thousand circular mils)',
+    synonyms: ['MCM', 'circular mils'],
+    definition: {
+      es: 'Unidad para calibres más gruesos que el 4/0 AWG: mil «circular mils» de área. Aparece en tramos largos o cargas grandes.',
+      en: 'Unit for sizes above 4/0 AWG: one thousand circular mils of area. Shows up on long runs or big loads.',
+    },
+    necArticles: ['nec2026.t310_16'],
+  },
+  btu: {
+    es: 'BTU',
+    en: 'BTU (British thermal unit)',
+    synonyms: ['BTU/h', 'capacidad de enfriamiento'],
+    definition: {
+      es: 'Capacidad de enfriamiento del aire acondicionado; 12,000 BTU ≈ 1 tonelada. A más BTU, más corriente pide el equipo.',
+      en: 'Cooling capacity of the A/C; 12,000 BTU ≈ 1 ton. More BTU means the unit draws more current.',
+    },
+  },
+  thwn2: {
+    es: 'THWN-2',
+    en: 'THWN-2 insulation',
+    synonyms: ['tipo -2', 'apto para mojado'],
+    definition: {
+      es: 'Forro que aguanta 90 °C incluso mojado — el sufijo -2 (o la W) indica que sirve en intemperie; es el que se usa en recorridos exteriores.',
+      en: 'Jacket rated 90 °C even when wet — the -2 suffix (or the W) marks wet-location suitability; the pick for outdoor runs.',
+    },
+    necArticles: ['nec2026.t310_16'],
   },
 } as const satisfies Record<string, GlossaryEntry>
 

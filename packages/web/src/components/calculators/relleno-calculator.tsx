@@ -12,14 +12,13 @@ import {
   CONDUCTOR_SIZES,
   TRADE_SIZES,
   conduitDimensions,
-  conductorAreas,
   type ConductorSize,
   type ConduitType,
   type TradeSize,
 } from '@elec-assistant/data'
 import {
+  CONDUIT_FILL_INSULATIONS,
   EngineError,
-  INSULATION_TEMP_RATING,
   conduitFill,
   sizeConduit,
   type ConductorFillEntry,
@@ -48,10 +47,10 @@ import { CitationChips } from './citation-chips'
 import { FillGauge } from './fill-gauge'
 import { ResultLine, ResultsCard } from './results-card'
 
-/** Insulations with Chapter 9 Table 5 areas — UF/USE are cable types and excluded by the data itself. */
-const FILL_INSULATIONS = Object.keys(conductorAreas.areas).filter(
-  (key): key is Insulation => key in INSULATION_TEMP_RATING,
-)
+/** Table 5 building wire + PV wire (Note 5 actual dims); UF/USE excluded by the engine. */
+const FILL_INSULATIONS = CONDUIT_FILL_INSULATIONS
+
+const insulationLabel = (ins: Insulation): string => (ins === 'PV' ? 'PV (fotovoltaico)' : ins)
 
 const CONDUIT_KEYS = ['emt', 'pvc', 'lfnc'] as const
 type ConduitKey = (typeof CONDUIT_KEYS)[number]
@@ -244,7 +243,7 @@ export function RellenoCalculator() {
                   <SelectContent>
                     {FILL_INSULATIONS.map((ins) => (
                       <SelectItem key={ins} value={ins}>
-                        {ins}
+                        {insulationLabel(ins)}
                       </SelectItem>
                     ))}
                   </SelectContent>

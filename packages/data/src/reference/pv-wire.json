@@ -1,0 +1,13 @@
+{
+  "source": "Typical UL 4703 PV wire (copper, 2 kV XLPE, sunlight-resistant) — manufacturer actual dimensions per NEC Chapter 9, Notes to Tables, Note 5",
+  "note": "NOT an NEC table: PV wire has no Chapter 9 Table 5 row, and Note 5 requires actual dimensions for conductors not included in the tables. Areas are π/4 × nominal OD², taking the LARGER of two primary sources per size (conservative — fill is a shall-not-exceed limit): Southwire SPEC 45411 (CU 2000V XLPE RHH/RHW-2 PV) and Kris-Tech KTW-STD-00005 Rev. C (2 kV column). Both agree on insulation walls (75 mil for 14–10 AWG, 85 mil for 8–4). Cross-verified 2026-08-17 against those two sheets; a third (Prysmian SunGen SPEC 5851, thinner 60/75 mil walls) shows real cables vary up to ~29% in area at 10 AWG, so consumers MUST surface the typical-dimensions assumption and results near the fill limit deserve a spec-sheet check. Mainstream rating: 90°C wet and dry.",
+  "unit": "mm2",
+  "areas": {
+    "14": 25.43,
+    "12": 29.92,
+    "10": 36.94,
+    "8": 51.89,
+    "6": 62.09,
+    "4": 81.07
+  }
+}

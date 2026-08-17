@@ -21,6 +21,7 @@ export {
 export { standardBreaker, type BreakerInput, type BreakerResult } from './breaker.js'
 export { sizeCircuit, type CircuitInput, type CircuitResult } from './circuit.js'
 export {
+  CONDUIT_FILL_INSULATIONS,
   conduitFill,
   sizeConduit,
   type ConductorFillEntry,

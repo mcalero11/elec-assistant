@@ -3,11 +3,18 @@ import {
   conduitDimensions,
   conduitFillPercent,
   conductorAreas,
+  pvWire,
   type ConductorSize,
   type ConduitType,
   type TradeSize,
 } from '@elec-assistant/data'
-import { EngineError, type Assumption, type Insulation, type WithProvenance } from './types.js'
+import {
+  EngineError,
+  INSULATION_TEMP_RATING,
+  type Assumption,
+  type Insulation,
+  type WithProvenance,
+} from './types.js'
 
 /**
  * Conduit fill per NEC Chapter 9 (Tables 1, 4, 5).
@@ -43,6 +50,24 @@ const ASSUME_LFNC_B: Assumption = {
   en: 'Flexible conduit uses LFNC-B («poliducto») dimensions.',
   es: 'La tubería flexible usa dimensiones de LFNC-B («poliducto»).',
 }
+
+const ASSUME_PV_DIMS: Assumption = {
+  key: 'pv-wire-typical-dims',
+  en: 'PV wire is not in Chapter 9 Table 5, so fill uses typical manufacturer dimensions (UL 4703 2 kV, conservative across brands — real cables vary up to ~29% in area). Verify against YOUR cable’s spec sheet.',
+  es: 'El cable fotovoltaico no está en la Tabla 5 del Capítulo 9, así que el relleno usa dimensiones típicas de fabricante (UL 4703 2 kV, conservadoras entre marcas — los cables reales varían hasta ~29% en área). Verifique la ficha técnica de SU cable.',
+  citations: ['nec2026.ch9_note5'],
+}
+
+/**
+ * Insulations the fill calculator can size: the Table 5 building-wire types plus
+ * PV wire, which the NEC sizes by actual manufacturer dimensions (Ch. 9 Note 5).
+ */
+export const CONDUIT_FILL_INSULATIONS: readonly Insulation[] = [
+  ...(Object.keys(INSULATION_TEMP_RATING) as Insulation[]).filter(
+    (ins) => ins in conductorAreas.areas,
+  ),
+  'PV',
+]
 
 function minTradeSizeAssumption(size: TradeSize): Assumption {
   return {
@@ -86,6 +111,16 @@ export interface ConduitFillResult extends WithProvenance {
 }
 
 function conductorAreaMm2(entry: ConductorFillEntry): number {
+  if (entry.insulation === 'PV') {
+    const area = pvWire.areas[entry.size]
+    if (area == null || !(area > 0)) {
+      throw new EngineError(
+        `No typical PV-wire dimensions for size ${entry.size} — enter the actual area from the manufacturer sheet`,
+        `No hay dimensiones típicas de cable fotovoltaico para el calibre ${entry.size} — use el área real de la ficha del fabricante`,
+      )
+    }
+    return area
+  }
   const area = conductorAreas.areas[entry.insulation]?.[entry.size]
   if (area == null) {
     throw new EngineError(
@@ -174,11 +209,11 @@ export function conduitFill(input: ConduitFillInput): ConduitFillResult {
     }
   }
 
-  const citations: ConduitFillResult['citations'] = [
-    'nec2026.ch9_t1',
-    'nec2026.ch9_t4',
-    'nec2026.ch9_t5',
-  ]
+  const usesPv = input.conductors.some((c) => c.insulation === 'PV')
+  const usesTable5 = input.conductors.some((c) => c.insulation !== 'PV')
+  const citations: ConduitFillResult['citations'] = ['nec2026.ch9_t1', 'nec2026.ch9_t4']
+  if (usesTable5) citations.push('nec2026.ch9_t5')
+  if (usesPv) citations.push('nec2026.ch9_note5')
   if (nipple) citations.push('nec2026.ch9_note4')
   if (note7Applied) citations.push('nec2026.ch9_note7')
 
@@ -195,7 +230,9 @@ export function conduitFill(input: ConduitFillInput): ConduitFillResult {
     fits,
     note7Applied,
     citations,
-    assumptions: typeAssumptions(input.conduitType),
+    assumptions: usesPv
+      ? [...typeAssumptions(input.conduitType), ASSUME_PV_DIMS]
+      : typeAssumptions(input.conduitType),
   }
 }
 

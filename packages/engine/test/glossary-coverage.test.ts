@@ -23,12 +23,14 @@ const REQUIRED_TERMS: readonly string[] = [
   'monofasico', 'valorEstandar', 'proteccion',
   // conduit / fill
   'emt', 'pvcElectrico', 'poliducto', 'curva', 'dobladora', 'diametroComercial',
-  'rellenoTuberia', 'niple', 'tramo',
+  'rellenoTuberia', 'niple', 'tramo', 'cablePv',
   // catalog / BOM vocabulary
   'conector', 'union', 'adaptadorTerminal', 'pegamentoPvc', 'abrazadera', 'whip',
   'nema3r', 'desconectador', 'tierra', 'desperdicio',
   // nameplate / job flow
-  'mca', 'mocp',
+  'mca', 'mocp', 'btu',
+  // wire vocabulary the results/BOM render
+  'kcmil', 'thwn2',
 ]
 
 const webSrc = fileURLToPath(new URL('../../web/src/', import.meta.url))

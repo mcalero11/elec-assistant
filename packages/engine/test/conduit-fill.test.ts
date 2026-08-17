@@ -104,6 +104,69 @@ describe('conduitFill (golden)', () => {
   })
 })
 
+describe('PV wire fill (Ch. 9 Note 5 actual dimensions)', () => {
+  // Areas from packages/data/src/reference/pv-wire.json (larger-of-two-manufacturers):
+  // #12 = 29.92 mm², #10 = 36.94 mm². Hand math documented per case.
+  it('2× 10 PV, EMT: 73.88 > 61 (1/2 @31%) → 3/4 (106); 73.88/343 = 21.54%', () => {
+    const result = sizeConduit({
+      conduitType: 'EMT',
+      conductors: [{ size: '10', insulation: 'PV', count: 2 }],
+    })
+    expect(result.tradeSize).toBe('3/4')
+    expect(result.fillPercentLimit).toBe(31)
+    expect(result.fillPercentActual).toBeCloseTo(21.5394, 4)
+    expect(result.citations).toContain('nec2026.ch9_note5')
+    expect(result.citations).not.toContain('nec2026.ch9_t5')
+    expect(result.assumptions.some((a) => a.key === 'pv-wire-typical-dims')).toBe(true)
+  })
+
+  it('mixed string + EGC: 2× 10 PV + 1× 10 THWN-2 = 87.49 → 3/4 EMT @40%; cites Table 5 AND Note 5', () => {
+    const result = sizeConduit({
+      conduitType: 'EMT',
+      conductors: [
+        { size: '10', insulation: 'PV', count: 2 },
+        { size: '10', insulation: 'THWN-2', count: 1 },
+      ],
+    })
+    expect(result.tradeSize).toBe('3/4')
+    expect(result.fillPercentLimit).toBe(40)
+    expect(result.fillPercentActual).toBeCloseTo(25.5073, 4)
+    expect(result.citations).toContain('nec2026.ch9_t5')
+    expect(result.citations).toContain('nec2026.ch9_note5')
+    expect(result.assumptions.some((a) => a.key === 'pv-wire-typical-dims')).toBe(true)
+  })
+
+  it('verify mode: 4× 12 PV in 3/4 EMT: 119.68 ≤ 137 → fits at 34.89%', () => {
+    const result = conduitFill({
+      conduitType: 'EMT',
+      tradeSize: '3/4',
+      conductors: [{ size: '12', insulation: 'PV', count: 4 }],
+    })
+    expect(result.fits).toBe(true)
+    expect(result.fillPercentActual).toBeCloseTo(34.8921, 4)
+  })
+
+  it('rejects PV sizes without typical dimensions (e.g. #2)', () => {
+    expect(() =>
+      conduitFill({
+        conduitType: 'EMT',
+        tradeSize: '2',
+        conductors: [{ size: '2', insulation: 'PV', count: 2 }],
+      }),
+    ).toThrow(EngineError)
+  })
+
+  it('non-PV results do not carry the PV assumption or Note 5', () => {
+    const result = conduitFill({
+      conduitType: 'EMT',
+      tradeSize: '1/2',
+      conductors: [{ size: '10', insulation: 'THHN', count: 3 }],
+    })
+    expect(result.citations).not.toContain('nec2026.ch9_note5')
+    expect(result.assumptions.some((a) => a.key === 'pv-wire-typical-dims')).toBe(false)
+  })
+})
+
 describe('sizeConduit (golden)', () => {
   for (const c of goldenSize.cases) {
     it(c.name, () => {

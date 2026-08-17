@@ -51,6 +51,10 @@
     "en": "NEC 2026, Chapter 9, Notes to Tables, Note 4 — nipples ≤ 600 mm may be filled to 60%",
     "es": "NEC 2026, Capítulo 9, Notas a las Tablas, Nota 4 — niples ≤ 600 mm pueden llenarse al 60%"
   },
+  "nec2026.ch9_note5": {
+    "en": "NEC 2026, Chapter 9, Notes to Tables, Note 5 — actual dimensions used for conductors not included in the tables",
+    "es": "NEC 2026, Capítulo 9, Notas a las Tablas, Nota 5 — se usan las dimensiones reales para conductores no incluidos en las tablas"
+  },
   "nec2026.ch9_note7": {
     "en": "NEC 2026, Chapter 9, Notes to Tables, Note 7 — next whole conductor permitted where the decimal is ≥ 0.8",
     "es": "NEC 2026, Capítulo 9, Notas a las Tablas, Nota 7 — se permite el siguiente conductor entero cuando el decimal es ≥ 0.8"

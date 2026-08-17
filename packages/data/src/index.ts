@@ -7,6 +7,7 @@ import conduitFillPercentJson from './nec-2026/chapter9-table1.json'
 import conduitDimensionsJson from './nec-2026/chapter9-table4.json'
 import conductorAreasJson from './nec-2026/chapter9-table5.json'
 import egcJson from './nec-2026/table-250-122.json'
+import pvWireJson from './reference/pv-wire.json'
 import pricesJson from './catalog/prices.json'
 import citationsJson from './citations.json'
 import { RETAILERS, type PriceEntry, type Retailer } from './catalog/types.js'
@@ -117,6 +118,18 @@ export interface EgcTable {
   rows: Array<{ maxOcpdA: number; copper: ConductorSize; aluminum: ConductorSize }>
 }
 
+/**
+ * NOT an NEC table: typical manufacturer dimensions for conductors the NEC sizes
+ * by actual dimensions (Chapter 9, Notes to Tables — e.g. UL 4703 PV wire).
+ * Consumers must surface the typical-dimensions assumption.
+ */
+export interface ManufacturerAreaTable {
+  source: string
+  note: string
+  unit: string
+  areas: Partial<Record<ConductorSize, number>>
+}
+
 export const table31016: AmpacityTable = table31016Json
 export const ambientCorrection: AmbientCorrectionTable = ambientCorrectionJson
 export const cccAdjustment: CccAdjustmentTable = cccAdjustmentJson
@@ -125,6 +138,7 @@ export const standardBreakers: StandardBreakerTable = standardBreakersJson
 export const conduitFillPercent: ConduitFillPercentTable = conduitFillPercentJson
 export const conduitDimensions: ConduitDimensionsTable = conduitDimensionsJson
 export const conductorAreas: ConductorAreaTable = conductorAreasJson
+export const pvWire: ManufacturerAreaTable = pvWireJson
 
 /** JSON widens the size strings to `string`; validate them against CONDUCTOR_SIZES at load. */
 function asConductorSize(value: string): ConductorSize {
