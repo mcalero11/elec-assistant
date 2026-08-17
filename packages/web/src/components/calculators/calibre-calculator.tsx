@@ -22,7 +22,15 @@ import {
   type Insulation,
   type VoltageDropResult,
 } from '@elec-assistant/engine'
-import { CONDUCTOR_SIZES, citationLabel, type ConductorSize } from '@elec-assistant/data'
+import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
+import {
+  CONDUCTOR_SIZES,
+  citationLabel,
+  conductorAreas,
+  type ConductorSize,
+} from '@elec-assistant/data'
+import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -342,6 +350,22 @@ export function CalibreCalculator() {
               />
             </CardContent>
           </Card>
+        ) : null}
+
+        {/* PRD US-3 chaining: hand the sized conductors to the conduit-fill calculator. */}
+        {computation.kind === 'auto' && insulation in conductorAreas.areas ? (
+          <div className="space-y-1">
+            <Button asChild variant="outline" size="sm">
+              <Link
+                href={`/calculadoras/tuberia/?c=${encodeURIComponent(
+                  `${cccCount}x${computation.circuit.conductor.size}.${insulation}`,
+                )}&tipo=emt&modo=min`}
+              >
+                {m.calibre.chainButton} <ArrowRight className="size-3.5" />
+              </Link>
+            </Button>
+            <p className="text-xs text-muted-foreground">{m.calibre.chainHint}</p>
+          </div>
         ) : null}
 
         {computation.kind === 'auto' ? (
