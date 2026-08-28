@@ -10,13 +10,16 @@ export function FillGauge({
   fillPercentActual,
   fillPercentLimit,
   fits,
+  labels: labelsProp,
 }: {
   fillPercentActual: number
   fillPercentLimit: number
   fits: boolean
+  /** Caption + limit-line labels. Defaults to the conduit-fill strings. */
+  labels?: { title: string; limit: string }
 }) {
   const m = getMessages()
-  const labels = { title: m.relleno.fillActual, limit: m.relleno.fillLimit }
+  const labels = labelsProp ?? { title: m.relleno.fillActual, limit: m.relleno.fillLimit }
   const maxScale = Math.max(fillPercentLimit * 1.5, fillPercentActual * 1.1, 60)
   const w = 320
   const h = 56

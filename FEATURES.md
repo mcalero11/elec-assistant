@@ -14,7 +14,7 @@ Scope and acceptance criteria for each feature live in [PRD.md](./PRD.md).
 | Standard breaker sizing (240.4, 240.6) | ✅ shipped | 2026-08-15 · incl. next-size-up + small-conductor caps |
 | Circuit composer (load → conductor → breaker) | ✅ shipped | 2026-08-15 · `sizeCircuit`, mini-split scenario verified |
 | Conduit fill (Ch. 9) | ✅ shipped | 2026-08-16 · golden + property tests; EMT / PVC Sch 40 / LFNC-B, nipple 60%, Note 7; bare EGC later (needs T8 area column) |
-| Box fill (314.16) | 📋 planned | |
+| Box fill (314.16) | ✅ shipped | 2026-08-28 · golden + property tests; check + size modes, (B)(1)–(B)(5) incl. EGC quarter rule; Tables 314.16(A)/(B)(1) cross-verified vs two NFPA-licensed reprints |
 | Residential load calc (Art. 220) | 📋 planned | |
 | Grounding (250.66, 250.122) | 🚧 in progress | 2026-08-17 · `egcSize` + 250.122(B)/(D) proportional upsizing shipped (cmil-exact, capped per (A), Table 8 cmil column cross-verified); 250.66 GEC later |
 | Solar sizing (Art. 690 + panels/inverter/battery) | 📋 planned | |
@@ -37,7 +37,7 @@ Scope and acceptance criteria for each feature live in [PRD.md](./PRD.md).
 |---|---|---|
 | Next.js PWA shell (Spanish-first, offline) | ✅ shipped | 2026-08-17 · installable offline PWA: content-hashed precache service worker (all routes + assets), manifest + maskable icons, query-string-aware navigation fallback — success criterion 4 |
 | Mission-control panel (app shell + dashboard) | ✅ shipped | 2026-08-17 · sidebar nav + breadcrumb + dark-default theme toggle (print stays light); home = status strip (real package data), module launchers, quick-launch chips; blue/amber technical palette, Geist Mono numerals, WCAG AA both themes |
-| Interactive calculators (live inputs, URL state) | 🚧 in progress | 2026-08-17 · 3/5 live: calibre (sliders, gráfico, «fijar calibre»), relleno de tubería (mín/verificar, niple, Nota 7), tierra (T250.122 + 250.122(B)); box fill + load calc pending |
+| Interactive calculators (live inputs, URL state) | 🚧 in progress | 2026-08-28 · 4/5 live: calibre (sliders, gráfico, «fijar calibre»), relleno de tubería (mín/verificar, niple, Nota 7), tierra (T250.122 + 250.122(B)), cajas (mín/verificar, desglose por categoría, encadenado desde calibre); load calc pending |
 | Job flows → configurable priced BOM | ✅ shipped | 2026-08-16 · headline: «aire» → 4 preguntas → parámetros citados + BOM con precios; toggles EMT/PVC/poliducto y curvas/dobladora re-cotizan en vivo; overrides, staleness badges, canasta más barata |
 | Tooltips backed by glossary | ✅ shipped | 2026-08-17 · Term ids compile-time checked against the data glossary; popovers (tap-friendly on mobile) show definición, sinónimos, inglés y artículos NEC; coverage CI-enforced (success criterion 5 v1); auto-linking (`GlossaryText`) wraps terms in labels/BOM/supuestos |
 | Beginner-readable provenance (chips + supuestos) | ✅ shipped | 2026-08-17 · citation chips lead with the plain-Spanish reason («ajuste por agrupamiento»), full NEC cite on tap; correction/adjustment tables cited only when their factor ≠ 1; assumption prose rewritten plain with structured `citations` chips |

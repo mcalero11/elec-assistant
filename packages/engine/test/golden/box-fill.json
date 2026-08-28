@@ -1,0 +1,109 @@
+{
+  "note": "Hand-verified 314.16 box-fill checks. Every expected value computed by hand from Table 314.16(B)(1) allowances (cm³: 18→24.6, 16→28.7, 14→32.8, 12→36.9, 10→41.0, 8→49.2, 6→81.9) and Table 314.16(A) volumes; the arithmetic is documented in each case name. Rules exercised: (B)(1) conductor fill, (B)(2) clamp single allowance at the largest conductor in the box, (B)(3) allowance per support-fitting type, (B)(4) double allowance per yoke at the yoke's largest conductor, (B)(5) single allowance for up to 4 EGCs at the largest EGC entering + ¼ allowance per EGC beyond four.",
+  "cases": [
+    {
+      "name": "6× #12 en cuadrada 100×54 (497 cm³): 6 × 36.9 = 221.4 ≤ 497 → cabe; 221.4/497 = 44.55%",
+      "input": { "boxId": "sq-100x54", "conductors": [{ "size": "12", "count": 6 }] },
+      "expected": {
+        "boxId": "sq-100x54", "boxVolumeCm3": 497, "requiredVolumeCm3": 221.4, "fits": true,
+        "fillPercent": 44.5473, "egcAllowances": 0, "egcQuarterRuleApplied": false,
+        "largestConductor": "12", "countedConductors": 6, "deviceAllowances": 0,
+        "breakdown": { "conductorsCm3": 221.4, "clampsCm3": 0, "supportFittingsCm3": 0, "devicesCm3": 0, "egcCm3": 0 },
+        "assumptionKeys": ["box-fill-counting", "box-no-barriers"],
+        "absentAssumptionKeys": ["box-standard-width-devices", "box-marked-volume"]
+      }
+    },
+    {
+      "name": "Tomacorriente en octagonal 100×38 (254): 4× #14 + prensacables + 1 yugo #14 + 2 EGC #14 = (4+1+2+1) × 32.8 = 262.4 > 254 → NO cabe",
+      "input": {
+        "boxId": "oct-100x38", "conductors": [{ "size": "14", "count": 4 }],
+        "internalClamps": true, "deviceYokes": [{ "count": 1, "largestConductor": "14" }],
+        "egcCount": 2, "largestEgc": "14"
+      },
+      "expected": {
+        "boxId": "oct-100x38", "boxVolumeCm3": 254, "requiredVolumeCm3": 262.4, "fits": false,
+        "fillPercent": 103.3071, "egcAllowances": 1, "egcQuarterRuleApplied": false,
+        "largestConductor": "14", "countedConductors": 4, "deviceAllowances": 2,
+        "breakdown": { "conductorsCm3": 131.2, "clampsCm3": 32.8, "supportFittingsCm3": 0, "devicesCm3": 65.6, "egcCm3": 32.8 },
+        "assumptionKeys": ["box-fill-counting", "box-no-barriers", "box-standard-width-devices"],
+        "absentAssumptionKeys": ["box-marked-volume"]
+      }
+    },
+    {
+      "name": "Calibres mezclados en cuadrada 100×38 (344): 2× #12 + 2× #14 + prensacables (base #12) + yugo #12 = 73.8 + 65.6 + 36.9 + 73.8 = 250.1 → cabe",
+      "input": {
+        "boxId": "sq-100x38",
+        "conductors": [{ "size": "12", "count": 2 }, { "size": "14", "count": 2 }],
+        "internalClamps": true, "deviceYokes": [{ "count": 1, "largestConductor": "12" }]
+      },
+      "expected": {
+        "boxId": "sq-100x38", "boxVolumeCm3": 344, "requiredVolumeCm3": 250.1, "fits": true,
+        "fillPercent": 72.7035, "egcAllowances": 0, "egcQuarterRuleApplied": false,
+        "largestConductor": "12", "countedConductors": 4, "deviceAllowances": 2,
+        "breakdown": { "conductorsCm3": 139.4, "clampsCm3": 36.9, "supportFittingsCm3": 0, "devicesCm3": 73.8, "egcCm3": 0 },
+        "assumptionKeys": ["box-fill-counting", "box-no-barriers", "box-standard-width-devices"],
+        "absentAssumptionKeys": ["box-marked-volume"]
+      }
+    },
+    {
+      "name": "Frontera EGC (volumen marcado 200): 2× #12 + 4 EGC #12 → un solo volumen para las 4 tierras: 73.8 + 1×36.9 = 110.7",
+      "input": { "volumeCm3": 200, "conductors": [{ "size": "12", "count": 2 }], "egcCount": 4, "largestEgc": "12" },
+      "expected": {
+        "boxId": null, "boxVolumeCm3": 200, "requiredVolumeCm3": 110.7, "fits": true,
+        "fillPercent": 55.35, "egcAllowances": 1, "egcQuarterRuleApplied": false,
+        "largestConductor": "12", "countedConductors": 2, "deviceAllowances": 0,
+        "breakdown": { "conductorsCm3": 73.8, "clampsCm3": 0, "supportFittingsCm3": 0, "devicesCm3": 0, "egcCm3": 36.9 },
+        "assumptionKeys": ["box-fill-counting", "box-no-barriers", "box-marked-volume"],
+        "absentAssumptionKeys": ["box-standard-width-devices"]
+      }
+    },
+    {
+      "name": "Regla del cuarto (marcado 200): 2× #12 + 6 EGC #12 → (1 + 0.25×2) = 1.5 volúmenes: 73.8 + 1.5×36.9 = 73.8 + 55.35 = 129.15",
+      "input": { "volumeCm3": 200, "conductors": [{ "size": "12", "count": 2 }], "egcCount": 6, "largestEgc": "12" },
+      "expected": {
+        "boxId": null, "boxVolumeCm3": 200, "requiredVolumeCm3": 129.15, "fits": true,
+        "fillPercent": 64.575, "egcAllowances": 1.5, "egcQuarterRuleApplied": true,
+        "largestConductor": "12", "countedConductors": 2, "deviceAllowances": 0,
+        "breakdown": { "conductorsCm3": 73.8, "clampsCm3": 0, "supportFittingsCm3": 0, "devicesCm3": 0, "egcCm3": 55.35 },
+        "assumptionKeys": ["box-fill-counting", "box-no-barriers", "box-marked-volume"],
+        "absentAssumptionKeys": ["box-standard-width-devices"]
+      }
+    },
+    {
+      "name": "Espárrago + hickey, frontera exacta (marcado 164): 3× #14 + 2 tipos de soporte = 3×32.8 + 2×32.8 = 164.0 = 164 → cabe justo (100%)",
+      "input": { "volumeCm3": 164, "conductors": [{ "size": "14", "count": 3 }], "luminaireStud": true, "hickey": true },
+      "expected": {
+        "boxId": null, "boxVolumeCm3": 164, "requiredVolumeCm3": 164, "fits": true,
+        "fillPercent": 100, "egcAllowances": 0, "egcQuarterRuleApplied": false,
+        "largestConductor": "14", "countedConductors": 3, "deviceAllowances": 0,
+        "breakdown": { "conductorsCm3": 98.4, "clampsCm3": 0, "supportFittingsCm3": 65.6, "devicesCm3": 0, "egcCm3": 0 },
+        "assumptionKeys": ["box-fill-counting", "box-no-barriers", "box-marked-volume"],
+        "absentAssumptionKeys": ["box-standard-width-devices"]
+      }
+    },
+    {
+      "name": "El EGC más grueso manda la base (marcado 200): 2× #14 + prensacables + 1 EGC #10 → base #10: 65.6 + 41.0 + 41.0 = 147.6",
+      "input": { "volumeCm3": 200, "conductors": [{ "size": "14", "count": 2 }], "internalClamps": true, "egcCount": 1, "largestEgc": "10" },
+      "expected": {
+        "boxId": null, "boxVolumeCm3": 200, "requiredVolumeCm3": 147.6, "fits": true,
+        "fillPercent": 73.8, "egcAllowances": 1, "egcQuarterRuleApplied": false,
+        "largestConductor": "10", "countedConductors": 2, "deviceAllowances": 0,
+        "breakdown": { "conductorsCm3": 65.6, "clampsCm3": 41, "supportFittingsCm3": 0, "devicesCm3": 0, "egcCm3": 41 },
+        "assumptionKeys": ["box-fill-counting", "box-no-barriers", "box-marked-volume"],
+        "absentAssumptionKeys": ["box-standard-width-devices"]
+      }
+    },
+    {
+      "name": "Alambres de artefacto (marcado 150): 2× #18 + 2× #16 = 2×24.6 + 2×28.7 = 106.6 → cabe",
+      "input": { "volumeCm3": 150, "conductors": [{ "size": "18", "count": 2 }, { "size": "16", "count": 2 }] },
+      "expected": {
+        "boxId": null, "boxVolumeCm3": 150, "requiredVolumeCm3": 106.6, "fits": true,
+        "fillPercent": 71.0667, "egcAllowances": 0, "egcQuarterRuleApplied": false,
+        "largestConductor": "16", "countedConductors": 4, "deviceAllowances": 0,
+        "breakdown": { "conductorsCm3": 106.6, "clampsCm3": 0, "supportFittingsCm3": 0, "devicesCm3": 0, "egcCm3": 0 },
+        "assumptionKeys": ["box-fill-counting", "box-no-barriers", "box-marked-volume"],
+        "absentAssumptionKeys": ["box-standard-width-devices"]
+      }
+    }
+  ]
+}

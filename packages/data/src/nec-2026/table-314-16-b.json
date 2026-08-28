@@ -1,0 +1,14 @@
+{
+  "source": "NEC 2026, Table 314.16(B)(1)",
+  "note": "Volume allowance required per conductor, 18 AWG through 6 AWG, both printed unit columns transcribed verbatim (cm3 canonical for the engine, in3 informational — do not re-derive one from the other; the printed 6 AWG value is 81.9 cm3, while derivative calculator sites show a re-derived 82.0, which is rejected). The table was designated Table 314.16(B) through NEC 2020 and renamed Table 314.16(B)(1) in the 2023 restructuring that added (B)(6) Terminal Block Fill; values are unchanged 2008 through 2026 (the only 2026 change to 314.16 is an explicit exemption for splicing connectors, no table changes per published change summaries). Cross-verified 2026-08-28 against two NFPA-licensed verbatim reprints (NEC 2011 scan hosted by NECA-IBEW; Appleton/Emerson catalog reprint of the 2008 text) plus current-edition mirrors (UpCodes 2023-based IRC, zing2 labeled NEC 2026), 0 mismatches. Official 2026 text paywalled.",
+  "unit": "cm3 per conductor (in3 informational)",
+  "allowances": [
+    { "size": "18", "cm3": 24.6, "in3": 1.5 },
+    { "size": "16", "cm3": 28.7, "in3": 1.75 },
+    { "size": "14", "cm3": 32.8, "in3": 2.0 },
+    { "size": "12", "cm3": 36.9, "in3": 2.25 },
+    { "size": "10", "cm3": 41.0, "in3": 2.5 },
+    { "size": "8", "cm3": 49.2, "in3": 3.0 },
+    { "size": "6", "cm3": 81.9, "in3": 5.0 }
+  ]
+}

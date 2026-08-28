@@ -107,6 +107,48 @@
     "reasonEn": "ground upsized in proportion",
     "reasonEs": "tierra agrandada en proporción"
   },
+  "nec2026.t314_16_a": {
+    "en": "NEC 2026, Table 314.16(A) — metal boxes: dimensions and minimum volume",
+    "es": "NEC 2026, Tabla 314.16(A) — cajas metálicas: dimensiones y volumen mínimo",
+    "reasonEn": "standard box volumes",
+    "reasonEs": "volumen de cajas estándar"
+  },
+  "nec2026.t314_16_b": {
+    "en": "NEC 2026, Table 314.16(B)(1) — volume allowance required per conductor",
+    "es": "NEC 2026, Tabla 314.16(B)(1) — volumen requerido por conductor",
+    "reasonEn": "volume per conductor",
+    "reasonEs": "volumen por conductor"
+  },
+  "nec2026.s314_16_b_1": {
+    "en": "NEC 2026, 314.16(B)(1) — conductor fill counting rules",
+    "es": "NEC 2026, 314.16(B)(1) — reglas de conteo de conductores",
+    "reasonEn": "conductor counting",
+    "reasonEs": "conteo de conductores"
+  },
+  "nec2026.s314_16_b_2": {
+    "en": "NEC 2026, 314.16(B)(2) — clamp fill: single allowance for internal cable clamps",
+    "es": "NEC 2026, 314.16(B)(2) — relleno por prensacables internos: un volumen adicional",
+    "reasonEn": "internal cable clamps",
+    "reasonEs": "prensacables internos"
+  },
+  "nec2026.s314_16_b_3": {
+    "en": "NEC 2026, 314.16(B)(3) — support fittings fill: luminaire studs and hickeys",
+    "es": "NEC 2026, 314.16(B)(3) — relleno por soportes de luminaria (espárragos y hickeys)",
+    "reasonEn": "luminaire supports",
+    "reasonEs": "soportes de luminaria"
+  },
+  "nec2026.s314_16_b_4": {
+    "en": "NEC 2026, 314.16(B)(4) — device fill: double allowance per yoke or strap",
+    "es": "NEC 2026, 314.16(B)(4) — relleno por dispositivos: doble volumen por cada yugo",
+    "reasonEn": "devices: 2 per yoke",
+    "reasonEs": "dispositivos: 2 por yugo"
+  },
+  "nec2026.s314_16_b_5": {
+    "en": "NEC 2026, 314.16(B)(5) — equipment grounding conductor fill",
+    "es": "NEC 2026, 314.16(B)(5) — relleno por conductores de puesta a tierra",
+    "reasonEn": "ground-wire fill",
+    "reasonEs": "conductores de tierra"
+  },
   "nec2026.s352_30": {
     "en": "NEC 2026, 352.30 — securing and supporting rigid PVC conduit",
     "es": "NEC 2026, 352.30 — fijación y soporte de tubería PVC rígida",

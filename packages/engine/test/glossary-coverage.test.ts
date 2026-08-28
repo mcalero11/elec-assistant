@@ -31,6 +31,8 @@ const REQUIRED_TERMS: readonly string[] = [
   'mca', 'mocp', 'btu',
   // wire vocabulary the results/BOM render
   'kcmil', 'thwn2',
+  // box fill
+  'cajaOctagonal', 'volumenDeCaja', 'prensacable', 'yugo',
 ]
 
 const webSrc = fileURLToPath(new URL('../../web/src/', import.meta.url))

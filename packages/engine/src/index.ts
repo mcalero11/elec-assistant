@@ -18,6 +18,17 @@ export {
   type VoltageDropInput,
   type VoltageDropResult,
 } from './voltage-drop.js'
+export {
+  boxFill,
+  sizeBox,
+  type BoxConductorEntry,
+  type BoxDeviceYokeEntry,
+  type BoxFillBreakdown,
+  type BoxFillInput,
+  type BoxFillItemsInput,
+  type BoxFillResult,
+  type SizeBoxInput,
+} from './box-fill.js'
 export { standardBreaker, type BreakerInput, type BreakerResult } from './breaker.js'
 export { sizeCircuit, type CircuitInput, type CircuitResult } from './circuit.js'
 export {

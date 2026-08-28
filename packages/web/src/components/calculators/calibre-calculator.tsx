@@ -24,7 +24,7 @@ import {
 } from '@elec-assistant/engine'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { CONDUCTOR_SIZES, citationLabel, type ConductorSize } from '@elec-assistant/data'
+import { BOX_CONDUCTOR_SIZES, CONDUCTOR_SIZES, citationLabel, type ConductorSize } from '@elec-assistant/data'
 import { CONDUIT_FILL_INSULATIONS } from '@elec-assistant/engine'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -362,6 +362,23 @@ export function CalibreCalculator() {
               </Link>
             </Button>
             <p className="text-xs text-muted-foreground">{m.calibre.chainHint}</p>
+          </div>
+        ) : null}
+
+        {/* Chaining: hand the sized conductors to the box-fill calculator (18–6 AWG only). */}
+        {computation.kind === 'auto' &&
+        (BOX_CONDUCTOR_SIZES as readonly string[]).includes(computation.circuit.conductor.size) ? (
+          <div className="space-y-1">
+            <Button asChild variant="outline" size="sm">
+              <Link
+                href={`/calculadoras/cajas/?c=${encodeURIComponent(
+                  `${cccCount}x${computation.circuit.conductor.size}`,
+                )}&modo=min`}
+              >
+                {m.calibre.chainBoxButton} <ArrowRight className="size-3.5" />
+              </Link>
+            </Button>
+            <p className="text-xs text-muted-foreground">{m.calibre.chainBoxHint}</p>
           </div>
         ) : null}
 

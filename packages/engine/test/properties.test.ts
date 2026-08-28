@@ -1,20 +1,27 @@
 import { describe, expect, it } from 'vitest'
 import {
+  BOX_CONDUCTOR_SIZES,
+  BOX_SHAPES,
   CONDUCTOR_SIZES,
   CONDUIT_TYPES,
   TRADE_SIZES,
+  boxAllowances,
   conduitDimensions,
+  standardBoxes,
   table31016,
 } from '@elec-assistant/data'
 import {
   ambientFactor,
+  boxFill,
   cccFactor,
   conduitFill,
   deratedAmpacity,
   minConductorForLoad,
   minSizeForVoltageDrop,
+  sizeBox,
   sizeConduit,
   standardBreaker,
+  type BoxFillItemsInput,
 } from '@elec-assistant/engine'
 
 describe('monotonicity properties', () => {
@@ -162,6 +169,122 @@ describe('conduit fill properties', () => {
         expect(entry.totalAreaMm2).toBeGreaterThan(previousTotal)
         previousTotal = entry.totalAreaMm2
       }
+    }
+  })
+})
+
+describe('box fill properties', () => {
+  const bigBox = { volumeCm3: 10000 }
+
+  it('more conductors never decrease the required volume', () => {
+    let previous = 0
+    for (let count = 1; count <= 20; count++) {
+      const { requiredVolumeCm3 } = boxFill({ ...bigBox, conductors: [{ size: '12', count }] })
+      expect(requiredVolumeCm3).toBeGreaterThanOrEqual(previous)
+      previous = requiredVolumeCm3
+    }
+  })
+
+  it('adding any content category never decreases the required volume', () => {
+    const base: BoxFillItemsInput = { conductors: [{ size: '14', count: 3 }] }
+    const baseline = boxFill({ ...bigBox, ...base }).requiredVolumeCm3
+    const additions: BoxFillItemsInput[] = [
+      { ...base, internalClamps: true },
+      { ...base, luminaireStud: true },
+      { ...base, hickey: true },
+      { ...base, deviceYokes: [{ count: 1, largestConductor: '14' }] },
+      { ...base, egcCount: 1, largestEgc: '14' },
+      { ...base, conductors: [...base.conductors, { size: '18', count: 1 }] },
+    ]
+    for (const input of additions) {
+      expect(boxFill({ ...bigBox, ...input }).requiredVolumeCm3).toBeGreaterThan(baseline)
+    }
+  })
+
+  it('EGC allowances: flat for 1–4, quarter steps beyond', () => {
+    const base: BoxFillItemsInput = { conductors: [{ size: '12', count: 2 }] }
+    const volumeAt = (egcCount: number) =>
+      boxFill({ ...bigBox, ...base, egcCount, largestEgc: '12' }).requiredVolumeCm3
+    const oneEgc = volumeAt(1)
+    for (let n = 2; n <= 4; n++) expect(volumeAt(n)).toBe(oneEgc)
+    let previous = oneEgc
+    for (let n = 5; n <= 10; n++) {
+      const current = volumeAt(n)
+      expect(current).toBeGreaterThan(previous)
+      previous = current
+    }
+  })
+
+  it('required volume equals the sum of the breakdown exactly', () => {
+    const result = boxFill({
+      ...bigBox,
+      conductors: [
+        { size: '14', count: 4 },
+        { size: '12', count: 2 },
+      ],
+      internalClamps: true,
+      luminaireStud: true,
+      deviceYokes: [{ count: 1, largestConductor: '12' }],
+      egcCount: 5,
+      largestEgc: '12',
+    })
+    const sum =
+      result.breakdown.conductorsCm3 +
+      result.breakdown.clampsCm3 +
+      result.breakdown.supportFittingsCm3 +
+      result.breakdown.devicesCm3 +
+      result.breakdown.egcCm3
+    expect(result.requiredVolumeCm3).toBeCloseTo(sum, 6)
+  })
+
+  it('chosen box is minimal: it fits, and the next-smaller candidate does not', () => {
+    const contents: BoxFillItemsInput[] = [
+      { conductors: [{ size: '12', count: 6 }] },
+      {
+        conductors: [{ size: '14', count: 4 }],
+        deviceYokes: [{ count: 1, largestConductor: '14' }],
+        egcCount: 2,
+        largestEgc: '14',
+      },
+      { conductors: [{ size: '8', count: 3 }], internalClamps: true },
+    ]
+    for (const shape of [undefined, ...BOX_SHAPES]) {
+      const candidates = standardBoxes.boxes.filter((b) => shape == null || b.shape === shape)
+      for (const items of contents) {
+        let result
+        try {
+          result = sizeBox(shape ? { ...items, shape } : items)
+        } catch {
+          continue // contents too big for this shape group — covered by error tests
+        }
+        expect(result.fits).toBe(true)
+        const chosenIndex = candidates.findIndex((b) => b.id === result.boxId)
+        if (chosenIndex > 0) {
+          const smaller = candidates[chosenIndex - 1]!
+          expect(boxFill({ ...items, boxId: smaller.id }).fits).toBe(false)
+        }
+      }
+    }
+  })
+
+  it('Table 314.16(B)(1) data sanity: allowances strictly increase and match the in³ column', () => {
+    expect(boxAllowances.allowances.map((a) => a.size)).toEqual([...BOX_CONDUCTOR_SIZES])
+    let previous = 0
+    for (const row of boxAllowances.allowances) {
+      expect(row.cm3).toBeGreaterThan(previous)
+      previous = row.cm3
+      // Printed metric column stays within rounding of in³ × 16.387.
+      expect(row.cm3).toBeCloseTo(row.in3 * 16.387, 0)
+    }
+  })
+
+  it('Table 314.16(A) data sanity: ascending volumes that match the in³ column', () => {
+    let previous = 0
+    for (const box of standardBoxes.boxes) {
+      expect(box.volumeCm3).toBeGreaterThan(0)
+      expect(box.volumeCm3).toBeGreaterThanOrEqual(previous)
+      previous = box.volumeCm3
+      expect(box.volumeCm3).toBeCloseTo(box.volumeIn3 * 16.387, -1)
     }
   })
 })

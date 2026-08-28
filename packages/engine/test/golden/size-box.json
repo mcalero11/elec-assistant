@@ -1,0 +1,42 @@
+{
+  "note": "Hand-verified sizeBox picks: required volume computed by hand from Table 314.16(B)(1) (see box-fill.json note for the allowance list), then compared against the ascending Table 314.16(A) volumes — the pick is the first box (within the shape filter) whose volume covers the requirement. The exact-boundary case lands on a box volume exactly equal to the requirement.",
+  "cases": [
+    {
+      "name": "Juego de luminaria (forma octagonal): 4× #12 + hickey + 2 EGC #12 = 4×36.9 + 36.9 + 36.9 = 221.4 → oct-100x32 (205) no alcanza, oct-100x38 (254) sí",
+      "input": {
+        "shape": "round-octagonal", "conductors": [{ "size": "12", "count": 4 }],
+        "hickey": true, "egcCount": 2, "largestEgc": "12"
+      },
+      "expected": { "boxId": "oct-100x38", "boxVolumeCm3": 254, "requiredVolumeCm3": 221.4 }
+    },
+    {
+      "name": "Caja de apagador (forma dispositivo, frontera exacta): 2× #14 + 1 yugo #14 + 1 EGC #14 = 65.6 + 65.6 + 32.8 = 164.0 → dev-75x50x50 (164) justo",
+      "input": {
+        "shape": "device", "conductors": [{ "size": "14", "count": 2 }],
+        "deviceYokes": [{ "count": 1, "largestConductor": "14" }], "egcCount": 1, "largestEgc": "14"
+      },
+      "expected": { "boxId": "dev-75x50x50", "boxVolumeCm3": 164, "requiredVolumeCm3": 164 }
+    },
+    {
+      "name": "Sin filtro gana la más pequeña global: 2× #12 + prensacables + 1 EGC #12 = 73.8 + 36.9 + 36.9 = 147.6 → dev-75x50x50 (164)",
+      "input": { "conductors": [{ "size": "12", "count": 2 }], "internalClamps": true, "egcCount": 1, "largestEgc": "12" },
+      "expected": { "boxId": "dev-75x50x50", "boxVolumeCm3": 164, "requiredVolumeCm3": 147.6 }
+    },
+    {
+      "name": "El filtro de forma cambia la respuesta: mismo contenido (147.6) con forma octagonal → oct-100x32 (205)",
+      "input": {
+        "shape": "round-octagonal",
+        "conductors": [{ "size": "12", "count": 2 }], "internalClamps": true, "egcCount": 1, "largestEgc": "12"
+      },
+      "expected": { "boxId": "oct-100x32", "boxVolumeCm3": 205, "requiredVolumeCm3": 147.6 }
+    },
+    {
+      "name": "Forma cuadrada: mismo contenido (147.6) → sq-100x32 (295)",
+      "input": {
+        "shape": "square",
+        "conductors": [{ "size": "12", "count": 2 }], "internalClamps": true, "egcCount": 1, "largestEgc": "12"
+      },
+      "expected": { "boxId": "sq-100x32", "boxVolumeCm3": 295, "requiredVolumeCm3": 147.6 }
+    }
+  ]
+}

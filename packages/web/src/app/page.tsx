@@ -2,6 +2,7 @@ import Link from 'next/link'
 import {
   AirVent,
   BookOpen,
+  Box,
   Cable,
   CircleDollarSign,
   Cylinder,
@@ -18,6 +19,7 @@ import {
   TRADE_SIZES,
   acPresets,
   ambientCorrection,
+  boxAllowances,
   catalogItems,
   cccAdjustment,
   citations,
@@ -27,6 +29,7 @@ import {
   conduitFillPercent,
   egcTable,
   priceEntries,
+  standardBoxes,
   standardBreakers,
   table31016,
 } from '@elec-assistant/data'
@@ -47,6 +50,8 @@ const NEC_TABLES = [
   conduitDimensions,
   conductorAreas,
   egcTable,
+  standardBoxes,
+  boxAllowances,
 ].length
 
 const NEC_LABEL = NEC_EDITION.replace('nec-', 'NEC ')
@@ -85,6 +90,13 @@ export default function HomePage() {
       title: m.nav.tierra,
       desc: m.home.tierraDesc,
       stat: 'Tabla 250.122 · 250.122(B)',
+    },
+    {
+      href: '/calculadoras/cajas/',
+      icon: Box,
+      title: m.nav.cajas,
+      desc: m.home.cajasDesc,
+      stat: `${standardBoxes.boxes.length} cajas · Tabla 314.16(A)/(B)(1)`,
     },
     {
       href: '/trabajos/',

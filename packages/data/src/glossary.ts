@@ -407,6 +407,46 @@ export const glossary = {
     },
     necArticles: ['nec2026.t310_16'],
   },
+  cajaOctagonal: {
+    es: 'caja octagonal',
+    en: 'octagonal (ceiling) box',
+    synonyms: ['caja de techo', 'octogonal', 'caja redonda'],
+    definition: {
+      es: 'Caja de ocho lados que va en el techo para colgar lámparas o plafoneras y hacer empalmes.',
+      en: 'Eight-sided ceiling box used to hang luminaires and make splices.',
+    },
+    necArticles: ['nec2026.t314_16_a'],
+  },
+  volumenDeCaja: {
+    es: 'volumen de caja',
+    en: 'box volume (fill)',
+    synonyms: ['capacidad de la caja', 'relleno de caja', 'cm³ de la caja'],
+    definition: {
+      es: 'Espacio interno de la caja en cm³. Cada alambre, dispositivo y prensacable «gasta» volumen; el total no puede pasar del marcado.',
+      en: 'Internal space of the box in cm³. Every wire, device and clamp “spends” volume; the total cannot exceed the marked capacity.',
+    },
+    necArticles: ['nec2026.t314_16_a', 'nec2026.t314_16_b'],
+  },
+  prensacable: {
+    es: 'prensacable',
+    en: 'internal cable clamp',
+    synonyms: ['grapa interna', 'clamp', 'sujetacable de caja'],
+    definition: {
+      es: 'Mordaza dentro de la caja que sujeta el cable al entrar. Si la caja trae una o más, se descuenta un volumen adicional.',
+      en: 'Clamp inside the box that grips the cable where it enters. One or more inside the box costs one extra volume allowance.',
+    },
+    necArticles: ['nec2026.s314_16_b_2'],
+  },
+  yugo: {
+    es: 'yugo',
+    en: 'device yoke (strap)',
+    synonyms: ['montura del dispositivo', 'strap', 'marco del tomacorriente'],
+    definition: {
+      es: 'La pieza metálica que sostiene un tomacorriente o apagador en la caja. Cada yugo descuenta el doble del volumen de su alambre más grueso.',
+      en: 'The metal frame that mounts a receptacle or switch in the box. Each yoke costs double the allowance of its largest connected wire.',
+    },
+    necArticles: ['nec2026.s314_16_b_4'],
+  },
 } as const satisfies Record<string, GlossaryEntry>
 
 export type GlossaryId = keyof typeof glossary

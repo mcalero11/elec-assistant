@@ -7,6 +7,8 @@ import conduitFillPercentJson from './nec-2026/chapter9-table1.json'
 import conduitDimensionsJson from './nec-2026/chapter9-table4.json'
 import conductorAreasJson from './nec-2026/chapter9-table5.json'
 import egcJson from './nec-2026/table-250-122.json'
+import standardBoxesJson from './nec-2026/table-314-16-a.json'
+import boxAllowancesJson from './nec-2026/table-314-16-b.json'
 import pvWireJson from './reference/pv-wire.json'
 import pricesJson from './catalog/prices.json'
 import citationsJson from './citations.json'
@@ -153,6 +155,80 @@ export const egcTable: EgcTable = {
     maxOcpdA: r.maxOcpdA,
     copper: asConductorSize(r.copper),
     aluminum: asConductorSize(r.aluminum),
+  })),
+}
+
+/**
+ * Conductor sizes covered by box fill (Table 314.16(B)(1)), in ascending
+ * volume-allowance order. Distinct from CONDUCTOR_SIZES: box fill reaches down
+ * to 18 AWG (fixture wires) and stops at 6 AWG — 4 AWG and larger fall under
+ * the 314.28 pull-box rules instead.
+ */
+export const BOX_CONDUCTOR_SIZES = ['18', '16', '14', '12', '10', '8', '6'] as const
+export type BoxConductorSize = (typeof BOX_CONDUCTOR_SIZES)[number]
+
+/** Box shape groups of Table 314.16(A) (canonical filter order for size mode). */
+export const BOX_SHAPES = ['round-octagonal', 'square', 'device', 'masonry', 'fs-fd'] as const
+export type BoxShape = (typeof BOX_SHAPES)[number]
+
+export interface StandardBox {
+  /** Stable slug used in URL state and golden tests. */
+  id: string
+  shape: BoxShape
+  tradeSizeMm: string
+  tradeSizeIn: string
+  label: { es: string; en: string }
+  volumeCm3: number
+  /** Informational — the NEC prints both columns; cm³ is canonical for the engine. */
+  volumeIn3: number
+}
+
+export interface StandardBoxesTable {
+  source: string
+  note: string
+  unit: string
+  /** Ordered ascending by volumeCm3 (size mode iterates for the first fit). */
+  boxes: StandardBox[]
+}
+
+export interface BoxAllowanceTable {
+  source: string
+  note: string
+  unit: string
+  allowances: Array<{ size: BoxConductorSize; cm3: number; in3: number }>
+}
+
+function asBoxConductorSize(value: string): BoxConductorSize {
+  if ((BOX_CONDUCTOR_SIZES as readonly string[]).includes(value)) return value as BoxConductorSize
+  throw new Error(`table-314-16-b.json contains an unknown conductor size: ${value}`)
+}
+
+function asBoxShape(value: string): BoxShape {
+  if ((BOX_SHAPES as readonly string[]).includes(value)) return value as BoxShape
+  throw new Error(`table-314-16-a.json contains an unknown box shape: ${value}`)
+}
+
+export const standardBoxes: StandardBoxesTable = {
+  source: standardBoxesJson.source,
+  note: standardBoxesJson.note,
+  unit: standardBoxesJson.unit,
+  boxes: standardBoxesJson.boxes.map((b) => ({ ...b, shape: asBoxShape(b.shape) })),
+}
+{
+  const ids = new Set<string>()
+  for (const box of standardBoxes.boxes) {
+    if (ids.has(box.id)) throw new Error(`table-314-16-a.json has a duplicate box id: ${box.id}`)
+    ids.add(box.id)
+  }
+}
+
+export const boxAllowances: BoxAllowanceTable = {
+  source: boxAllowancesJson.source,
+  note: boxAllowancesJson.note,
+  unit: boxAllowancesJson.unit,
+  allowances: boxAllowancesJson.allowances.map((a) => ({
+    ...a,
+    size: asBoxConductorSize(a.size),
   })),
 }
 
