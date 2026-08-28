@@ -1,0 +1,24 @@
+{
+  "source": "NEC 2026, Article 120 Parts I–IV scalars (120.41, 120.52, 120.53, 120.54, 120.82) and 230.79(C)",
+  "note": "NEC 2026 relocated all load calculations from Article 220 to the new Article 120 (this file keeps its legacy name; citation keys likewise stay s220_* with 2026 labels, the s250_122_b precedent). Section-by-section: general lighting for FEEDER/SERVICE calcs is 22 VA/m² (2 VA/ft²) per 120.41 — REDUCED in 2026 from the long-standing 33 VA/m² (3 VA/ft²), which now survives only in 120.13 for counting minimum branch circuits; floor area from outside dimensions excluding detached garages, open porches, and unfinished non-adaptable areas (120.5(C)); 1,500 VA small-appliance circuits (min. 2 per 210.11(C)(1)) and laundry circuit from 120.52(A)/(B), pooled with lighting for the Table 120.45 demand factors; 75% demand for 4+ fastened-in-place appliances ≥ ¼ hp or 500 W (120.53; ranges, dryers, space heating, A/C, EVSE excluded); dryers max(nameplate, 5,000 VA) per 120.54 with the REVISED 2026 count factors (1–2 dryers 100%, 3–5 at 80%; more not transcribed); optional method 120.82(B) = 100% of the first 8 kVA (REDUCED in 2026 from 10 kVA) + 40% of the remainder, HVAC per (C) (A/C 100%, central heat 65%); 100 A minimum dwelling service from 230.79(C) (Article 230 not renumbered). Cross-verified 2026-08-28 against electricallicenserenewal.com per-edition verbatim pages (120.13, 120.5(C), 120.54, 120.83), EC&M/Kopperfield/masterelectricianapp/Intry 2026 change analyses, UpCodes 2023 mirrors (220.41/220.52/220.53/230.79), and an IEEE-hosted verbatim NEC 2014 Art. 220 for long-stable values. Residual flags: full multi-dryer table beyond 5, exact 120.82(C) wording, and the 120.6/120.11(A) numbering (one stale source says 120.50/120.60) await a human check of the official 2026 text.",
+  "generalLightingVaPerM2": 22,
+  "generalLightingVaPerFt2": 2,
+  "branchCircuitVaPerM2": 33,
+  "smallApplianceCircuitVa": 1500,
+  "minSmallApplianceCircuits": 2,
+  "laundryCircuitVa": 1500,
+  "fixedApplianceDemand": { "minCount": 4, "percent": 75 },
+  "dryerMinVa": 5000,
+  "dryerDemandFactors": [
+    { "maxCount": 2, "percent": 100 },
+    { "maxCount": 5, "percent": 80 }
+  ],
+  "optionalMethod": {
+    "firstTierVa": 8000,
+    "firstTierPercent": 100,
+    "remainderPercent": 40,
+    "acPercent": 100,
+    "centralHeatPercent": 65
+  },
+  "minDwellingServiceA": 100
+}

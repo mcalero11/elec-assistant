@@ -25,6 +25,36 @@ export interface DevicePresetAc {
   synonyms: string[]
 }
 
+/**
+ * How Article 220 treats a device in the residential load calculation:
+ * range → Table 220.55 Column C · dryer → 220.54 (5 kVA floor) ·
+ * fixed → fastened-in-place pool (75% at 4+, 220.53) · motor → 100% + feeds
+ * the largest-motor 25% (220.50) · ac/heat → noncoincident pair (220.60) ·
+ * covered → plug loads already inside the general lighting / small-appliance /
+ * laundry circuits (no extra VA).
+ */
+export const APPLIANCE_CATEGORIES = [
+  'range',
+  'dryer',
+  'fixed',
+  'motor',
+  'ac',
+  'heat',
+  'covered',
+] as const
+export type ApplianceCategory = (typeof APPLIANCE_CATEGORIES)[number]
+
+export interface DevicePresetAppliance {
+  id: string
+  label: { es: string; en: string }
+  /** es-SV regional names the search matches. */
+  synonyms: string[]
+  /** Typical nameplate VA — always surface «valores típicos; verifique la placa». */
+  typicalVa: number
+  voltage: 120 | 240
+  category: ApplianceCategory
+}
+
 export const RETAILERS = ['vidri', 'freund', 'epa'] as const
 export type Retailer = (typeof RETAILERS)[number]
 

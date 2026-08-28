@@ -1,0 +1,16 @@
+{
+  "source": "NEC 2026, Table 120.55, Column C + Note 1",
+  "note": "Maximum demand for household cooking appliances individually rated over 1¾ kW. Only Column C (ranges not over 12 kW) rows 1–6 transcribed: single-dwelling scope. Note 1 (verbatim-confirmed): ranges individually rated more than 12 kW but not more than 27 kW increase the Column C demand by 5% for each additional kW of rating or major fraction thereof above 12 kW. Columns A/B and Notes 2–4 intentionally omitted; the engine caps demand at connected nameplate so a small range is never billed the full column value. Was Table 220.55 before the 2026 Article 220→120 relocation; values identical across editions. Cross-verified 2026-08-28 against an IEEE-hosted verbatim NEC 2014 Art. 220 reproduction, necmastery.com (2023/2026 layouts identical), and the Sparky Toolbox 2026 worked example, 0 mismatches. Official 2026 text paywalled.",
+  "unit": "kW demand by number of appliances",
+  "columnC": [
+    { "appliances": 1, "demandKw": 8 },
+    { "appliances": 2, "demandKw": 11 },
+    { "appliances": 3, "demandKw": 14 },
+    { "appliances": 4, "demandKw": 17 },
+    { "appliances": 5, "demandKw": 20 },
+    { "appliances": 6, "demandKw": 21 }
+  ],
+  "columnCMaxKw": 12,
+  "note1PercentPerKw": 5,
+  "note1MaxKw": 27
+}

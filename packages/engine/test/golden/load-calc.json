@@ -1,0 +1,167 @@
+{
+  "note": "Hand-verified dwelling calculations per NEC 2026 Article 120 (the 2026 relocation of Article 220); every expected value computed by hand and documented in the case name. Constants (2026 values): general lighting 22 VA/m² for feeder/service calcs (120.41 — REDUCED from 33 in 2026); small-appliance/laundry circuits 1,500 VA each (120.52); Table 120.45 dwelling tiers 3,000 @ 100% then 35% (25% past 120 kVA); Table 120.55 Column C row 1 = 8 kW (+5%/kW or major fraction over 12, Note 1); dryers max(nameplate, 5,000) with 2026 count factors 1–2 @ 100% / 3–5 @ 80% (120.54); 120.53 75% at 4+ fixed appliances; +25% largest motor (120.11(A)); 120.6 larger of A/C vs heat; optional 120.82 = 100% of first 8 kVA (REDUCED from 10 in 2026) + 40% remainder, HVAC max(A/C 100%, central heat 65%); amps at 240 V; service = first 240.6 rating ≥ max(amps, 100 per 230.79(C)).",
+  "cases": [
+    {
+      "name": "Solo alumbrado, 100 m²: 2200 + 2×1500 + 1500 = 6700; 3000 + 3700×0.35 = 4295 VA → 17.9 A → 100 A (piso 230.79(C)); opcional 6700 ≤ 8000 → 6700 al 100% → 27.92 A → 100 A",
+      "input": { "areaM2": 100 },
+      "expected": {
+        "standard": { "totalDemandVa": 4295, "amps": 17.8958, "serviceA": 100, "serviceFlooredTo100": true, "applianceDemand75Applied": false, "dryerMinApplied": false, "rangeNote1Applied": false, "rangeCappedAtNameplate": false, "heatGovernsOverAc": false },
+        "optional": { "totalDemandVa": 6700, "amps": 27.9167, "serviceA": 100 },
+        "governingMethod": "standard", "minServiceA": 100,
+        "assumptionKeys": ["load-240v-service"],
+        "absentAssumptionKeys": ["load-typical-wattages", "load-no-laundry", "range-column-c"]
+      }
+    },
+    {
+      "name": "Ejemplo completo 167 m²: pool 22×167 = 3674 + 4500 = 8174 → 3000 + 5174×0.35 = 4810.9; estufa 12 kW → Col C 8000; secadora 4000 → mín 5000 al 100%; 3 fijos (4500+1200+500) al 100% = 6200; bomba 1200 + 25%×1200 = 300 → total 25510.9 → 106.30 A → 110 A; opcional 8174+23400 = 31574 → 8000 + 23574×0.4 = 17429.6 → 72.62 A → 100 A (rige opcional)",
+      "input": {
+        "areaM2": 167,
+        "devices": [
+          { "va": 12000, "category": "range", "label": { "es": "Estufa 12 kW", "en": "12 kW range" } },
+          { "va": 4000, "category": "dryer", "label": { "es": "Secadora 4 kW", "en": "4 kW dryer" } },
+          { "va": 4500, "category": "fixed", "label": { "es": "Termo", "en": "Water heater" } },
+          { "va": 1200, "category": "fixed", "label": { "es": "Lavaplatos", "en": "Dishwasher" } },
+          { "va": 500, "category": "fixed", "label": { "es": "Congelador", "en": "Freezer" } },
+          { "va": 1200, "category": "motor", "label": { "es": "Bomba", "en": "Pump" } }
+        ]
+      },
+      "expected": {
+        "standard": { "totalDemandVa": 25510.9, "amps": 106.2954, "serviceA": 110, "serviceFlooredTo100": false, "applianceDemand75Applied": false, "dryerMinApplied": true, "rangeNote1Applied": false, "rangeCappedAtNameplate": false, "heatGovernsOverAc": false },
+        "standardLineDemands": { "general-pool": 4810.9, "ranges": 8000, "dryers": 5000, "fixed-appliances": 6200, "motors": 1200, "largest-motor": 300 },
+        "optional": { "totalDemandVa": 17429.6, "amps": 72.6233, "serviceA": 100 },
+        "governingMethod": "optional", "minServiceA": 100,
+        "assumptionKeys": ["load-240v-service", "range-column-c"],
+        "absentAssumptionKeys": ["load-typical-wattages"]
+      }
+    },
+    {
+      "name": "Nota 1: estufa 15 kW → 3 kW sobre 12 → 8000 × 1.15 = 9200; total 4295 + 9200 = 13495 → 56.23 A → 100 A",
+      "input": { "areaM2": 100, "devices": [{ "va": 15000, "category": "range" }] },
+      "expected": {
+        "standard": { "totalDemandVa": 13495, "amps": 56.2292, "serviceA": 100, "serviceFlooredTo100": true, "applianceDemand75Applied": false, "dryerMinApplied": false, "rangeNote1Applied": true, "rangeCappedAtNameplate": false, "heatGovernsOverAc": false },
+        "standardLineDemands": { "ranges": 9200 },
+        "optional": { "totalDemandVa": 13480, "amps": 56.1667, "serviceA": 100 },
+        "governingMethod": "standard", "minServiceA": 100,
+        "assumptionKeys": ["load-240v-service", "range-column-c"],
+        "absentAssumptionKeys": []
+      }
+    },
+    {
+      "name": "Estufa pequeña 3 kW: Col C 8000 limitado a la placa 3000; total 4295 + 3000 = 7295 → 30.40 A → 100 A",
+      "input": { "areaM2": 100, "devices": [{ "va": 3000, "category": "range" }] },
+      "expected": {
+        "standard": { "totalDemandVa": 7295, "amps": 30.3958, "serviceA": 100, "serviceFlooredTo100": true, "applianceDemand75Applied": false, "dryerMinApplied": false, "rangeNote1Applied": false, "rangeCappedAtNameplate": true, "heatGovernsOverAc": false },
+        "standardLineDemands": { "ranges": 3000 },
+        "optional": { "totalDemandVa": 8680, "amps": 36.1667, "serviceA": 100 },
+        "governingMethod": "standard", "minServiceA": 100,
+        "assumptionKeys": ["load-240v-service", "range-column-c"],
+        "absentAssumptionKeys": []
+      }
+    },
+    {
+      "name": "Acantilado 120.53 lado A: 3 fijos × 1000 → 100% = 3000; total 4295 + 3000 = 7295",
+      "input": { "areaM2": 100, "devices": [{ "va": 1000, "category": "fixed", "qty": 3 }] },
+      "expected": {
+        "standard": { "totalDemandVa": 7295, "amps": 30.3958, "serviceA": 100, "serviceFlooredTo100": true, "applianceDemand75Applied": false, "dryerMinApplied": false, "rangeNote1Applied": false, "rangeCappedAtNameplate": false, "heatGovernsOverAc": false },
+        "standardLineDemands": { "fixed-appliances": 3000 },
+        "optional": { "totalDemandVa": 8680, "amps": 36.1667, "serviceA": 100 },
+        "governingMethod": "standard", "minServiceA": 100,
+        "assumptionKeys": ["load-240v-service"],
+        "absentAssumptionKeys": []
+      }
+    },
+    {
+      "name": "Acantilado 120.53 lado B: 4 fijos × 1000 → 75% de 4000 = 3000 — agregar el cuarto aparato NO sube la demanda (comportamiento correcto, no lo «arregle»)",
+      "input": { "areaM2": 100, "devices": [{ "va": 1000, "category": "fixed", "qty": 4 }] },
+      "expected": {
+        "standard": { "totalDemandVa": 7295, "amps": 30.3958, "serviceA": 100, "serviceFlooredTo100": true, "applianceDemand75Applied": true, "dryerMinApplied": false, "rangeNote1Applied": false, "rangeCappedAtNameplate": false, "heatGovernsOverAc": false },
+        "standardLineDemands": { "fixed-appliances": 3000 },
+        "optional": { "totalDemandVa": 9080, "amps": 37.8333, "serviceA": 100 },
+        "governingMethod": "standard", "minServiceA": 100,
+        "assumptionKeys": ["load-240v-service"],
+        "absentAssumptionKeys": []
+      }
+    },
+    {
+      "name": "Calefacción gana (120.6): A/C 4000 vs calefacción 6000 → 6000; sin línea de motor mayor (el A/C descartado no cuenta); total 4295 + 6000 = 10295 → 42.90 A; opcional toma A/C: max(4000×100%, 6000×65% = 3900) = 4000 → 6700+4000 = 10700",
+      "input": { "areaM2": 100, "devices": [{ "va": 4000, "category": "ac" }, { "va": 6000, "category": "heat" }] },
+      "expected": {
+        "standard": { "totalDemandVa": 10295, "amps": 42.8958, "serviceA": 100, "serviceFlooredTo100": true, "applianceDemand75Applied": false, "dryerMinApplied": false, "rangeNote1Applied": false, "rangeCappedAtNameplate": false, "heatGovernsOverAc": true },
+        "standardLineDemands": { "hvac": 6000 },
+        "optional": { "totalDemandVa": 10700, "amps": 44.5833, "serviceA": 100 },
+        "governingMethod": "standard", "minServiceA": 100,
+        "assumptionKeys": ["load-240v-service"],
+        "absentAssumptionKeys": []
+      }
+    },
+    {
+      "name": "Motor mayor con A/C (presets): A/C 12k (1840) + bomba (1200) → hvac 1840, motores 1200, 25%×1840 = 460; total 4295+1200+1840+460 = 7795 → 32.48 A; opcional (6700+1200 = 7900 ≤ 8000) + 1840 = 9740",
+      "input": { "areaM2": 100, "devices": [{ "presetId": "ac-12k" }, { "presetId": "bomba" }] },
+      "expected": {
+        "standard": { "totalDemandVa": 7795, "amps": 32.4792, "serviceA": 100, "serviceFlooredTo100": true, "applianceDemand75Applied": false, "dryerMinApplied": false, "rangeNote1Applied": false, "rangeCappedAtNameplate": false, "heatGovernsOverAc": false },
+        "standardLineDemands": { "motors": 1200, "hvac": 1840, "largest-motor": 460 },
+        "optional": { "totalDemandVa": 9740, "amps": 40.5833, "serviceA": 100 },
+        "governingMethod": "standard", "minServiceA": 100,
+        "assumptionKeys": ["load-240v-service", "load-typical-wattages"],
+        "absentAssumptionKeys": []
+      }
+    },
+    {
+      "name": "Frontera del método opcional (8 kVA en 2026): pool 6700 + fijo 1300 = 8000 exactos → 8000 al 100%, resto 0; estándar 4295 + 1300 = 5595",
+      "input": { "areaM2": 100, "devices": [{ "va": 1300, "category": "fixed" }] },
+      "expected": {
+        "standard": { "totalDemandVa": 5595, "amps": 23.3125, "serviceA": 100, "serviceFlooredTo100": true, "applianceDemand75Applied": false, "dryerMinApplied": false, "rangeNote1Applied": false, "rangeCappedAtNameplate": false, "heatGovernsOverAc": false },
+        "optional": { "totalDemandVa": 8000, "amps": 33.3333, "serviceA": 100 },
+        "optionalLineDemands": { "optional-general": 8000 },
+        "governingMethod": "standard", "minServiceA": 100,
+        "assumptionKeys": ["load-240v-service"],
+        "absentAssumptionKeys": []
+      }
+    },
+    {
+      "name": "Casa grande sin aparatos — RIGE EL ESTÁNDAR (comparación honesta): 2000 m² → pool 44000+4500 = 48500; estándar 3000 + 45500×0.35 = 18925 → 78.85 A → 100 A; opcional 8000 + 40500×0.4 = 24200 → 100.83 A → 110 A",
+      "input": { "areaM2": 2000 },
+      "expected": {
+        "standard": { "totalDemandVa": 18925, "amps": 78.8542, "serviceA": 100, "serviceFlooredTo100": true, "applianceDemand75Applied": false, "dryerMinApplied": false, "rangeNote1Applied": false, "rangeCappedAtNameplate": false, "heatGovernsOverAc": false },
+        "optional": { "totalDemandVa": 24200, "amps": 100.8333, "serviceA": 110 },
+        "governingMethod": "standard", "minServiceA": 100,
+        "assumptionKeys": ["load-240v-service"],
+        "absentAssumptionKeys": []
+      }
+    },
+    {
+      "name": "Factores de secadoras 2026: 3 secadoras × 5000 → 15000 × 80% = 12000; total 4295 + 12000 = 16295 → 67.90 A → 100 A",
+      "input": { "areaM2": 100, "devices": [{ "va": 5000, "category": "dryer", "qty": 3 }] },
+      "expected": {
+        "standard": { "totalDemandVa": 16295, "amps": 67.8958, "serviceA": 100, "serviceFlooredTo100": true, "applianceDemand75Applied": false, "dryerMinApplied": false, "rangeNote1Applied": false, "rangeCappedAtNameplate": false, "heatGovernsOverAc": false },
+        "standardLineDemands": { "dryers": 12000 },
+        "optional": { "totalDemandVa": 13480, "amps": 56.1667, "serviceA": 100 },
+        "governingMethod": "standard", "minServiceA": 100,
+        "assumptionKeys": ["load-240v-service"],
+        "absentAssumptionKeys": []
+      }
+    },
+    {
+      "name": "Preset «ducha» = manual 4400 VA/fijo: total estándar 4295 + 4400 = 8695; el supuesto de vatajes típicos aparece",
+      "input": { "areaM2": 100, "devices": [{ "presetId": "ducha" }] },
+      "expected": {
+        "standard": { "totalDemandVa": 8695, "amps": 36.2292, "serviceA": 100, "serviceFlooredTo100": true, "applianceDemand75Applied": false, "dryerMinApplied": false, "rangeNote1Applied": false, "rangeCappedAtNameplate": false, "heatGovernsOverAc": false },
+        "optional": { "totalDemandVa": 9240, "amps": 38.5, "serviceA": 100 },
+        "governingMethod": "standard", "minServiceA": 100,
+        "assumptionKeys": ["load-240v-service", "load-typical-wattages"],
+        "absentAssumptionKeys": []
+      }
+    },
+    {
+      "name": "Manual 4400 VA/fijo (equivalente al preset): mismos totales, SIN el supuesto de vatajes típicos",
+      "input": { "areaM2": 100, "devices": [{ "va": 4400, "category": "fixed" }] },
+      "expected": {
+        "standard": { "totalDemandVa": 8695, "amps": 36.2292, "serviceA": 100, "serviceFlooredTo100": true, "applianceDemand75Applied": false, "dryerMinApplied": false, "rangeNote1Applied": false, "rangeCappedAtNameplate": false, "heatGovernsOverAc": false },
+        "optional": { "totalDemandVa": 9240, "amps": 38.5, "serviceA": 100 },
+        "governingMethod": "standard", "minServiceA": 100,
+        "assumptionKeys": ["load-240v-service"],
+        "absentAssumptionKeys": ["load-typical-wattages"]
+      }
+    }
+  ]
+}

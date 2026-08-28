@@ -1,0 +1,10 @@
+{
+  "source": "NEC 2026, Table 120.45 — lighting load demand factors (dwelling units)",
+  "note": "Only the 'Dwelling units' occupancy rows are transcribed (hospitals/hotels/warehouses out of scope). Applies to the pooled general lighting (120.41) + small-appliance + laundry (120.52) VA, applied marginally per tier: first 3,000 VA at 100%; 3,001–120,000 at 35%; remainder at 25%. Renumbering chain: Table 220.42 (through 2020) → Table 220.45 (2023) → Table 120.45 (2026, the Article 220→120 relocation); tier values unchanged 2014 through 2026. Cross-verified 2026-08-28 against an IEEE-hosted verbatim NEC 2014 Art. 220 reproduction and 2023/2026 secondary mirrors (ecmweb demand-factor article, Sparky Toolbox 2026 worked example, Design Master docs), 0 mismatches. Official 2026 text paywalled.",
+  "unit": "marginal VA tiers → percent demand",
+  "tiers": [
+    { "upToVa": 3000, "percent": 100 },
+    { "upToVa": 120000, "percent": 35 },
+    { "upToVa": null, "percent": 25 }
+  ]
+}

@@ -5,9 +5,15 @@ import {
   CONDUCTOR_SIZES,
   CONDUIT_TYPES,
   TRADE_SIZES,
+  acPresets,
+  appliancePresets,
+  article220,
   boxAllowances,
   conduitDimensions,
+  lightingDemand,
+  rangeDemand,
   standardBoxes,
+  standardBreakers,
   table31016,
 } from '@elec-assistant/data'
 import {
@@ -18,6 +24,7 @@ import {
   deratedAmpacity,
   minConductorForLoad,
   minSizeForVoltageDrop,
+  residentialLoad,
   sizeBox,
   sizeConduit,
   standardBreaker,
@@ -285,6 +292,120 @@ describe('box fill properties', () => {
       expect(box.volumeCm3).toBeGreaterThanOrEqual(previous)
       previous = box.volumeCm3
       expect(box.volumeCm3).toBeCloseTo(box.volumeIn3 * 16.387, -1)
+    }
+  })
+})
+
+describe('residential load properties', () => {
+  const devices = [
+    { va: 9000, category: 'range' as const },
+    { va: 5000, category: 'dryer' as const },
+    { va: 4400, category: 'fixed' as const },
+    { va: 1840, category: 'ac' as const },
+  ]
+
+  it('a larger dwelling never lowers demand or service (both methods)', () => {
+    let prevStd = 0
+    let prevOpt = 0
+    let prevStdService = 0
+    let prevOptService = 0
+    for (let areaM2 = 40; areaM2 <= 1000; areaM2 += 40) {
+      const r = residentialLoad({ areaM2, devices })
+      expect(r.standard.totalDemandVa).toBeGreaterThanOrEqual(prevStd)
+      expect(r.optional.totalDemandVa).toBeGreaterThanOrEqual(prevOpt)
+      expect(r.standard.serviceA).toBeGreaterThanOrEqual(prevStdService)
+      expect(r.optional.serviceA).toBeGreaterThanOrEqual(prevOptService)
+      prevStd = r.standard.totalDemandVa
+      prevOpt = r.optional.totalDemandVa
+      prevStdService = r.standard.serviceA
+      prevOptService = r.optional.serviceA
+    }
+  })
+
+  it('more small-appliance circuits never lower demand (both methods)', () => {
+    let prevStd = 0
+    let prevOpt = 0
+    for (let sa = 2; sa <= 6; sa++) {
+      const r = residentialLoad({ areaM2: 120, smallApplianceCircuits: sa, devices })
+      expect(r.standard.totalDemandVa).toBeGreaterThanOrEqual(prevStd)
+      expect(r.optional.totalDemandVa).toBeGreaterThanOrEqual(prevOpt)
+      prevStd = r.standard.totalDemandVa
+      prevOpt = r.optional.totalDemandVa
+    }
+  })
+
+  it('per-line demand never exceeds connected load (largest-motor adder excepted by design)', () => {
+    const r = residentialLoad({
+      areaM2: 150,
+      devices: [...devices, { va: 1200, category: 'motor' as const }, { va: 500, category: 'covered' as const }],
+    })
+    for (const method of [r.standard, r.optional]) {
+      for (const line of method.lines) {
+        if (line.key === 'largest-motor') continue
+        expect(line.demandVa, `${method.method} ${line.key}`).toBeLessThanOrEqual(line.connectedVa)
+      }
+    }
+  })
+
+  it('totals are consistent and the service rating is minimal', () => {
+    for (const areaM2 of [60, 150, 400, 1500]) {
+      const r = residentialLoad({ areaM2, devices })
+      for (const method of [r.standard, r.optional]) {
+        const sum = method.lines.reduce((acc, l) => acc + l.demandVa, 0)
+        expect(method.totalDemandVa).toBeCloseTo(sum, 6)
+        expect(method.amps).toBeCloseTo(method.totalDemandVa / 240, 6)
+        const required = Math.max(method.amps, article220.minDwellingServiceA)
+        expect(method.serviceA).toBeGreaterThanOrEqual(required)
+        const index = standardBreakers.ratings.indexOf(method.serviceA)
+        if (index > 0) {
+          expect(standardBreakers.ratings[index - 1]!).toBeLessThan(required)
+        }
+      }
+      expect(r.minServiceA).toBe(Math.min(r.standard.serviceA, r.optional.serviceA))
+      expect(r[r.governingMethod].serviceA).toBe(r.minServiceA)
+    }
+  })
+
+  it('Table 220.45 data sanity: contiguous ascending tiers with non-increasing percents', () => {
+    let previousCap = 0
+    let previousPercent = Number.POSITIVE_INFINITY
+    for (const tier of lightingDemand.tiers) {
+      if (tier.upToVa != null) {
+        expect(tier.upToVa).toBeGreaterThan(previousCap)
+        previousCap = tier.upToVa
+      }
+      expect(tier.percent).toBeLessThanOrEqual(previousPercent)
+      expect(tier.percent).toBeGreaterThan(0)
+      previousPercent = tier.percent
+    }
+    expect(lightingDemand.tiers[lightingDemand.tiers.length - 1]?.upToVa).toBeNull()
+  })
+
+  it('Table 220.55 Column C data sanity: total demand grows, per-appliance demand shrinks', () => {
+    let previousKw = 0
+    let previousPerAppliance = Number.POSITIVE_INFINITY
+    for (const row of rangeDemand.columnC) {
+      expect(row.demandKw).toBeGreaterThanOrEqual(previousKw)
+      const perAppliance = row.demandKw / row.appliances
+      expect(perAppliance).toBeLessThanOrEqual(previousPerAppliance)
+      previousKw = row.demandKw
+      previousPerAppliance = perAppliance
+    }
+  })
+
+  it('appliance presets: unique ids, positive VA, and A/C entries consistent with the MCA presets', () => {
+    const ids = new Set<string>()
+    for (const preset of appliancePresets) {
+      expect(ids.has(preset.id), preset.id).toBe(false)
+      ids.add(preset.id)
+      expect(preset.typicalVa).toBeGreaterThan(0)
+      expect(preset.synonyms.length).toBeGreaterThan(0)
+    }
+    // typicalVa ≈ (typicalMcaA ÷ 1.25) × 230, rounded to 10 (see appliance-presets.ts docblock).
+    for (const ac of acPresets) {
+      const appliance = appliancePresets.find((p) => p.id === ac.id)
+      if (!appliance) continue
+      expect(appliance.typicalVa).toBeCloseTo((ac.typicalMcaA / 1.25) * 230, -1)
     }
   })
 })

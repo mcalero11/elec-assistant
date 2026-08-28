@@ -9,6 +9,9 @@ import conductorAreasJson from './nec-2026/chapter9-table5.json'
 import egcJson from './nec-2026/table-250-122.json'
 import standardBoxesJson from './nec-2026/table-314-16-a.json'
 import boxAllowancesJson from './nec-2026/table-314-16-b.json'
+import lightingDemandJson from './nec-2026/table-220-45.json'
+import rangeDemandJson from './nec-2026/table-220-55.json'
+import article220Json from './nec-2026/article-220-residential.json'
 import pvWireJson from './reference/pv-wire.json'
 import pricesJson from './catalog/prices.json'
 import citationsJson from './citations.json'
@@ -232,12 +235,67 @@ export const boxAllowances: BoxAllowanceTable = {
   })),
 }
 
+/** Marginal demand tiers for the pooled dwelling general-lighting load (Table 220.45). */
+export interface LightingDemandTable {
+  source: string
+  note: string
+  unit: string
+  /** Applied marginally in order; upToVa null = remainder. */
+  tiers: Array<{ upToVa: number | null; percent: number }>
+}
+
+/** Table 220.55 Column C (household ranges ≤ 12 kW) + Note 1 constants. */
+export interface RangeDemandTable {
+  source: string
+  note: string
+  unit: string
+  columnC: Array<{ appliances: number; demandKw: number }>
+  columnCMaxKw: number
+  note1PercentPerKw: number
+  note1MaxKw: number
+}
+
+/**
+ * Article 120 (ex-220) scalar values used by the residential load calc.
+ * The legacy "220" naming is kept in identifiers (files, keys, exports) —
+ * NEC 2026 relocated load calculations to the new Article 120; labels and
+ * source strings carry the current designations.
+ */
+export interface Article220Table {
+  source: string
+  note: string
+  /** 120.41 feeder/service value (22 in 2026; branch-circuit counting keeps 33 via 120.13). */
+  generalLightingVaPerM2: number
+  generalLightingVaPerFt2: number
+  branchCircuitVaPerM2: number
+  smallApplianceCircuitVa: number
+  minSmallApplianceCircuits: number
+  laundryCircuitVa: number
+  fixedApplianceDemand: { minCount: number; percent: number }
+  dryerMinVa: number
+  /** 2026-revised Table 120.54 count factors; counts beyond the last row are not transcribed. */
+  dryerDemandFactors: Array<{ maxCount: number; percent: number }>
+  optionalMethod: {
+    firstTierVa: number
+    firstTierPercent: number
+    remainderPercent: number
+    acPercent: number
+    centralHeatPercent: number
+  }
+  minDwellingServiceA: number
+}
+
+export const lightingDemand: LightingDemandTable = lightingDemandJson
+export const rangeDemand: RangeDemandTable = rangeDemandJson
+export const article220: Article220Table = article220Json
+
 /* ------------------------- catalog / templates / prices ------------------------- */
 
 export * from './catalog/types.js'
 export { glossary, type GlossaryEntry, type GlossaryId } from './glossary.js'
 export { catalogItems, type CatalogItemId } from './catalog/items.js'
 export { acPresets, type AcPresetId } from './catalog/ac-presets.js'
+export { appliancePresets, type AppliancePresetId } from './catalog/appliance-presets.js'
 export { acMinisplitTemplate } from './templates/ac-minisplit.js'
 
 /** prices.json is written by the research procedure in PRICES.md — validate at load. */

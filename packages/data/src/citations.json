@@ -35,6 +35,66 @@
     "reasonEn": "125% continuous load (breaker)",
     "reasonEs": "125% por carga continua (térmico)"
   },
+  "nec2026.s220_41": {
+    "en": "NEC 2026, 120.41 — dwelling general lighting load for feeders/services, 22 VA/m² (220.41 in 2023, 33 VA/m²)",
+    "es": "NEC 2026, 120.41 — carga general de alumbrado en viviendas para alimentadores/acometidas, 22 VA/m² (220.41 en 2023, con 33 VA/m²)",
+    "reasonEn": "general lighting load",
+    "reasonEs": "carga general de alumbrado"
+  },
+  "nec2026.t220_45": {
+    "en": "NEC 2026, Table 120.45 — lighting load demand factors (Table 220.45 in 2023, Table 220.42 earlier)",
+    "es": "NEC 2026, Tabla 120.45 — factores de demanda de alumbrado (Tabla 220.45 en 2023, Tabla 220.42 antes)",
+    "reasonEn": "lighting demand factor",
+    "reasonEs": "factor de demanda de alumbrado"
+  },
+  "nec2026.s220_50": {
+    "en": "NEC 2026, 120.11(A) — motor loads in calculations: 25% of the largest motor added (220.50/430.24 in pre-2026 editions)",
+    "es": "NEC 2026, 120.11(A) — cargas de motor en los cálculos: se suma el 25% del motor más grande (220.50/430.24 en ediciones anteriores)",
+    "reasonEn": "25% of largest motor",
+    "reasonEs": "25% del motor más grande"
+  },
+  "nec2026.s220_52": {
+    "en": "NEC 2026, 120.52 — small-appliance and laundry branch circuits, 1,500 VA each (220.52 in pre-2026 editions)",
+    "es": "NEC 2026, 120.52 — circuitos de pequeños artefactos y lavandería, 1,500 VA cada uno (220.52 en ediciones anteriores)",
+    "reasonEn": "kitchen & laundry circuits",
+    "reasonEs": "circuitos de cocina y lavandería"
+  },
+  "nec2026.s220_53": {
+    "en": "NEC 2026, 120.53 — 75% demand with four or more fastened-in-place appliances (220.53 in pre-2026 editions)",
+    "es": "NEC 2026, 120.53 — 75% de demanda con cuatro o más artefactos fijos (220.53 en ediciones anteriores)",
+    "reasonEn": "75% with 4+ fixed appliances",
+    "reasonEs": "75% con 4 o más artefactos fijos"
+  },
+  "nec2026.s220_54": {
+    "en": "NEC 2026, 120.54 — clothes dryers: 5,000 VA or nameplate, whichever is larger (220.54 in pre-2026 editions)",
+    "es": "NEC 2026, 120.54 — secadoras: 5,000 VA o la placa, lo que sea mayor (220.54 en ediciones anteriores)",
+    "reasonEn": "dryer demand (5 kVA min)",
+    "reasonEs": "demanda de secadora (mín. 5 kVA)"
+  },
+  "nec2026.t220_55": {
+    "en": "NEC 2026, Table 120.55 — demand factors for household cooking appliances (Table 220.55 in pre-2026 editions)",
+    "es": "NEC 2026, Tabla 120.55 — factores de demanda para aparatos de cocción domésticos (Tabla 220.55 en ediciones anteriores)",
+    "reasonEn": "range demand",
+    "reasonEs": "demanda de estufas"
+  },
+  "nec2026.s220_60": {
+    "en": "NEC 2026, 120.6 — noncoincident loads: only the larger is counted (220.60 in pre-2026 editions)",
+    "es": "NEC 2026, 120.6 — cargas que no coinciden: solo se cuenta la mayor (220.60 en ediciones anteriores)",
+    "reasonEn": "noncoincident loads (A/C vs heat)",
+    "reasonEs": "cargas que no coinciden (A/C vs calefacción)"
+  },
+  "nec2026.s220_82": {
+    "en": "NEC 2026, 120.82 — optional method for dwellings: 100% of the first 8 kVA + 40% of the remainder (220.82 in pre-2026 editions, with 10 kVA)",
+    "es": "NEC 2026, 120.82 — método opcional para viviendas: 100% de los primeros 8 kVA + 40% del resto (220.82 en ediciones anteriores, con 10 kVA)",
+    "reasonEn": "optional method (100%/40%)",
+    "reasonEs": "método opcional (100%/40%)"
+  },
+  "nec2026.s230_79": {
+    "en": "NEC 2026, 230.79(C) — minimum 100 A service disconnect for a one-family dwelling",
+    "es": "NEC 2026, 230.79(C) — acometida mínima de 100 A para vivienda unifamiliar",
+    "reasonEn": "100 A dwelling minimum",
+    "reasonEs": "acometida mínima de 100 A"
+  },
   "nec2026.s240_4_b": {
     "en": "NEC 2026, 240.4(B) — next-higher standard rating permitted",
     "es": "NEC 2026, 240.4(B) — se permite el valor estándar inmediato superior",

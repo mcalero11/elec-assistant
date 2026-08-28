@@ -15,7 +15,7 @@ Scope and acceptance criteria for each feature live in [PRD.md](./PRD.md).
 | Circuit composer (load → conductor → breaker) | ✅ shipped | 2026-08-15 · `sizeCircuit`, mini-split scenario verified |
 | Conduit fill (Ch. 9) | ✅ shipped | 2026-08-16 · golden + property tests; EMT / PVC Sch 40 / LFNC-B, nipple 60%, Note 7; bare EGC later (needs T8 area column) |
 | Box fill (314.16) | ✅ shipped | 2026-08-28 · golden + property tests; check + size modes, (B)(1)–(B)(5) incl. EGC quarter rule; Tables 314.16(A)/(B)(1) cross-verified vs two NFPA-licensed reprints |
-| Residential load calc (Art. 220) | 📋 planned | |
+| Residential load calc (Art. 120, ex-220) | 🚧 in progress | 2026-08-28 · engine shipped: both methods (standard + optional 120.82) with per-line bilingual breakdowns, golden + property tests; NEC 2026 moved load calcs to new Art. 120 with 22 VA/m² lighting + 8 kVA optional tier (cross-verified); `/calculadoras/carga` UI next |
 | Grounding (250.66, 250.122) | 🚧 in progress | 2026-08-17 · `egcSize` + 250.122(B)/(D) proportional upsizing shipped (cmil-exact, capped per (A), Table 8 cmil column cross-verified); 250.66 GEC later |
 | Solar sizing (Art. 690 + panels/inverter/battery) | 📋 planned | |
 
@@ -26,7 +26,7 @@ Scope and acceptance criteria for each feature live in [PRD.md](./PRD.md).
 | NEC 2026 core tables (310.16, corrections, T8, 240.6) | ✅ shipped | 2026-08-15 · cross-verified vs published sources, 0 mismatches (official 2026 text paywalled; unchanged per change summaries) |
 | NEC Ch. 9 Tables 1/4/5 + Table 250.122 | ✅ shipped | 2026-08-16 · cross-verified vs two independent sources each; verification caught + fixed a THW 14–8 AWG row-group error |
 | Bilingual citation labels (en/es) | ✅ shipped | 2026-08-15 · 2026-08-17: + plain-language reasons (`reasonEs/reasonEn`, `citationReason()`) for beginner-facing chips |
-| Device catalog (wattages, synonyms, photos) | 🚧 in progress | 2026-08-16 · AC nameplate presets (5, MCA/MOCP) seeded; wattages/photos for the load calc later |
+| Device catalog (wattages, synonyms, photos) | 🚧 in progress | 2026-08-28 · AC nameplate presets (5, MCA/MOCP) + 17 appliance wattage presets (es-SV synonyms, Art. 120 categories, typical values pending user verification); photos later |
 | Glossary / regional terminology DB | 🚧 in progress | 2026-08-17 · 36 entries in data (definición + sinónimos es-SV + inglés + artículos NEC), CI coverage lint; photos + growth toward ~100 terms pending — the moat |
 | Job templates (5 seed jobs) | 🚧 in progress | 2026-08-16 · 1/5 shipped: aire mini-split — declarative schema + engine interpreter (`runTemplate`), 4 hand-verified BOM fixtures; 2026-08-17: ambient-temperature question (location-aware default 40°C exterior / 35°C interior — El Salvador runs hotter than the 30°C table basis), question defaults can be ValueSpecs |
 | Price catalog (per-retailer, updatedAt-stamped) | 🚧 in progress | 2026-08-17 · 33 entries: 30 Vidrí (reproducible run) + 3 manual Freund/Vidrí (user-verified; Freund/EPA block AI access); cheapest-basket live on dual-priced lines; 2 documented gaps (25 A breaker, ½″ LFNC connector — market availability) |
