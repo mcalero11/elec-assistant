@@ -447,6 +447,63 @@ export const glossary = {
     },
     necArticles: ['nec2026.s314_16_b_4'],
   },
+  factorDemanda: {
+    es: 'factor de demanda',
+    en: 'demand factor',
+    synonyms: ['demanda', 'porcentaje de demanda'],
+    definition: {
+      es: 'Porcentaje que el NEC permite descontar porque no todo se usa a la vez; la demanda es menor que la suma de las placas.',
+      en: 'Percentage the NEC lets you discount because not everything runs at once; demand is less than the nameplate sum.',
+    },
+    necArticles: ['nec2026.t220_45', 'nec2026.t220_55'],
+  },
+  acometida: {
+    es: 'acometida',
+    en: 'service (entrance)',
+    synonyms: ['servicio', 'alimentación principal', 'toma de la calle'],
+    definition: {
+      es: 'La alimentación principal que entra de la calle a la casa: sus conductores y el interruptor principal. Mínimo 100 A en vivienda.',
+      en: 'The main supply entering the house from the street: its conductors and main disconnect. 100 A minimum for a dwelling.',
+    },
+    necArticles: ['nec2026.s230_79'],
+  },
+  cargaConectada: {
+    es: 'carga conectada',
+    en: 'connected load',
+    synonyms: ['carga instalada', 'suma de placas'],
+    definition: {
+      es: 'La suma de todo lo instalado según sus placas, antes de aplicar factores de demanda.',
+      en: 'The sum of everything installed per its nameplates, before demand factors.',
+    },
+  },
+  voltamperio: {
+    es: 'voltamperio (VA)',
+    en: 'volt-ampere (VA)',
+    synonyms: ['VA', 'vatios para cálculo'],
+    definition: {
+      es: 'Unidad de los cálculos de carga del NEC; en cargas residenciales típicas se toma igual al vatio (W) de la placa.',
+      en: 'The unit of NEC load calculations; for typical residential loads it is taken equal to the nameplate watt.',
+    },
+  },
+  metodoOpcional: {
+    es: 'método opcional',
+    en: 'optional method (120.82)',
+    synonyms: ['cálculo simplificado', '120.82', '220.82'],
+    definition: {
+      es: 'Cálculo simplificado para viviendas con servicio de 100 A o más: 100% de los primeros 8,000 VA y 40% del resto.',
+      en: 'Simplified dwelling calculation for services of 100 A or more: 100% of the first 8,000 VA plus 40% of the remainder.',
+    },
+    necArticles: ['nec2026.s220_82'],
+  },
+  duchaElectrica: {
+    es: 'ducha eléctrica',
+    en: 'electric shower head',
+    synonyms: ['regadera eléctrica', 'calentador de paso', 'ducha'],
+    definition: {
+      es: 'Regadera con resistencia que calienta el agua al pasar; consume mucho (3,500–5,500 W) y exige su propio circuito.',
+      en: 'Shower head with a heating element that warms water on the fly; draws a lot (3,500–5,500 W) and needs its own circuit.',
+    },
+  },
 } as const satisfies Record<string, GlossaryEntry>
 
 export type GlossaryId = keyof typeof glossary

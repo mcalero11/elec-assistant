@@ -33,6 +33,8 @@ const REQUIRED_TERMS: readonly string[] = [
   'kcmil', 'thwn2',
   // box fill
   'cajaOctagonal', 'volumenDeCaja', 'prensacable', 'yugo',
+  // load calc
+  'factorDemanda', 'acometida', 'cargaConectada', 'voltamperio', 'metodoOpcional', 'duchaElectrica',
 ]
 
 const webSrc = fileURLToPath(new URL('../../web/src/', import.meta.url))

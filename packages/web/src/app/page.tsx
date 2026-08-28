@@ -7,6 +7,7 @@ import {
   CircleDollarSign,
   Cylinder,
   Earth,
+  House,
   Package,
   ScrollText,
   type LucideIcon,
@@ -19,6 +20,8 @@ import {
   TRADE_SIZES,
   acPresets,
   ambientCorrection,
+  appliancePresets,
+  article220,
   boxAllowances,
   catalogItems,
   cccAdjustment,
@@ -28,7 +31,9 @@ import {
   conduitDimensions,
   conduitFillPercent,
   egcTable,
+  lightingDemand,
   priceEntries,
+  rangeDemand,
   standardBoxes,
   standardBreakers,
   table31016,
@@ -52,6 +57,9 @@ const NEC_TABLES = [
   egcTable,
   standardBoxes,
   boxAllowances,
+  lightingDemand,
+  rangeDemand,
+  article220,
 ].length
 
 const NEC_LABEL = NEC_EDITION.replace('nec-', 'NEC ')
@@ -99,6 +107,13 @@ export default function HomePage() {
       stat: `${standardBoxes.boxes.length} cajas · Tabla 314.16(A)/(B)(1)`,
     },
     {
+      href: '/calculadoras/carga/',
+      icon: House,
+      title: m.nav.carga,
+      desc: m.home.cargaDesc,
+      stat: `${appliancePresets.length} ${m.home.presetsLabel} · Art. 120`,
+    },
+    {
       href: '/trabajos/',
       icon: AirVent,
       title: m.nav.trabajos,
@@ -109,6 +124,7 @@ export default function HomePage() {
 
   const quickLinks: { href: string; label: string }[] = [
     { href: '/calculadoras/calibre/?a=24&m=15&v=240', label: m.home.calibreQuick },
+    { href: '/calculadoras/carga/?a=80&d=1xrefri_1xducha', label: m.home.cargaQuick },
     ...acPresets.map((p) => ({
       href: `${templateRoute({ id: 'ac-minisplit' })}?d=${p.id}`,
       label: p.label.es,
@@ -135,7 +151,7 @@ export default function HomePage() {
           icon={Package}
           value={catalogItems.length}
           label={m.home.catalogLabel}
-          detail={`${acPresets.length} ${m.home.presetsLabel}`}
+          detail={`${acPresets.length + appliancePresets.length} ${m.home.presetsLabel}`}
         />
         <StatTile
           icon={CircleDollarSign}

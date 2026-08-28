@@ -24,6 +24,7 @@ export function AppBreadcrumb() {
     tuberia: m.nav.tuberia,
     tierra: m.nav.tierra,
     cajas: m.nav.cajas,
+    carga: m.nav.carga,
   }
   for (const t of ALL_TEMPLATES) leafLabels[t.id] = t.name.es
 
