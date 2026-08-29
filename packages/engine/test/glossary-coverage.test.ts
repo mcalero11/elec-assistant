@@ -35,6 +35,8 @@ const REQUIRED_TERMS: readonly string[] = [
   'cajaOctagonal', 'volumenDeCaja', 'prensacable', 'yugo',
   // load calc
   'factorDemanda', 'acometida', 'cargaConectada', 'voltamperio', 'metodoOpcional', 'duchaElectrica',
+  // job templates 2–5
+  'gfci',
 ]
 
 const webSrc = fileURLToPath(new URL('../../web/src/', import.meta.url))

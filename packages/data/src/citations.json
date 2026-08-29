@@ -239,6 +239,30 @@
     "reasonEn": "EMT supports",
     "reasonEs": "soportes de EMT"
   },
+  "nec2026.s210_8": {
+    "en": "NEC 2026, 210.8 — GFCI protection for personnel (bathrooms, outdoors, kitchens, laundry areas)",
+    "es": "NEC 2026, 210.8 — protección GFCI para las personas (baños, exteriores, cocinas, lavanderías)",
+    "reasonEn": "GFCI required here",
+    "reasonEs": "aquí se exige GFCI"
+  },
+  "nec2026.s422_5": {
+    "en": "NEC 2026, 422.5 — appliances requiring GFCI protection",
+    "es": "NEC 2026, 422.5 — aparatos que requieren protección GFCI",
+    "reasonEn": "appliance needs GFCI",
+    "reasonEs": "el aparato exige GFCI"
+  },
+  "nec2026.s422_10": {
+    "en": "NEC 2026, 422.10 — branch-circuit sizing for appliances",
+    "es": "NEC 2026, 422.10 — dimensionamiento del circuito ramal para aparatos",
+    "reasonEn": "appliance circuit sizing",
+    "reasonEs": "circuito del aparato"
+  },
+  "nec2026.s422_11": {
+    "en": "NEC 2026, 422.11 — overcurrent protection for appliances (follow the marked rating)",
+    "es": "NEC 2026, 422.11 — protección contra sobrecorriente de aparatos (respetar el valor marcado)",
+    "reasonEn": "appliance overcurrent protection",
+    "reasonEs": "protección marcada del aparato"
+  },
   "nec2026.s440_4_b": {
     "en": "NEC 2026, 440.4(B) — nameplate marking of MCA and MOCP",
     "es": "NEC 2026, 440.4(B) — datos de placa: MCA y MOCP",

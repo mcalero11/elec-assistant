@@ -44,6 +44,17 @@ Unpriced — listed in `KNOWN_UNPRICED` in `packages/engine/test/catalog-coverag
 - `lfnc-connector-12` — effectively unavailable (user searches return water-hose
   fittings; Vidrí delisted the ½″; the ¾″ is still sold).
 
+### 2026-08-28 run report
+
+**Vidrí access changed:** the site now serves a Cloudflare challenge (HTTP 403,
+including `/robots.txt`) to non-browser clients — the 2026-08-16 crawl path no
+longer works. Per policy, no workaround was attempted. All items added for the
+`ducha-electrica` template are therefore unpriced pending manual research:
+1-pole breakers 15/20/30/40/50 A, 2-pole 50/60 A, and GFCI breakers (1p 30/40,
+2p 40/50 — GFCI availability in local stores also needs market verification).
+Recheck Vidrí's access status on the next run; if it stays closed, these move
+to the manual-research column with Freund/EPA.
+
 Market adaptations recorded 2026-08-17 from the user's manual research:
 
 - **A/C disconnect = «caja térmica» NEMA 3R.** Dedicated pull-out disconnects are

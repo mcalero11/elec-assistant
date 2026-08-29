@@ -447,6 +447,16 @@ export const glossary = {
     },
     necArticles: ['nec2026.s314_16_b_4'],
   },
+  gfci: {
+    es: 'GFCI',
+    en: 'GFCI (ground-fault circuit interrupter)',
+    synonyms: ['interruptor de falla a tierra', 'breaker de baño', 'diferencial'],
+    definition: {
+      es: 'Protección que corta en milisegundos cuando la corriente se fuga (p. ej. por el cuerpo de una persona); obligatoria en baños, cocinas y exteriores.',
+      en: 'Protection that trips in milliseconds when current leaks (e.g. through a person); required in bathrooms, kitchens, and outdoors.',
+    },
+    necArticles: ['nec2026.s210_8'],
+  },
   factorDemanda: {
     es: 'factor de demanda',
     en: 'demand factor',

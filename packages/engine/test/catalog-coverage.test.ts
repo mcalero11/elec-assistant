@@ -28,6 +28,21 @@ const TEMPLATES: readonly JobTemplate[] = allTemplates
 const KNOWN_UNPRICED = new Set([
   'breaker-2p-25',
   'lfnc-connector-12',
+  // 2026-08-28 run: Vidrí now serves a Cloudflare challenge to non-browser
+  // clients (was crawlable 2026-08-16); Freund/EPA remain opted out of AI
+  // access. All ducha-electrica breaker items await manual price research —
+  // see PRICES.md.
+  'breaker-1p-15',
+  'breaker-1p-20',
+  'breaker-1p-30',
+  'breaker-1p-40',
+  'breaker-1p-50',
+  'breaker-2p-50',
+  'breaker-2p-60',
+  'breaker-1p-gfci-30',
+  'breaker-1p-gfci-40',
+  'breaker-2p-gfci-40',
+  'breaker-2p-gfci-50',
 ])
 
 function reachableItemIds(rules: readonly BomRule[]): Set<string> {

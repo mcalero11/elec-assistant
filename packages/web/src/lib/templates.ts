@@ -1,5 +1,5 @@
 import { allTemplates, type JobTemplate } from '@elec-assistant/data'
-import { AirVent, Wrench, type LucideIcon } from 'lucide-react'
+import { AirVent, ShowerHead, Wrench, type LucideIcon } from 'lucide-react'
 
 /**
  * Job-template registry, re-exported from data (which owns it so engine tests
@@ -12,6 +12,7 @@ export const ALL_TEMPLATES: readonly JobTemplate[] = allTemplates
 /** Icons stay UI-side (data is presentation-agnostic). Fallback: Wrench. */
 export const TEMPLATE_ICONS: Record<string, LucideIcon> = {
   'ac-minisplit': AirVent,
+  'ducha-electrica': ShowerHead,
 }
 
 export function templateIcon(id: string): LucideIcon {

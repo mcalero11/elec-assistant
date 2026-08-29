@@ -12,6 +12,21 @@ export const catalogItems = [
   { id: 'breaker-2p-25', name: { es: 'térmico 2 polos 25 A', en: '2-pole breaker 25 A' }, unit: 'unidad', category: 'material', synonyms: ['flipón doble 25', 'breaker 2x25'] },
   { id: 'breaker-2p-30', name: { es: 'térmico 2 polos 30 A', en: '2-pole breaker 30 A' }, unit: 'unidad', category: 'material', synonyms: ['flipón doble 30', 'breaker 2x30'] },
   { id: 'breaker-2p-40', name: { es: 'térmico 2 polos 40 A', en: '2-pole breaker 40 A' }, unit: 'unidad', category: 'material', synonyms: ['flipón doble 40', 'breaker 2x40'] },
+  { id: 'breaker-2p-50', name: { es: 'térmico 2 polos 50 A', en: '2-pole breaker 50 A' }, unit: 'unidad', category: 'material', synonyms: ['flipón doble 50', 'breaker 2x50'] },
+  { id: 'breaker-2p-60', name: { es: 'térmico 2 polos 60 A', en: '2-pole breaker 60 A' }, unit: 'unidad', category: 'material', synonyms: ['flipón doble 60', 'breaker 2x60'] },
+
+  // Térmicos 1 polo
+  { id: 'breaker-1p-15', name: { es: 'térmico 1 polo 15 A', en: '1-pole breaker 15 A' }, unit: 'unidad', category: 'material', synonyms: ['flipón 15', 'breaker 1x15'] },
+  { id: 'breaker-1p-20', name: { es: 'térmico 1 polo 20 A', en: '1-pole breaker 20 A' }, unit: 'unidad', category: 'material', synonyms: ['flipón 20', 'breaker 1x20'] },
+  { id: 'breaker-1p-30', name: { es: 'térmico 1 polo 30 A', en: '1-pole breaker 30 A' }, unit: 'unidad', category: 'material', synonyms: ['flipón 30', 'breaker 1x30'] },
+  { id: 'breaker-1p-40', name: { es: 'térmico 1 polo 40 A', en: '1-pole breaker 40 A' }, unit: 'unidad', category: 'material', synonyms: ['flipón 40', 'breaker 1x40'] },
+  { id: 'breaker-1p-50', name: { es: 'térmico 1 polo 50 A', en: '1-pole breaker 50 A' }, unit: 'unidad', category: 'material', synonyms: ['flipón 50', 'breaker 1x50'] },
+
+  // Térmicos GFCI (protección de falla a tierra — exigidos en baños/exteriores, 210.8)
+  { id: 'breaker-1p-gfci-30', name: { es: 'térmico GFCI 1 polo 30 A', en: '1-pole GFCI breaker 30 A' }, unit: 'unidad', category: 'material', synonyms: ['breaker gfci 30', 'interruptor de falla a tierra 30'] },
+  { id: 'breaker-1p-gfci-40', name: { es: 'térmico GFCI 1 polo 40 A', en: '1-pole GFCI breaker 40 A' }, unit: 'unidad', category: 'material', synonyms: ['breaker gfci 40', 'interruptor de falla a tierra 40'] },
+  { id: 'breaker-2p-gfci-40', name: { es: 'térmico GFCI 2 polos 40 A', en: '2-pole GFCI breaker 40 A' }, unit: 'unidad', category: 'material', synonyms: ['breaker gfci doble 40'] },
+  { id: 'breaker-2p-gfci-50', name: { es: 'térmico GFCI 2 polos 50 A', en: '2-pole GFCI breaker 50 A' }, unit: 'unidad', category: 'material', synonyms: ['breaker gfci doble 50'] },
 
   // Alambre THHN/THWN-2 cobre (por metro)
   { id: 'thhn-cu-14', name: { es: 'alambre THHN/THWN-2 Cu #14', en: 'THHN/THWN-2 Cu wire #14' }, unit: 'm', category: 'material', synonyms: ['alambre 14', 'cable 14'] },

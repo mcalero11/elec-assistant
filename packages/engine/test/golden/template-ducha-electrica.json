@@ -1,0 +1,107 @@
+{
+  "note": "Hand-verified ducha/calentador circuits. Electrical anchors re-derived by hand: amps = watts ÷ voltage; terminations default 60 °C (110.14(C)(1), ≤100 A); ambient 35 °C → 90 °C factor 0.96; 240.4(D) caps #10 protection at 30 A; drop = 2 × I × R × km with Table 8 R (#10 = 4.07, #8 = 2.55 Ω/km). Quantities: hots = run × 1.1 × 2 rounded up; EGC = run × 1.1; sticks = ceil(run×1.1/3.05); EMT couplings = ceil(run/3.05); EMT straps = ceil(run/3)+1 (358.30); PVC straps = ceil(run/0.9)+1 (352.30). Case arithmetic in each name.",
+  "cases": [
+    {
+      "name": "ducha-4400 (4400 W/120 V, mín 40 A), 8 m, húmedo, EMT+curvas, GFCI: 36.67 A → #8 THWN-2 (term 40 ≥ 36.67; 55×0.96 = 52.8), térmico 40 (36.67→40, el piso 40 no cambió nada); drop 2×36.67×2.55×0.008 = 1.496 V = 1.2467%; EGC #10 (40 A); 2×23.61+13.61 = 60.83 ≤ 78 → EMT ½",
+      "answers": {
+        "device": { "id": "ducha-4400", "watts": 4400, "voltage": 120, "minBreakerA": 40 },
+        "runLengthM": 8,
+        "location": "humedo",
+        "panelSlots": "si"
+      },
+      "options": {},
+      "expected": {
+        "parameters": {
+          "corriente": 36.7,
+          "conductor": "8",
+          "insulation": "THWN-2",
+          "breaker": 40,
+          "polos": "1 polo",
+          "conduit": "1/2"
+        },
+        "dropPercent": 1.2467,
+        "bom": [
+          { "ruleId": "breaker-gfci", "itemId": "breaker-1p-gfci-40", "qty": 1 },
+          { "ruleId": "hots", "itemId": "thhn-cu-8", "qty": 18 },
+          { "ruleId": "egc-wire", "itemId": "thhn-cu-10", "qty": 9 },
+          { "ruleId": "conduit-emt", "itemId": "emt-tube-12", "qty": 3 },
+          { "ruleId": "emt-connectors", "itemId": "emt-connector-12", "qty": 2 },
+          { "ruleId": "emt-couplings", "itemId": "emt-coupling-12", "qty": 3 },
+          { "ruleId": "emt-elbows", "itemId": "emt-elbow-12", "qty": 3 },
+          { "ruleId": "emt-straps", "itemId": "strap-12", "qty": 4 }
+        ],
+        "assumptionKeys": ["ducha-gfci-required", "ducha-dedicated-circuit"],
+        "absentAssumptionKeys": ["egc-upsized-250-122b"],
+        "warningCount": 0
+      }
+    },
+    {
+      "name": "calentador-8k (8000 W/240 V, mín 40 A), 12 m, seco, PVC, GFCI: 33.33 A → #8 THHN; térmico sin piso daría 35 → el piso del fabricante manda 40 (minBreakerApplied); drop 2×33.33×2.55×0.012 = 2.04 V = 0.85%; PVC ½ (60.83 ≤ 74); 5 tramos (13.2/3.05), 15 abrazaderas (ceil(12/0.9)+1)",
+      "answers": {
+        "device": { "id": "calentador-8k", "watts": 8000, "voltage": 240, "minBreakerA": 40 },
+        "runLengthM": 12,
+        "location": "seco",
+        "panelSlots": "si"
+      },
+      "options": { "conduitType": "pvc" },
+      "expected": {
+        "parameters": {
+          "corriente": 33.3,
+          "conductor": "8",
+          "insulation": "THHN",
+          "breaker": 40,
+          "polos": "2 polos",
+          "conduit": "1/2"
+        },
+        "dropPercent": 0.85,
+        "bom": [
+          { "ruleId": "breaker-gfci", "itemId": "breaker-2p-gfci-40", "qty": 1 },
+          { "ruleId": "hots", "itemId": "thhn-cu-8", "qty": 27 },
+          { "ruleId": "egc-wire", "itemId": "thhn-cu-10", "qty": 14 },
+          { "ruleId": "conduit-pvc", "itemId": "pvc-tube-12", "qty": 5 },
+          { "ruleId": "pvc-elbows", "itemId": "pvc-elbow-12", "qty": 3 },
+          { "ruleId": "pvc-adapters", "itemId": "pvc-adapter-12", "qty": 2 },
+          { "ruleId": "pvc-cement", "itemId": "pvc-cement", "qty": 1 },
+          { "ruleId": "pvc-straps", "itemId": "strap-12", "qty": 15 }
+        ],
+        "assumptionKeys": ["ducha-gfci-required", "ducha-dedicated-circuit", "conduit-pvc-sch40"],
+        "absentAssumptionKeys": ["egc-upsized-250-122b"],
+        "warningCount": 0
+      }
+    },
+    {
+      "name": "ducha-3500 con térmico estándar (aviso GFCI): 29.17 A → #10 THWN-2 (term 30 ≥ 29.17; 40×0.96 = 38.4; protección min(38.4, 30, tope 240.4(D) 30) = 30); térmico 30 (piso 30 sin efecto); drop 2×29.17×4.07×0.006 = 1.4245 V = 1.1871%; 3× #10 = 40.83 ≤ 78 → EMT ½",
+      "answers": {
+        "device": { "id": "ducha-3500", "watts": 3500, "voltage": 120, "minBreakerA": 30 },
+        "runLengthM": 6,
+        "location": "humedo",
+        "panelSlots": "si"
+      },
+      "options": { "proteccion": "estandar" },
+      "expected": {
+        "parameters": {
+          "corriente": 29.2,
+          "conductor": "10",
+          "insulation": "THWN-2",
+          "breaker": 30,
+          "polos": "1 polo",
+          "conduit": "1/2"
+        },
+        "dropPercent": 1.1871,
+        "bom": [
+          { "ruleId": "breaker-std", "itemId": "breaker-1p-30", "qty": 1 },
+          { "ruleId": "hots", "itemId": "thhn-cu-10", "qty": 14 },
+          { "ruleId": "egc-wire", "itemId": "thhn-cu-10", "qty": 7 },
+          { "ruleId": "conduit-emt", "itemId": "emt-tube-12", "qty": 3 },
+          { "ruleId": "emt-connectors", "itemId": "emt-connector-12", "qty": 2 },
+          { "ruleId": "emt-couplings", "itemId": "emt-coupling-12", "qty": 2 },
+          { "ruleId": "emt-elbows", "itemId": "emt-elbow-12", "qty": 3 },
+          { "ruleId": "emt-straps", "itemId": "strap-12", "qty": 3 }
+        ],
+        "assumptionKeys": ["ducha-gfci-required", "ducha-dedicated-circuit"],
+        "absentAssumptionKeys": ["egc-upsized-250-122b"],
+        "warningCount": 1
+      }
+    }
+  ]
+}
