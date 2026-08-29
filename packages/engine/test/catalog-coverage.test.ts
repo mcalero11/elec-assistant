@@ -59,6 +59,27 @@ const KNOWN_UNPRICED = new Set([
   'box-2x4-pvc',
   'box-octagonal-metal',
   'box-octagonal-pvc',
+  // alimentador-bodega items, same run (aluminum wire availability also
+  // needs market verification):
+  'thhn-cu-4',
+  'wire-al-8',
+  'wire-al-6',
+  'wire-al-4',
+  'wire-al-3',
+  'wire-al-2',
+  'wire-cu-bare-6',
+  'emt-tube-1',
+  'emt-connector-1',
+  'emt-coupling-1',
+  'emt-elbow-1',
+  'pvc-tube-1',
+  'pvc-elbow-1',
+  'pvc-adapter-1',
+  'strap-1',
+  'loadcenter-4',
+  'loadcenter-8',
+  'ground-rod-58',
+  'rod-clamp-58',
 ])
 
 function reachableItemIds(rules: readonly BomRule[]): Set<string> {

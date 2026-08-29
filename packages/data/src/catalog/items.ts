@@ -52,6 +52,15 @@ export const catalogItems = [
   { id: 'thhn-cu-10', name: { es: 'alambre THHN/THWN-2 Cu #10', en: 'THHN/THWN-2 Cu wire #10' }, unit: 'm', category: 'material', synonyms: ['alambre 10', 'cable 10'] },
   { id: 'thhn-cu-8', name: { es: 'alambre THHN/THWN-2 Cu #8', en: 'THHN/THWN-2 Cu wire #8' }, unit: 'm', category: 'material', synonyms: ['alambre 8', 'cable 8'] },
   { id: 'thhn-cu-6', name: { es: 'alambre THHN/THWN-2 Cu #6', en: 'THHN/THWN-2 Cu wire #6' }, unit: 'm', category: 'material', synonyms: ['alambre 6', 'cable 6'] },
+  { id: 'thhn-cu-4', name: { es: 'alambre THHN/THWN-2 Cu #4', en: 'THHN/THWN-2 Cu wire #4' }, unit: 'm', category: 'material', synonyms: ['alambre 4', 'cable 4'] },
+
+  // Alambre de aluminio (alimentadores — más barato en recorridos largos)
+  { id: 'wire-al-8', name: { es: 'alambre THWN-2/XHHW-2 Al #8', en: 'THWN-2/XHHW-2 Al wire #8' }, unit: 'm', category: 'material', synonyms: ['aluminio 8'] },
+  { id: 'wire-al-6', name: { es: 'alambre THWN-2/XHHW-2 Al #6', en: 'THWN-2/XHHW-2 Al wire #6' }, unit: 'm', category: 'material', synonyms: ['aluminio 6'] },
+  { id: 'wire-al-4', name: { es: 'alambre THWN-2/XHHW-2 Al #4', en: 'THWN-2/XHHW-2 Al wire #4' }, unit: 'm', category: 'material', synonyms: ['aluminio 4'] },
+  { id: 'wire-al-3', name: { es: 'alambre THWN-2/XHHW-2 Al #3', en: 'THWN-2/XHHW-2 Al wire #3' }, unit: 'm', category: 'material', synonyms: ['aluminio 3'] },
+  { id: 'wire-al-2', name: { es: 'alambre THWN-2/XHHW-2 Al #2', en: 'THWN-2/XHHW-2 Al wire #2' }, unit: 'm', category: 'material', synonyms: ['aluminio 2'] },
+  { id: 'wire-cu-bare-6', name: { es: 'alambre de cobre desnudo #6', en: 'bare copper wire #6' }, unit: 'm', category: 'material', synonyms: ['cobre desnudo', 'alambre de tierra desnudo'] },
 
   // Tubería EMT (tramo de 10 pies ≈ 3.05 m)
   { id: 'emt-tube-12', name: { es: 'tubo EMT 1/2" (tramo 10 pies)', en: 'EMT tubing 1/2" (10-ft stick)' }, unit: 'tramo-3m', category: 'material', synonyms: ['tubo conduit 1/2', 'emt media'] },
@@ -62,6 +71,10 @@ export const catalogItems = [
   { id: 'emt-coupling-34', name: { es: 'unión EMT 3/4"', en: 'EMT coupling 3/4"' }, unit: 'unidad', category: 'material', synonyms: ['copla emt'] },
   { id: 'emt-elbow-12', name: { es: 'curva EMT 1/2"', en: 'EMT elbow 1/2"' }, unit: 'unidad', category: 'material', synonyms: ['codo emt'] },
   { id: 'emt-elbow-34', name: { es: 'curva EMT 3/4"', en: 'EMT elbow 3/4"' }, unit: 'unidad', category: 'material', synonyms: ['codo emt'] },
+  { id: 'emt-tube-1', name: { es: 'tubo EMT 1" (tramo 10 pies)', en: 'EMT tubing 1" (10-ft stick)' }, unit: 'tramo-3m', category: 'material', synonyms: ['tubo conduit 1'] },
+  { id: 'emt-connector-1', name: { es: 'conector EMT 1"', en: 'EMT connector 1"' }, unit: 'unidad', category: 'material' },
+  { id: 'emt-coupling-1', name: { es: 'unión EMT 1"', en: 'EMT coupling 1"' }, unit: 'unidad', category: 'material', synonyms: ['copla emt'] },
+  { id: 'emt-elbow-1', name: { es: 'curva EMT 1"', en: 'EMT elbow 1"' }, unit: 'unidad', category: 'material', synonyms: ['codo emt'] },
 
   // Tubería PVC eléctrico cédula 40 (tramo de 10 pies)
   { id: 'pvc-tube-12', name: { es: 'tubo PVC eléctrico 1/2" (tramo 10 pies)', en: 'electrical PVC conduit 1/2" (10-ft stick)' }, unit: 'tramo-3m', category: 'material', synonyms: ['poliducto rígido', 'conduit pvc'] },
@@ -71,6 +84,9 @@ export const catalogItems = [
   { id: 'pvc-adapter-12', name: { es: 'adaptador terminal PVC 1/2"', en: 'PVC terminal adapter 1/2"' }, unit: 'unidad', category: 'material' },
   { id: 'pvc-adapter-34', name: { es: 'adaptador terminal PVC 3/4"', en: 'PVC terminal adapter 3/4"' }, unit: 'unidad', category: 'material' },
   { id: 'pvc-cement', name: { es: 'pegamento PVC (bote pequeño)', en: 'PVC cement (small can)' }, unit: 'unidad', category: 'material' },
+  { id: 'pvc-tube-1', name: { es: 'tubo PVC eléctrico 1" (tramo 10 pies)', en: 'electrical PVC conduit 1" (10-ft stick)' }, unit: 'tramo-3m', category: 'material' },
+  { id: 'pvc-elbow-1', name: { es: 'curva PVC eléctrica 1"', en: 'electrical PVC elbow 1"' }, unit: 'unidad', category: 'material' },
+  { id: 'pvc-adapter-1', name: { es: 'adaptador terminal PVC 1"', en: 'PVC terminal adapter 1"' }, unit: 'unidad', category: 'material' },
 
   // Poliducto / LFNC (por metro)
   { id: 'lfnc-12', name: { es: 'manguera flexible eléctrica (poliducto/LFNC) 1/2"', en: 'liquidtight flexible nonmetallic conduit 1/2"' }, unit: 'm', category: 'material', synonyms: ['poliducto', 'manguera negra'] },
@@ -81,6 +97,7 @@ export const catalogItems = [
   // Fijación
   { id: 'strap-12', name: { es: 'abrazadera 1/2"', en: 'conduit strap 1/2"' }, unit: 'unidad', category: 'material', synonyms: ['grapa', 'gaza'] },
   { id: 'strap-34', name: { es: 'abrazadera 3/4"', en: 'conduit strap 3/4"' }, unit: 'unidad', category: 'material', synonyms: ['grapa', 'gaza'] },
+  { id: 'strap-1', name: { es: 'abrazadera 1"', en: 'conduit strap 1"' }, unit: 'unidad', category: 'material', synonyms: ['grapa', 'gaza'] },
 
   // Equipo del circuito de aire. Local practice (verified 2026-08-17): dedicated
   // pull-out A/C disconnects are not sold here — a small NEMA 3R «caja térmica»
@@ -88,6 +105,12 @@ export const catalogItems = [
   // Pre-made whips are also not sold; the flexible connection is assembled on site
   // from poliducto + wire (see the template's whip rule).
   { id: 'disconnect-60-3r', name: { es: 'caja térmica NEMA 3R 2 espacios (desconectador junto al A/C)', en: 'NEMA 3R 2-space enclosure (A/C disconnecting means)' }, unit: 'unidad', category: 'material', synonyms: ['caja de seguridad', 'switch de aire', 'caja térmica intemperie'] },
+
+  // Alimentador a construcción separada (subpanel + electrodos)
+  { id: 'loadcenter-4', name: { es: 'centro de carga 4 espacios (con barra de tierra)', en: '4-space load center (with ground bar)' }, unit: 'unidad', category: 'material', synonyms: ['subpanel 4', 'caja de térmicos'] },
+  { id: 'loadcenter-8', name: { es: 'centro de carga 8 espacios (con barra de tierra)', en: '8-space load center (with ground bar)' }, unit: 'unidad', category: 'material', synonyms: ['subpanel 8', 'caja de térmicos'] },
+  { id: 'ground-rod-58', name: { es: 'varilla de tierra 5/8" × 8 pies (copperweld)', en: 'ground rod 5/8" × 8 ft (copperweld)' }, unit: 'unidad', category: 'material', synonyms: ['varilla copperweld', 'electrodo de tierra'] },
+  { id: 'rod-clamp-58', name: { es: 'abrazadera para varilla de tierra 5/8"', en: 'ground rod clamp 5/8"' }, unit: 'unidad', category: 'material', synonyms: ['conector de varilla'] },
 
   // Herramientas
   { id: 'bender-12', name: { es: 'dobladora de tubo EMT 1/2"', en: 'EMT conduit bender 1/2"' }, unit: 'unidad', category: 'herramienta', synonyms: ['grifa'] },

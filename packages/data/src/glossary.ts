@@ -447,6 +447,46 @@ export const glossary = {
     },
     necArticles: ['nec2026.s314_16_b_4'],
   },
+  alimentador: {
+    es: 'alimentador',
+    en: 'feeder',
+    synonyms: ['línea al subpanel', 'acometida interna', 'feeder'],
+    definition: {
+      es: 'Los conductores que llevan la energía del panel principal a un subpanel (p. ej. en una bodega o anexo).',
+      en: 'The conductors carrying power from the main panel to a subpanel (e.g. in a shed or annex).',
+    },
+    necArticles: ['nec2026.s215_2'],
+  },
+  centroDeCarga: {
+    es: 'centro de carga',
+    en: 'load center (subpanel)',
+    synonyms: ['subpanel', 'caja de térmicos', 'tablero'],
+    definition: {
+      es: 'La caja con espacios para térmicos que reparte los circuitos; en construcción separada su neutro va aislado de la tierra.',
+      en: 'The breaker box distributing the circuits; at a separate structure its neutral is isolated from ground.',
+    },
+    necArticles: ['nec2026.s250_32'],
+  },
+  varillaDeTierra: {
+    es: 'varilla de tierra',
+    en: 'ground rod',
+    synonyms: ['copperweld', 'electrodo de tierra', 'varilla polarizada'],
+    definition: {
+      es: 'Varilla de acero cobrizado (5/8″ × 8 pies) que se entierra como electrodo; se instalan dos salvo medir ≤ 25 Ω.',
+      en: 'Copper-clad steel rod (5/8″ × 8 ft) driven as an electrode; two are installed unless one measures ≤ 25 Ω.',
+    },
+    necArticles: ['nec2026.s250_53'],
+  },
+  gec: {
+    es: 'conductor al electrodo (GEC)',
+    en: 'grounding electrode conductor',
+    synonyms: ['bajada a la varilla', 'cable a tierra física'],
+    definition: {
+      es: 'El conductor que une el panel con las varillas de tierra; distinto del conductor de tierra de equipos (EGC).',
+      en: 'The conductor bonding the panel to the ground rods; distinct from the equipment grounding conductor (EGC).',
+    },
+    necArticles: ['nec2026.t250_66'],
+  },
   cajaRectangular: {
     es: 'caja rectangular (2×4)',
     en: 'device box (2×4)',

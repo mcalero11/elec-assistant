@@ -95,6 +95,30 @@
     "reasonEn": "100 A dwelling minimum",
     "reasonEs": "acometida mínima de 100 A"
   },
+  "nec2026.s215_2": {
+    "en": "NEC 2026, 215.2 — feeder conductor minimum ampacity",
+    "es": "NEC 2026, 215.2 — ampacidad mínima de los conductores del alimentador",
+    "reasonEn": "feeder sizing",
+    "reasonEs": "dimensionamiento del alimentador"
+  },
+  "nec2026.s250_32": {
+    "en": "NEC 2026, 250.32 — grounding at a separate building or structure (its own electrode; neutral isolated from ground at the subpanel)",
+    "es": "NEC 2026, 250.32 — puesta a tierra en construcción separada (electrodo propio; neutro aislado de tierra en el subpanel)",
+    "reasonEn": "separate-structure grounding",
+    "reasonEs": "tierra en construcción separada"
+  },
+  "nec2026.s250_53": {
+    "en": "NEC 2026, 250.53(A)(2) — a single rod must be supplemented by a second electrode unless it measures ≤ 25 Ω",
+    "es": "NEC 2026, 250.53(A)(2) — una sola varilla debe complementarse con un segundo electrodo salvo que mida ≤ 25 Ω",
+    "reasonEn": "two ground rods",
+    "reasonEs": "dos varillas de tierra"
+  },
+  "nec2026.t300_5": {
+    "en": "NEC 2026, Table 300.5 — minimum burial depth for underground raceways",
+    "es": "NEC 2026, Tabla 300.5 — profundidad mínima de enterrado para canalizaciones subterráneas",
+    "reasonEn": "burial depth",
+    "reasonEs": "profundidad de zanja"
+  },
   "nec2026.s240_4_b": {
     "en": "NEC 2026, 240.4(B) — next-higher standard rating permitted",
     "es": "NEC 2026, 240.4(B) — se permite el valor estándar inmediato superior",

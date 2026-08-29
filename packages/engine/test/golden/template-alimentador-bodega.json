@@ -1,0 +1,123 @@
+{
+  "note": "Hand-verified 240 V feeders to a separate structure (the PRD long-run voltage-drop case). Anchors: terminations 60 °C; buried default ambient 30 °C (factor 1.0), surface 35 °C (0.96 on the 90 °C column); drop = 2 × I × R × km / 240 with Table 8 R (Cu: #8 = 2.55, #6 = 1.61, #4 = 1.01; Al: #3 = 1.32 Ω/km); EGC per T250.122 with the 250.122(B) cmil-proportional increase when drop upsizes the phases; GEC per T250.66 with the rod cap (never raises: #8 table value stays #8, bought as #6 bare — practical minimum, 250.64(B)). Fill (THWN-2 mm²: #8 = 23.61, #6 = 32.71, #4 = 53.16, #3 = 62.77, #10 = 13.61) vs over-2-wire columns (PVC ¾ = 131, PVC 1 = 214, EMT 1 = 222). Quantities per the shared formulas.",
+  "cases": [
+    {
+      "name": "60 A Cu, 30 m, 3%, PVC enterrado (30 °C): #4 (term 70 ≥ 60; #6 = 55 < 60); drop 2×60×1.01×0.03 = 3.636 V = 1.515%; EGC #10 sin aumento; GEC tabla #8 (fila «2 o menor», el tope de varillas no eleva); relleno 3×53.16 + 13.61 = 173.09 > 131 → PVC 1\"; 11 tramos (33/3.05); aviso de zanja",
+      "answers": {
+        "feederA": "60",
+        "runLengthM": 30,
+        "routing": "subterraneo",
+        "panelSlots": "si"
+      },
+      "options": {},
+      "expected": {
+        "parameters": {
+          "fases": "4",
+          "material": "cobre",
+          "neutro": "4",
+          "breaker": 60,
+          "egc": "10",
+          "gec": "8",
+          "conduit": "1"
+        },
+        "dropPercent": 1.515,
+        "bom": [
+          { "ruleId": "breaker", "itemId": "breaker-2p-60", "qty": 1 },
+          { "ruleId": "hots-cu", "itemId": "thhn-cu-4", "qty": 66 },
+          { "ruleId": "neutral-cu", "itemId": "thhn-cu-4", "qty": 33 },
+          { "ruleId": "egc-cu", "itemId": "thhn-cu-10", "qty": 33 },
+          { "ruleId": "gec-wire", "itemId": "wire-cu-bare-6", "qty": 3 },
+          { "ruleId": "ground-rods", "itemId": "ground-rod-58", "qty": 2 },
+          { "ruleId": "rod-clamps", "itemId": "rod-clamp-58", "qty": 2 },
+          { "ruleId": "loadcenter", "itemId": "loadcenter-8", "qty": 1 },
+          { "ruleId": "conduit-pvc", "itemId": "pvc-tube-1", "qty": 11 },
+          { "ruleId": "pvc-elbows", "itemId": "pvc-elbow-1", "qty": 4 },
+          { "ruleId": "pvc-adapters", "itemId": "pvc-adapter-1", "qty": 2 },
+          { "ruleId": "pvc-cement", "itemId": "pvc-cement", "qty": 1 }
+        ],
+        "assumptionKeys": ["feeder-sized-to-breaker", "feeder-neutral-full-size", "feeder-subpanel-isolation", "gec-rod-cap"],
+        "absentAssumptionKeys": ["egc-upsized-250-122b"],
+        "warningCount": 1
+      }
+    },
+    {
+      "name": "40 A Cu, 50 m, 3% — LA CAÍDA MANDA: #8 daría 2×40×2.55×0.05 = 10.2 V = 4.25% > 3 → #6 (6.44 V = 2.6833%); EGC sube por 250.122(B): 10380 × 26240/16510 = 16497 → #8 (16510); relleno 3×32.71 + 23.61 = 121.74 ≤ 131 → PVC ¾; 19 tramos (55/3.05)",
+      "answers": {
+        "feederA": "40",
+        "runLengthM": 50,
+        "routing": "subterraneo",
+        "panelSlots": "si"
+      },
+      "options": {},
+      "expected": {
+        "parameters": {
+          "fases": "6",
+          "material": "cobre",
+          "neutro": "6",
+          "breaker": 40,
+          "egc": "8",
+          "gec": "8",
+          "conduit": "3/4"
+        },
+        "dropPercent": 2.6833,
+        "bom": [
+          { "ruleId": "breaker", "itemId": "breaker-2p-40", "qty": 1 },
+          { "ruleId": "hots-cu", "itemId": "thhn-cu-6", "qty": 110 },
+          { "ruleId": "neutral-cu", "itemId": "thhn-cu-6", "qty": 55 },
+          { "ruleId": "egc-cu", "itemId": "thhn-cu-8", "qty": 55 },
+          { "ruleId": "gec-wire", "itemId": "wire-cu-bare-6", "qty": 3 },
+          { "ruleId": "ground-rods", "itemId": "ground-rod-58", "qty": 2 },
+          { "ruleId": "rod-clamps", "itemId": "rod-clamp-58", "qty": 2 },
+          { "ruleId": "loadcenter", "itemId": "loadcenter-8", "qty": 1 },
+          { "ruleId": "conduit-pvc", "itemId": "pvc-tube-34", "qty": 19 },
+          { "ruleId": "pvc-elbows", "itemId": "pvc-elbow-34", "qty": 4 },
+          { "ruleId": "pvc-adapters", "itemId": "pvc-adapter-34", "qty": 2 },
+          { "ruleId": "pvc-cement", "itemId": "pvc-cement", "qty": 1 }
+        ],
+        "assumptionKeys": ["feeder-sized-to-breaker", "feeder-neutral-full-size", "feeder-subpanel-isolation", "gec-rod-cap", "egc-upsized-250-122b"],
+        "absentAssumptionKeys": [],
+        "warningCount": 1
+      }
+    },
+    {
+      "name": "60 A ALUMINIO, 30 m, EMT superficial (35 °C): #3 Al (term 65 ≥ 60; #4 Al = 55 < 60; derrateo 85×0.96 = 81.6); drop 2×60×1.32×0.03 = 4.752 V = 1.98%; EGC #8 Al; GEC columna Al (#3 ≤ 1/0) → #8 Cu; relleno 3×62.77 + 23.61 = 211.92 ≤ 222 → EMT 1\"; uniones ceil(30/3.05) = 10; abrazaderas ceil(30/3)+1 = 11; sin aviso de zanja",
+      "answers": {
+        "feederA": "60",
+        "runLengthM": 30,
+        "routing": "superficial",
+        "panelSlots": "si"
+      },
+      "options": { "material": "aluminio", "conduitType": "emt" },
+      "expected": {
+        "parameters": {
+          "fases": "3",
+          "material": "aluminio",
+          "neutro": "3",
+          "breaker": 60,
+          "egc": "8",
+          "gec": "8",
+          "conduit": "1"
+        },
+        "dropPercent": 1.98,
+        "bom": [
+          { "ruleId": "breaker", "itemId": "breaker-2p-60", "qty": 1 },
+          { "ruleId": "hots-al", "itemId": "wire-al-3", "qty": 66 },
+          { "ruleId": "neutral-al", "itemId": "wire-al-3", "qty": 33 },
+          { "ruleId": "egc-al", "itemId": "wire-al-8", "qty": 33 },
+          { "ruleId": "gec-wire", "itemId": "wire-cu-bare-6", "qty": 3 },
+          { "ruleId": "ground-rods", "itemId": "ground-rod-58", "qty": 2 },
+          { "ruleId": "rod-clamps", "itemId": "rod-clamp-58", "qty": 2 },
+          { "ruleId": "loadcenter", "itemId": "loadcenter-8", "qty": 1 },
+          { "ruleId": "conduit-emt", "itemId": "emt-tube-1", "qty": 11 },
+          { "ruleId": "emt-connectors", "itemId": "emt-connector-1", "qty": 2 },
+          { "ruleId": "emt-couplings", "itemId": "emt-coupling-1", "qty": 10 },
+          { "ruleId": "emt-elbows", "itemId": "emt-elbow-1", "qty": 4 },
+          { "ruleId": "emt-straps", "itemId": "strap-1", "qty": 11 }
+        ],
+        "assumptionKeys": ["feeder-sized-to-breaker", "feeder-neutral-full-size", "feeder-subpanel-isolation", "gec-rod-cap"],
+        "absentAssumptionKeys": ["egc-upsized-250-122b"],
+        "warningCount": 0
+      }
+    }
+  ]
+}

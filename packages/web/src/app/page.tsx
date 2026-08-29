@@ -129,6 +129,10 @@ export default function HomePage() {
       href: `${templateRoute({ id: 'ac-minisplit' })}?d=${p.id}`,
       label: p.label.es,
     })),
+    ...ALL_TEMPLATES.filter((t) => t.id !== 'ac-minisplit').map((t) => ({
+      href: templateRoute(t),
+      label: t.name.es,
+    })),
   ]
 
   return (

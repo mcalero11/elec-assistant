@@ -48,10 +48,21 @@ Unpriced — listed in `KNOWN_UNPRICED` in `packages/engine/test/catalog-coverag
 
 **Vidrí access changed:** the site now serves a Cloudflare challenge (HTTP 403,
 including `/robots.txt`) to non-browser clients — the 2026-08-16 crawl path no
-longer works. Per policy, no workaround was attempted. All items added for the
-`ducha-electrica` template are therefore unpriced pending manual research:
-1-pole breakers 15/20/30/40/50 A, 2-pole 50/60 A, and GFCI breakers (1p 30/40,
-2p 40/50 — GFCI availability in local stores also needs market verification).
+longer works. Per policy, no workaround was attempted. All items added for
+templates 2–5 in this run are therefore unpriced pending manual research
+(the full list lives in `KNOWN_UNPRICED`, which shrinks automatically as
+prices land):
+
+- `ducha-electrica`: 1-pole breakers 15/20/30/40/50 A, 2-pole 50/60 A, GFCI
+  breakers (1p 30/40, 2p 30/40/50 — GFCI availability locally also needs
+  market verification).
+- `tomacorriente-240v`: NEMA 14-30/14-50 receptacles, deep 2×4 box.
+- `circuito-ramal`: duplex + GFCI receptacles, plates, switches, lampholders,
+  metal/PVC device and octagonal boxes.
+- `alimentador-bodega`: THHN Cu #4, aluminum wire #8–#2 (availability of Al
+  building wire needs market verification), bare Cu #6, 1″ EMT/PVC + fittings
+  + straps, load centers 4/8 spaces, ground rods + clamps.
+
 Recheck Vidrí's access status on the next run; if it stays closed, these move
 to the manual-research column with Freund/EPA.
 

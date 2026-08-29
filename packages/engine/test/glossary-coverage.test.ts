@@ -38,6 +38,7 @@ const REQUIRED_TERMS: readonly string[] = [
   // job templates 2–5
   'gfci', 'neutro', 'nema1430', 'nema1450',
   'cajaRectangular', 'plafonera', 'apagador', 'placa',
+  'alimentador', 'centroDeCarga', 'varillaDeTierra', 'gec',
 ]
 
 const webSrc = fileURLToPath(new URL('../../web/src/', import.meta.url))
