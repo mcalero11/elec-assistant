@@ -447,6 +447,43 @@ export const glossary = {
     },
     necArticles: ['nec2026.s314_16_b_4'],
   },
+  cajaRectangular: {
+    es: 'caja rectangular (2×4)',
+    en: 'device box (2×4)',
+    synonyms: ['caja de apagador', 'caja de toma', 'caja chalupa'],
+    definition: {
+      es: 'La caja de pared donde va un tomacorriente o apagador; su volumen limita cuántos alambres caben (314.16).',
+      en: 'The wall box that holds a receptacle or switch; its volume limits how many wires fit (314.16).',
+    },
+    necArticles: ['nec2026.t314_16_a'],
+  },
+  plafonera: {
+    es: 'plafonera',
+    en: 'lampholder',
+    synonyms: ['portalámparas', 'plafón', 'rosetón', 'socket de foco'],
+    definition: {
+      es: 'La base de techo donde se enrosca el foco; se monta sobre una caja octagonal.',
+      en: 'The ceiling base the bulb screws into; mounts on an octagonal box.',
+    },
+  },
+  apagador: {
+    es: 'apagador',
+    en: 'switch',
+    synonyms: ['interruptor de luz', 'switch', 'suiche'],
+    definition: {
+      es: 'El interruptor de pared que prende y apaga las luces.',
+      en: 'The wall switch that turns the lights on and off.',
+    },
+  },
+  placa: {
+    es: 'placa',
+    en: 'wall plate',
+    synonyms: ['tapa', 'tapadera de toma', 'chapa'],
+    definition: {
+      es: 'La tapa decorativa que cierra la caja del tomacorriente o apagador.',
+      en: 'The cover plate that closes the receptacle or switch box.',
+    },
+  },
   neutro: {
     es: 'neutro',
     en: 'neutral conductor',

@@ -1,0 +1,113 @@
+{
+  "note": "Hand-verified branch circuits at the full breaker rating over 120 V with the 5% total drop allowance. Anchors: 20 A → #12 (term 20 @60 °C; protection min(30×0.96 = 28.8, 20, 240.4(D) cap 20) = 20); 15 A → #14 (term 15; cap 15); drop = 2 × I × R × km / 120 (R: #12 = 6.5, #14 = 10.3 Ω/km). Box-fill check (314.16): tomas mid-run in dev-100x54x54 (238 cm³) = 4 conductores + yugo (2) + tierras (1) = 7 × 36.9 = 258.3 → NO cabe con #12 (aviso legítimo: use caja cuadrada con anillo); iluminación in oct-100x38 (254) = 5 × 32.8 = 164 → cabe. Quantities per the shared formulas; connectors = 2/punto + 1 (extremo del panel).",
+  "cases": [
+    {
+      "name": "Tomas GFCI-first: 20 A × 4 puntos, 20 m EMT → #12, drop 2×20×6.5×0.02 = 5.2 V = 4.33% ≤ 5; caja: 7×36.9 = 258.3 > 238 → 1 aviso; BOM: 1 GFCI + 3 estándar + 4 placas + 4 cajas; conectores 4×2+1 = 9; uniones ceil(20/3.05) = 7; abrazaderas ceil(20/3)+1 = 8",
+      "answers": {
+        "circuitKind": "tomas",
+        "pointCount": 4,
+        "runLengthM": 20,
+        "panelSlots": "si"
+      },
+      "options": {},
+      "expected": {
+        "parameters": {
+          "conductor": "12",
+          "breaker": 20,
+          "puntos": 4,
+          "conduit": "1/2"
+        },
+        "dropPercent": 4.3333,
+        "bom": [
+          { "ruleId": "breaker", "itemId": "breaker-1p-20", "qty": 1 },
+          { "ruleId": "hots", "itemId": "thhn-cu-12", "qty": 44 },
+          { "ruleId": "egc-wire", "itemId": "thhn-cu-12", "qty": 22 },
+          { "ruleId": "gfci-first", "itemId": "duplex-gfci", "qty": 1 },
+          { "ruleId": "receptacles-rest", "itemId": "duplex-receptacle", "qty": 3 },
+          { "ruleId": "plates-tomas", "itemId": "plate-duplex", "qty": 4 },
+          { "ruleId": "boxes-tomas", "itemId": "box-2x4-metal", "qty": 4 },
+          { "ruleId": "conduit-emt", "itemId": "emt-tube-12", "qty": 8 },
+          { "ruleId": "emt-connectors", "itemId": "emt-connector-12", "qty": 9 },
+          { "ruleId": "emt-couplings", "itemId": "emt-coupling-12", "qty": 7 },
+          { "ruleId": "emt-elbows", "itemId": "emt-elbow-12", "qty": 3 },
+          { "ruleId": "emt-straps", "itemId": "strap-12", "qty": 8 }
+        ],
+        "assumptionKeys": ["ramal-spacing-not-verified", "ramal-full-rating", "box-fill-counting"],
+        "absentAssumptionKeys": ["egc-upsized-250-122b"],
+        "warningCount": 1
+      }
+    },
+    {
+      "name": "Iluminación: 15 A × 3 luminarias + 1 apagador (defaults por $cond), 15 m PVC → #14, drop 2×15×10.3×0.015 = 4.635 V = 3.86%; caja octagonal: 5×32.8 = 164 ≤ 254 → sin aviso; adaptadores 3×2+1 = 7; abrazaderas ceil(15/0.9)+1 = 18",
+      "answers": {
+        "circuitKind": "iluminacion",
+        "pointCount": 3,
+        "runLengthM": 15,
+        "panelSlots": "si"
+      },
+      "options": { "conduitType": "pvc" },
+      "expected": {
+        "parameters": {
+          "conductor": "14",
+          "breaker": 15,
+          "puntos": 3,
+          "conduit": "1/2"
+        },
+        "dropPercent": 3.8625,
+        "bom": [
+          { "ruleId": "breaker", "itemId": "breaker-1p-15", "qty": 1 },
+          { "ruleId": "hots", "itemId": "thhn-cu-14", "qty": 33 },
+          { "ruleId": "egc-wire", "itemId": "thhn-cu-14", "qty": 17 },
+          { "ruleId": "boxes-luz", "itemId": "box-octagonal-pvc", "qty": 3 },
+          { "ruleId": "lampholders", "itemId": "lampholder", "qty": 3 },
+          { "ruleId": "switches", "itemId": "switch-simple", "qty": 1 },
+          { "ruleId": "switch-plates", "itemId": "plate-switch", "qty": 1 },
+          { "ruleId": "switch-boxes", "itemId": "box-2x4-pvc", "qty": 1 },
+          { "ruleId": "conduit-pvc", "itemId": "pvc-tube-12", "qty": 6 },
+          { "ruleId": "pvc-elbows", "itemId": "pvc-elbow-12", "qty": 3 },
+          { "ruleId": "pvc-adapters", "itemId": "pvc-adapter-12", "qty": 7 },
+          { "ruleId": "pvc-cement", "itemId": "pvc-cement", "qty": 1 },
+          { "ruleId": "pvc-straps", "itemId": "strap-12", "qty": 18 }
+        ],
+        "assumptionKeys": ["ramal-spacing-not-verified", "ramal-full-rating", "conduit-pvc-sch40"],
+        "absentAssumptionKeys": ["egc-upsized-250-122b"],
+        "warningCount": 0
+      }
+    },
+    {
+      "name": "Tomas estándar × 2 puntos: mismos números eléctricos; sin GFCI (2 avisos: relleno de caja + GFCI según el lugar); conectores 2×2+1 = 5",
+      "answers": {
+        "circuitKind": "tomas",
+        "pointCount": 2,
+        "runLengthM": 20,
+        "panelSlots": "si"
+      },
+      "options": { "proteccion": "estandar" },
+      "expected": {
+        "parameters": {
+          "conductor": "12",
+          "breaker": 20,
+          "puntos": 2,
+          "conduit": "1/2"
+        },
+        "dropPercent": 4.3333,
+        "bom": [
+          { "ruleId": "breaker", "itemId": "breaker-1p-20", "qty": 1 },
+          { "ruleId": "hots", "itemId": "thhn-cu-12", "qty": 44 },
+          { "ruleId": "egc-wire", "itemId": "thhn-cu-12", "qty": 22 },
+          { "ruleId": "receptacles-all", "itemId": "duplex-receptacle", "qty": 2 },
+          { "ruleId": "plates-tomas", "itemId": "plate-duplex", "qty": 2 },
+          { "ruleId": "boxes-tomas", "itemId": "box-2x4-metal", "qty": 2 },
+          { "ruleId": "conduit-emt", "itemId": "emt-tube-12", "qty": 8 },
+          { "ruleId": "emt-connectors", "itemId": "emt-connector-12", "qty": 5 },
+          { "ruleId": "emt-couplings", "itemId": "emt-coupling-12", "qty": 7 },
+          { "ruleId": "emt-elbows", "itemId": "emt-elbow-12", "qty": 3 },
+          { "ruleId": "emt-straps", "itemId": "strap-12", "qty": 8 }
+        ],
+        "assumptionKeys": ["ramal-spacing-not-verified", "ramal-full-rating"],
+        "absentAssumptionKeys": ["egc-upsized-250-122b"],
+        "warningCount": 2
+      }
+    }
+  ]
+}

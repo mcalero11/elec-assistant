@@ -37,6 +37,7 @@ const REQUIRED_TERMS: readonly string[] = [
   'factorDemanda', 'acometida', 'cargaConectada', 'voltamperio', 'metodoOpcional', 'duchaElectrica',
   // job templates 2–5
   'gfci', 'neutro', 'nema1430', 'nema1450',
+  'cajaRectangular', 'plafonera', 'apagador', 'placa',
 ]
 
 const webSrc = fileURLToPath(new URL('../../web/src/', import.meta.url))

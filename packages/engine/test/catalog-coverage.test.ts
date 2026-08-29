@@ -48,6 +48,17 @@ const KNOWN_UNPRICED = new Set([
   'receptacle-nema-14-30',
   'receptacle-nema-14-50',
   'box-2x4-deep',
+  // circuito-ramal items, same run:
+  'duplex-receptacle',
+  'duplex-gfci',
+  'plate-duplex',
+  'switch-simple',
+  'plate-switch',
+  'lampholder',
+  'box-2x4-metal',
+  'box-2x4-pvc',
+  'box-octagonal-metal',
+  'box-octagonal-pvc',
 ])
 
 function reachableItemIds(rules: readonly BomRule[]): Set<string> {

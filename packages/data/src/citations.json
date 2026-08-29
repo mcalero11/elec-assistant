@@ -239,6 +239,18 @@
     "reasonEn": "EMT supports",
     "reasonEs": "soportes de EMT"
   },
+  "nec2026.s210_11": {
+    "en": "NEC 2026, 210.11 — branch circuits required (dedicated circuit context)",
+    "es": "NEC 2026, 210.11 — circuitos ramales requeridos (contexto del circuito dedicado)",
+    "reasonEn": "required branch circuit",
+    "reasonEs": "circuito ramal requerido"
+  },
+  "nec2026.s210_52": {
+    "en": "NEC 2026, 210.52 — dwelling receptacle outlet placement (spacing not verified by this app)",
+    "es": "NEC 2026, 210.52 — ubicación de tomacorrientes en viviendas (la app no verifica el espaciamiento)",
+    "reasonEn": "receptacle placement",
+    "reasonEs": "ubicación de las tomas"
+  },
   "nec2026.s210_19_c": {
     "en": "NEC 2026, 210.19(C) — minimum 40 A branch circuit for ranges rated 8¾ kW or more (210.19(A)(3) in pre-2023 editions)",
     "es": "NEC 2026, 210.19(C) — circuito ramal mínimo de 40 A para estufas de 8¾ kW o más (210.19(A)(3) en ediciones anteriores a 2023)",

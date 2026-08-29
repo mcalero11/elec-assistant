@@ -34,6 +34,18 @@ export const catalogItems = [
   { id: 'receptacle-nema-14-50', name: { es: 'tomacorriente NEMA 14-50 (estufa, 50 A)', en: 'NEMA 14-50 receptacle (range, 50 A)' }, unit: 'unidad', category: 'material', synonyms: ['toma de estufa', 'tomacorriente 50 amperios'] },
   { id: 'box-2x4-deep', name: { es: 'caja rectangular profunda 2×4 (para toma 240 V)', en: 'deep 2×4 device box (for 240 V receptacle)' }, unit: 'unidad', category: 'material', synonyms: ['caja profunda', 'caja de toma'] },
 
+  // Dispositivos de circuito ramal (tomas, apagadores, luminarias)
+  { id: 'duplex-receptacle', name: { es: 'tomacorriente doble polarizado 15 A', en: 'duplex receptacle 15 A' }, unit: 'unidad', category: 'material', synonyms: ['toma doble', 'tomacorriente'] },
+  { id: 'duplex-gfci', name: { es: 'tomacorriente GFCI doble 15 A', en: 'GFCI duplex receptacle 15 A' }, unit: 'unidad', category: 'material', synonyms: ['toma gfci', 'tomacorriente de baño'] },
+  { id: 'plate-duplex', name: { es: 'placa para tomacorriente doble', en: 'duplex receptacle plate' }, unit: 'unidad', category: 'material', synonyms: ['tapa de toma', 'placa'] },
+  { id: 'switch-simple', name: { es: 'apagador sencillo', en: 'single-pole switch' }, unit: 'unidad', category: 'material', synonyms: ['interruptor de luz', 'switch'] },
+  { id: 'plate-switch', name: { es: 'placa para apagador', en: 'switch plate' }, unit: 'unidad', category: 'material', synonyms: ['tapa de apagador'] },
+  { id: 'lampholder', name: { es: 'plafonera (portalámparas)', en: 'lampholder' }, unit: 'unidad', category: 'material', synonyms: ['plafón', 'rosetón', 'socket de foco'] },
+  { id: 'box-2x4-metal', name: { es: 'caja rectangular 2×4 metálica', en: '2×4 metal device box' }, unit: 'unidad', category: 'material', synonyms: ['caja de apagador', 'caja rectangular'] },
+  { id: 'box-2x4-pvc', name: { es: 'caja rectangular 2×4 termoplástica', en: '2×4 thermoplastic device box' }, unit: 'unidad', category: 'material', synonyms: ['caja plástica de toma'] },
+  { id: 'box-octagonal-metal', name: { es: 'caja octagonal metálica', en: 'octagonal metal box' }, unit: 'unidad', category: 'material', synonyms: ['caja de techo'] },
+  { id: 'box-octagonal-pvc', name: { es: 'caja octagonal termoplástica', en: 'octagonal thermoplastic box' }, unit: 'unidad', category: 'material', synonyms: ['caja de techo plástica'] },
+
   // Alambre THHN/THWN-2 cobre (por metro)
   { id: 'thhn-cu-14', name: { es: 'alambre THHN/THWN-2 Cu #14', en: 'THHN/THWN-2 Cu wire #14' }, unit: 'm', category: 'material', synonyms: ['alambre 14', 'cable 14'] },
   { id: 'thhn-cu-12', name: { es: 'alambre THHN/THWN-2 Cu #12', en: 'THHN/THWN-2 Cu wire #12' }, unit: 'm', category: 'material', synonyms: ['alambre 12', 'cable 12'] },
