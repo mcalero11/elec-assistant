@@ -7,6 +7,7 @@ import conduitFillPercentJson from './nec-2026/chapter9-table1.json'
 import conduitDimensionsJson from './nec-2026/chapter9-table4.json'
 import conductorAreasJson from './nec-2026/chapter9-table5.json'
 import egcJson from './nec-2026/table-250-122.json'
+import gecJson from './nec-2026/table-250-66.json'
 import standardBoxesJson from './nec-2026/table-314-16-a.json'
 import boxAllowancesJson from './nec-2026/table-314-16-b.json'
 import lightingDemandJson from './nec-2026/table-220-45.json'
@@ -161,6 +162,29 @@ export const egcTable: EgcTable = {
   })),
 }
 
+/** Table 250.66: 'not exceeding' rows on the largest ungrounded service conductor, per material column. */
+export interface GecTable {
+  source: string
+  note: string
+  rows: Array<{
+    maxServiceCopper: ConductorSize
+    maxServiceAluminum: ConductorSize
+    gecCopper: ConductorSize
+    gecAluminum: ConductorSize
+  }>
+}
+
+export const gecTable: GecTable = {
+  source: gecJson.source,
+  note: gecJson.note,
+  rows: gecJson.rows.map((r) => ({
+    maxServiceCopper: asConductorSize(r.maxServiceCopper),
+    maxServiceAluminum: asConductorSize(r.maxServiceAluminum),
+    gecCopper: asConductorSize(r.gecCopper),
+    gecAluminum: asConductorSize(r.gecAluminum),
+  })),
+}
+
 /**
  * Conductor sizes covered by box fill (Table 314.16(B)(1)), in ascending
  * volume-allowance order. Distinct from CONDUCTOR_SIZES: box fill reaches down
@@ -296,6 +320,7 @@ export { glossary, type GlossaryEntry, type GlossaryId } from './glossary.js'
 export { catalogItems, type CatalogItemId } from './catalog/items.js'
 export { acPresets, type AcPresetId } from './catalog/ac-presets.js'
 export { appliancePresets, type AppliancePresetId } from './catalog/appliance-presets.js'
+export { presetCatalogs, type DevicePreset, type PresetCatalogId } from './catalog/presets.js'
 export { acMinisplitTemplate } from './templates/ac-minisplit.js'
 
 /** prices.json is written by the research procedure in PRICES.md — validate at load. */

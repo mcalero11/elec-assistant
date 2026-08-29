@@ -1,15 +1,18 @@
 import {
   catalogItems,
   type BomRule,
+  type CalcOp,
   type CatalogItem,
   type CitationKey,
   type Condition,
   type JobTemplate,
   type TemplateLabel,
 } from '@elec-assistant/data'
+import { boxFill } from './box-fill.js'
 import { sizeCircuit } from './circuit.js'
 import { sizeConduit } from './conduit-fill.js'
 import { egcSize } from './egc.js'
+import { gecSize } from './gec.js'
 import {
   EngineError,
   mergeAssumptions,
@@ -62,11 +65,55 @@ function getPath(ctx: RunContext, path: string): unknown {
 function evalCondition(cond: Condition, ctx: RunContext): boolean {
   const value = getPath(ctx, cond.ref)
   if ('eq' in cond) return value === cond.eq
+  if ('neq' in cond) return value !== cond.neq
   if ('in' in cond) return cond.in.includes(value as string | number)
+  if ('lt' in cond) return typeof value === 'number' && value < cond.lt
   return typeof value === 'number' && value >= cond.gte
 }
 
-/** Deep-resolve a spec: {$ref}/{$cond} nodes are replaced anywhere in the structure. */
+/** All conditions must hold (AND) — the BomRule.when / TemplateWarning.when contract. */
+function evalConditions(when: Condition | Condition[], ctx: RunContext): boolean {
+  return (Array.isArray(when) ? when : [when]).every((cond) => evalCondition(cond, ctx))
+}
+
+function applyCalc(op: CalcOp, args: number[]): number {
+  const [first] = args
+  if (first === undefined) {
+    throw new EngineError('$calc requires at least one argument', '$calc requiere al menos un argumento')
+  }
+  switch (op) {
+    case 'add':
+      return args.reduce((a, b) => a + b)
+    case 'sub':
+      return args.reduce((a, b) => a - b)
+    case 'mul':
+      return args.reduce((a, b) => a * b)
+    case 'div':
+      return args.slice(1).reduce((a, b) => {
+        if (b === 0) throw new EngineError('$calc division by zero', '$calc: división entre cero')
+        return a / b
+      }, first)
+    case 'min':
+      return Math.min(...args)
+    case 'max':
+      return Math.max(...args)
+    // Unary rounding ops take an optional second argument = decimal places.
+    case 'ceil':
+      return roundTo(first, args[1] ?? 0, Math.ceil)
+    case 'floor':
+      return roundTo(first, args[1] ?? 0, Math.floor)
+    case 'round':
+      return roundTo(first, args[1] ?? 0, Math.round)
+  }
+}
+
+/** Kill float noise (see ceilExact) before applying the rounding function at N decimals. */
+function roundTo(value: number, decimals: number, fn: (n: number) => number): number {
+  const factor = 10 ** decimals
+  return fn(Number((value * factor).toFixed(6))) / factor
+}
+
+/** Deep-resolve a spec: {$ref}/{$cond}/{$calc} nodes are replaced anywhere in the structure. */
 function resolveDeep(spec: unknown, ctx: RunContext): unknown {
   if (Array.isArray(spec)) return spec.map((item) => resolveDeep(item, ctx))
   if (isRecord(spec)) {
@@ -74,6 +121,20 @@ function resolveDeep(spec: unknown, ctx: RunContext): unknown {
     if (isRecord(spec['$cond'])) {
       const c = spec['$cond'] as { if: Condition; then: unknown; else: unknown }
       return evalCondition(c.if, ctx) ? resolveDeep(c.then, ctx) : resolveDeep(c.else, ctx)
+    }
+    if (isRecord(spec['$calc'])) {
+      const c = spec['$calc'] as { op: CalcOp; args: unknown[] }
+      const args = c.args.map((arg, i) => {
+        const v = resolveDeep(arg, ctx)
+        if (typeof v !== 'number' || !Number.isFinite(v)) {
+          throw new EngineError(
+            `$calc ${c.op}: argument ${i} is not a number`,
+            `$calc ${c.op}: el argumento ${i} no es un número`,
+          )
+        }
+        return v
+      })
+      return applyCalc(c.op, args)
     }
     return Object.fromEntries(Object.entries(spec).map(([k, v]) => [k, resolveDeep(v, ctx)]))
   }
@@ -102,6 +163,8 @@ const CALL_REGISTRY: Record<string, EngineFn> = {
   sizeCircuit: sizeCircuit as unknown as EngineFn,
   sizeConduit: sizeConduit as unknown as EngineFn,
   egcSize: egcSize as unknown as EngineFn,
+  gecSize: gecSize as unknown as EngineFn,
+  boxFill: boxFill as unknown as EngineFn,
 }
 
 /* --------------------------------- results --------------------------------- */
@@ -178,6 +241,11 @@ function computeQty(rule: BomRule, item: CatalogItem, ctx: RunContext): { qty: n
     const count = ceilExact(lengthM / q.perInterval.intervalM) + (q.perInterval.plus ?? 0)
     return { qty: Math.max(0, count) }
   }
+  if ('perCount' in q) {
+    const count = resolveNumber({ $ref: q.perCount.count }, ctx, `${rule.id}.count`)
+    const qty = count * (q.perCount.each ?? 1) + (q.perCount.plus ?? 0)
+    return { qty: Math.max(0, ceilExact(qty)) }
+  }
   const spec = q.lengthWithWastage
   const lengthM = resolveNumber({ $ref: spec.lengthM }, ctx, `${rule.id}.lengthM`)
   const wastage = resolveNumber({ $ref: spec.wastagePercent }, ctx, `${rule.id}.wastage`)
@@ -187,7 +255,25 @@ function computeQty(rule: BomRule, item: CatalogItem, ctx: RunContext): { qty: n
   return { qty: ceilExact(meters) }
 }
 
-export function runTemplate(template: JobTemplate, run: TemplateRunInput): TemplateRunResult {
+export interface ResolvedTemplateState {
+  /** Effective answers after defaults (preset answers pass through as provided). */
+  answers: Record<string, unknown>
+  /** Effective options after defaults and the disabled-reset. */
+  options: Record<string, unknown>
+  /** Choice options whose disabledWhen currently holds (greyed out in the UI). */
+  disabledOptionIds: string[]
+}
+
+/**
+ * Resolve the effective question/option state for a run — the single source of
+ * truth for defaults and the disabled-option reset, shared by `runTemplate`
+ * and the web runner (which needs effective values for untouched inputs, e.g.
+ * the location-aware ambient default).
+ */
+export function resolveTemplateState(
+  template: JobTemplate,
+  run: TemplateRunInput,
+): ResolvedTemplateState {
   const ctx: RunContext = { answers: {}, options: {}, calls: {}, derived: {} }
 
   // Answers: template defaults fill numbers/choices; preset answers must arrive resolved.
@@ -213,11 +299,20 @@ export function runTemplate(template: JobTemplate, run: TemplateRunInput): Templ
   for (const opt of template.options) {
     ctx.options[opt.id] = run.options?.[opt.id] ?? opt.default
   }
+  const disabledOptionIds: string[] = []
   for (const opt of template.options) {
     if (opt.type === 'choice' && opt.disabledWhen && evalCondition(opt.disabledWhen, ctx)) {
       ctx.options[opt.id] = opt.default
+      disabledOptionIds.push(opt.id)
     }
   }
+
+  return { answers: ctx.answers, options: ctx.options, disabledOptionIds }
+}
+
+export function runTemplate(template: JobTemplate, run: TemplateRunInput): TemplateRunResult {
+  const state = resolveTemplateState(template, run)
+  const ctx: RunContext = { answers: state.answers, options: state.options, calls: {}, derived: {} }
 
   // Engine-call graph, in declaration order.
   for (const call of template.calls) {
@@ -234,6 +329,14 @@ export function runTemplate(template: JobTemplate, run: TemplateRunInput): Templ
 
   // Derived rules.
   for (const rule of template.derived) {
+    if (rule.kind === 'value') {
+      ctx.derived[rule.id] = {
+        value: resolveDeep(rule.value, ctx),
+        citations: rule.citations ?? [],
+        assumptions: rule.assumption ? [rule.assumption] : [],
+      }
+      continue
+    }
     const atLeast = resolveNumber(rule.atLeast, ctx, `derived.${rule.id}`)
     const rating = [...rule.ratings].sort((a, b) => a - b).find((r) => r >= atLeast)
     if (rating === undefined) {
@@ -275,7 +378,7 @@ export function runTemplate(template: JobTemplate, run: TemplateRunInput): Templ
   // BOM assembly.
   const bom: BomLine[] = []
   for (const rule of template.bom) {
-    if (rule.when && !rule.when.every((cond) => evalCondition(cond, ctx))) continue
+    if (rule.when && !evalConditions(rule.when, ctx)) continue
     const item = resolveBomItem(rule, ctx)
     const { qty, computedMeters } = computeQty(rule, item, ctx)
     if (qty <= 0) continue
@@ -294,7 +397,7 @@ export function runTemplate(template: JobTemplate, run: TemplateRunInput): Templ
   }
 
   const warnings: ResolvedWarning[] = template.warnings
-    .filter((w) => evalCondition(w.when, ctx))
+    .filter((w) => evalConditions(w.when, ctx))
     .map((w) => ({ id: w.id, text: w.text }))
 
   const callResults = template.calls.map((c) => ctx.calls[c.id] as WithProvenance)
@@ -315,6 +418,7 @@ export function runTemplate(template: JobTemplate, run: TemplateRunInput): Templ
     assumptions: mergeAssumptions(
       ...callResults.map((r) => r.assumptions),
       ...derivedResults.map((r) => r.assumptions),
+      template.assumptions ?? [],
     ),
   }
 }

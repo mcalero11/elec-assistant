@@ -38,8 +38,37 @@ export const acMinisplitTemplate: JobTemplate = {
       type: 'preset',
       catalog: 'ac-presets',
       default: 'ac-12k',
-      manualFields: ['mcaA', 'mocpA'],
+      // answers.device.mcaA / .mocpA ← preset.values (generic-runner contract).
+      sets: { mcaA: 'mcaA', mocpA: 'mocpA' },
+      manualFields: [
+        {
+          id: 'mcaA',
+          label: { es: 'MCA — corriente mínima del circuito (A)', en: 'MCA — minimum circuit ampacity (A)' },
+          default: 10,
+          min: 1,
+          max: 60,
+          step: 0.1,
+          unit: 'A',
+          urlKey: 'mca',
+        },
+        {
+          id: 'mocpA',
+          label: { es: 'MOCP — protección máxima (A)', en: 'MOCP — maximum overcurrent protection (A)' },
+          default: 15,
+          min: 5,
+          max: 90,
+          step: 5,
+          unit: 'A',
+          urlKey: 'mocp',
+        },
+      ],
+      presetNote: {
+        es: 'Valores típicos de placa; verifique la placa de SU equipo.',
+        en: 'Typical nameplate values; verify YOUR unit’s plate.',
+      },
       label: { es: 'Capacidad del equipo (BTU)', en: 'Unit capacity (BTU)' },
+      urlKey: 'd',
+      termId: 'btu',
     },
     {
       id: 'runLengthM',
@@ -50,6 +79,7 @@ export const acMinisplitTemplate: JobTemplate = {
       step: 1,
       default: 10,
       label: { es: 'Distancia del panel al equipo (un solo sentido)', en: 'One-way run length from panel' },
+      urlKey: 'l',
     },
     {
       id: 'location',
@@ -60,6 +90,7 @@ export const acMinisplitTemplate: JobTemplate = {
         { value: 'exterior', label: { es: 'Exterior (intemperie)', en: 'Outdoor (wet)' } },
       ],
       label: { es: 'Recorrido de la tubería', en: 'Conduit routing' },
+      urlKey: 'loc',
     },
     {
       // El Salvador runs hot: 30°C (the NEC table basis) undersizes real installs.
@@ -78,6 +109,8 @@ export const acMinisplitTemplate: JobTemplate = {
         },
       },
       label: { es: 'Temperatura donde pasa el cable', en: 'Ambient temperature along the run' },
+      urlKey: 'amb',
+      termId: 'temperaturaAmbiente',
     },
     {
       id: 'panelSlots',
@@ -88,6 +121,7 @@ export const acMinisplitTemplate: JobTemplate = {
         { value: 'ninguno', label: { es: 'No hay espacio', en: 'No space' } },
       ],
       label: { es: '¿Hay espacio en el panel para un térmico de 2 polos?', en: 'Panel space for a 2-pole breaker?' },
+      urlKey: 'p',
     },
   ],
 
@@ -97,22 +131,24 @@ export const acMinisplitTemplate: JobTemplate = {
       type: 'choice',
       default: 'emt',
       choices: [
-        { value: 'emt', label: { es: 'Tubo EMT', en: 'EMT' } },
-        { value: 'pvc', label: { es: 'PVC eléctrico', en: 'Electrical PVC' } },
-        { value: 'lfnc', label: { es: 'Poliducto (manguera)', en: 'Flexible (LFNC)' } },
+        { value: 'emt', label: { es: 'Tubo EMT', en: 'EMT' }, termId: 'emt' },
+        { value: 'pvc', label: { es: 'PVC eléctrico', en: 'Electrical PVC' }, termId: 'pvcElectrico' },
+        { value: 'lfnc', label: { es: 'Poliducto (manguera)', en: 'Flexible (LFNC)' }, termId: 'poliducto' },
       ],
       label: { es: 'Tipo de tubería', en: 'Conduit type' },
+      urlKey: 'cd',
     },
     {
       id: 'bends',
       type: 'choice',
       default: 'curvas',
       choices: [
-        { value: 'curvas', label: { es: 'Comprar curvas', en: 'Buy factory elbows' } },
-        { value: 'dobladora', label: { es: 'Doblar con dobladora', en: 'Field-bend with a bender' } },
+        { value: 'curvas', label: { es: 'Comprar curvas', en: 'Buy factory elbows' }, termId: 'curva' },
+        { value: 'dobladora', label: { es: 'Doblar con dobladora', en: 'Field-bend with a bender' }, termId: 'dobladora' },
       ],
       disabledWhen: { ref: 'options.conduitType', in: ['lfnc', 'pvc'] },
       label: { es: 'Vueltas del recorrido', en: 'Bends' },
+      urlKey: 'bd',
     },
     {
       id: 'bendCount',
@@ -122,6 +158,7 @@ export const acMinisplitTemplate: JobTemplate = {
       step: 1,
       default: 3,
       label: { es: 'Número de vueltas de 90°', en: 'Number of 90° bends' },
+      urlKey: 'bc',
     },
     {
       id: 'wastagePercent',
@@ -132,6 +169,8 @@ export const acMinisplitTemplate: JobTemplate = {
       step: 5,
       default: 10,
       label: { es: 'Desperdicio', en: 'Wastage' },
+      urlKey: 'w',
+      termId: 'desperdicio',
     },
   ],
 
@@ -259,6 +298,7 @@ export const acMinisplitTemplate: JobTemplate = {
       value: { $ref: 'calls.circuit.voltageDrop.dropPercent' },
       unit: '%',
       citationsFrom: 'calls.circuit.voltageDrop',
+      format: 'percent',
     },
   ],
 

@@ -8,6 +8,14 @@ export interface BreakerInput {
   continuous?: boolean
   /** Conductor ampacity available for protection (already derated/capped). When provided, 240.4 is enforced. */
   conductorProtectionAmpacity?: number
+  /**
+   * Rating floor: pick the smallest standard rating ≥ max(required, this).
+   * The caller supplies the reason and its citation (a nameplate minimum, or a
+   * code minimum like the 40 A range circuit of 210.19(C)) — the 240.4 guard
+   * still applies, so a floored breaker forces `sizeCircuit` to upsize the
+   * conductor until it may be protected at the floor.
+   */
+  minBreakerA?: number
 }
 
 export interface BreakerResult extends WithProvenance {
@@ -17,6 +25,8 @@ export interface BreakerResult extends WithProvenance {
   requiredA: number
   /** True when 240.4(B) next-size-up rounding above the conductor ampacity was used. */
   nextSizeUpApplied: boolean
+  /** True when the minBreakerA floor raised the rating above what the load alone required. */
+  minBreakerApplied: boolean
 }
 
 function nextStandardAtOrAbove(amps: number): number | undefined {
@@ -27,13 +37,15 @@ export function standardBreaker(input: BreakerInput): BreakerResult {
   const continuous = input.continuous ?? false
   const requiredA = continuous ? input.loadA * 1.25 : input.loadA
 
-  const candidate = nextStandardAtOrAbove(requiredA)
+  const unfloored = nextStandardAtOrAbove(requiredA)
+  const candidate = nextStandardAtOrAbove(Math.max(requiredA, input.minBreakerA ?? 0))
   if (candidate === undefined) {
     throw new EngineError(
-      `Required OCPD ${requiredA} A exceeds the largest standard rating`,
-      `La protección requerida de ${requiredA} A excede el valor estándar más grande`,
+      `Required OCPD ${Math.max(requiredA, input.minBreakerA ?? 0)} A exceeds the largest standard rating`,
+      `La protección requerida de ${Math.max(requiredA, input.minBreakerA ?? 0)} A excede el valor estándar más grande`,
     )
   }
+  const minBreakerApplied = candidate !== unfloored
 
   const citations: BreakerResult['citations'] = ['nec2026.s240_6_a']
   const assumptions: Assumption[] = []
@@ -61,5 +73,5 @@ export function standardBreaker(input: BreakerInput): BreakerResult {
     if (nextSizeUpApplied) citations.push('nec2026.s240_4_b')
   }
 
-  return { rating: candidate, requiredA, nextSizeUpApplied, citations, assumptions }
+  return { rating: candidate, requiredA, nextSizeUpApplied, minBreakerApplied, citations, assumptions }
 }

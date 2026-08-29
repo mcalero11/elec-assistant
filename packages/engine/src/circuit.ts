@@ -16,6 +16,8 @@ export interface CircuitInput extends MinConductorInput {
   phase?: 1 | 3
   /** Maximum allowed voltage drop in percent. Default 3 (branch-circuit recommendation). */
   maxVoltageDropPercent?: number
+  /** Breaker rating floor (see BreakerInput.minBreakerA) — upsizes the conductor if needed. */
+  minBreakerA?: number
 }
 
 export interface CircuitResult extends WithProvenance {
@@ -62,6 +64,7 @@ export function sizeCircuit(input: CircuitInput): CircuitResult {
         loadA: input.loadA,
         continuous: input.continuous,
         conductorProtectionAmpacity: conductor.protectionAmpacity,
+        ...(input.minBreakerA != null ? { minBreakerA: input.minBreakerA } : {}),
       })
     } catch (e) {
       if (e instanceof EngineError) {

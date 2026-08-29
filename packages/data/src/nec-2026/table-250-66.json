@@ -1,0 +1,11 @@
+{
+  "source": "NEC 2026, Table 250.66 — grounding electrode conductor for AC systems",
+  "note": "Rows are 'not exceeding' thresholds on the largest ungrounded service-entrance (or feeder) conductor, with separate lookup columns for copper and aluminum/copper-clad-aluminum service conductors, mapped to the copper and aluminum GEC sizes. Transcribed only through the 600 kcmil ceiling of this data set's size domain: the printed rows 'over 600 through 1100' (2/0 Cu / 4/0 Al) and 'over 1100' (3/0 Cu / 250 Al) are omitted, and the fifth row's aluminum boundary is truncated from the printed 900 kcmil to 600 kcmil. Printed boundaries: 2-or-smaller Cu / 1/0-or-smaller Al → 8 Cu / 6 Al; 1 or 1/0 Cu / 2/0 or 3/0 Al → 6 / 4; 2/0 or 3/0 Cu / 4/0 or 250 Al → 4 / 2; over 3/0 through 350 Cu / over 250 through 500 Al → 2 / 1/0; over 350 through 600 Cu / over 500 through 900 Al → 1/0 / 3/0. Article 250 was NOT part of the 2026 Article-120 renumbering. Cross-verified 2026-08-28 against zing2.app (labeled 2020/2023-compliant with 2026 version, full table) plus per-row worked examples from dakotaprep.com (350 kcmil → 2 Cu; 1000 kcmil → 2/0 Cu) and expertce.com (500 kcmil → 1/0 Cu), 0 mismatches; a fourth source (industrialmonitordirect) showed re-derived sloppy boundaries and was rejected. 250.66(A) verbatim (electricallicenserenewal.com, unchanged since 2014): the sole connection to rod/pipe/plate electrodes is not required to be larger than 6 AWG copper or 4 AWG aluminum. Official 2026 text paywalled.",
+  "rows": [
+    { "maxServiceCopper": "2", "maxServiceAluminum": "1/0", "gecCopper": "8", "gecAluminum": "6" },
+    { "maxServiceCopper": "1/0", "maxServiceAluminum": "3/0", "gecCopper": "6", "gecAluminum": "4" },
+    { "maxServiceCopper": "3/0", "maxServiceAluminum": "250", "gecCopper": "4", "gecAluminum": "2" },
+    { "maxServiceCopper": "350", "maxServiceAluminum": "500", "gecCopper": "2", "gecAluminum": "1/0" },
+    { "maxServiceCopper": "600", "maxServiceAluminum": "600", "gecCopper": "1/0", "gecAluminum": "3/0" }
+  ]
+}

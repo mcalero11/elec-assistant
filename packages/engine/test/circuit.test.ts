@@ -58,4 +58,22 @@ describe('sizeCircuit (end-to-end)', () => {
     expect(keys).toContain('continuous-125')
     expect(new Set(keys).size).toBe(keys.length)
   })
+
+  it('minBreakerA floor upsizes the conductor until it may be protected (estufa: 33.3 A, floor 40 A)', () => {
+    // Manual check: without the floor, 33.3 A → 10 AWG (protection capped 30 A by
+    // 240.4(D)) fails 35 A… actually 10 AWG protection 30 < 33.3 already fails;
+    // 8 AWG: 60°C termination 40 A, protection 40 → breaker 40 = floor. The floor
+    // makes the 40 A pick explicit and flags it when the load alone needed 35.
+    const result = sizeCircuit({
+      loadA: 33.3,
+      lengthM: 6,
+      systemVoltage: 240,
+      material: 'copper',
+      insulation: 'THHN',
+      minBreakerA: 40,
+    })
+    expect(result.conductor.size).toBe('8')
+    expect(result.breaker.rating).toBe(40)
+    expect(result.breaker.minBreakerApplied).toBe(true)
+  })
 })

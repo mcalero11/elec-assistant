@@ -1,4 +1,6 @@
 import type { CitationKey } from '../index.js'
+import type { GlossaryId } from '../glossary.js'
+import type { PresetCatalogId } from './presets.js'
 
 /* ------------------------------- catalog ------------------------------- */
 
@@ -83,8 +85,13 @@ export type RefPath = string
 
 export type Condition =
   | { ref: RefPath; eq: string | number | boolean }
+  | { ref: RefPath; neq: string | number | boolean }
   | { ref: RefPath; in: Array<string | number> }
   | { ref: RefPath; gte: number }
+  | { ref: RefPath; lt: number }
+
+/** Fixed arithmetic whitelist — deliberately not a string DSL; anything richer becomes an engine call. */
+export type CalcOp = 'add' | 'sub' | 'mul' | 'div' | 'min' | 'max' | 'ceil' | 'floor' | 'round'
 
 export type ValueSpec =
   | string
@@ -92,21 +99,49 @@ export type ValueSpec =
   | boolean
   | { $ref: RefPath }
   | { $cond: { if: Condition; then: ValueSpec; else: ValueSpec } }
+  | { $calc: { op: CalcOp; args: ValueSpec[] } }
 
 export interface TemplateLabel {
   es: string
   en: string
 }
 
+/** Same shape as the engine's Assumption (data cannot import the engine). */
+export interface TemplateAssumption {
+  key: string
+  en: string
+  es: string
+  citations?: CitationKey[]
+}
+
+/** Manual-entry field of a preset question (nameplate entry when no preset fits). */
+export interface PresetManualField {
+  id: string
+  label: TemplateLabel
+  default: number
+  min: number
+  max: number
+  step?: number
+  unit?: string
+  /** Short query-string key; defaults to the field id. */
+  urlKey?: string
+}
+
 export type TemplateQuestion =
   | {
       id: string
       type: 'preset'
-      catalog: 'ac-presets'
+      catalog: PresetCatalogId
       default: string
-      /** Fields the user can override manually instead of picking a preset. */
-      manualFields: string[]
+      /** answers[field] ← preset.values[key] when a preset is chosen (generic runner contract). */
+      sets: Record<string, string>
+      /** Fields the user fills manually instead of picking a preset. */
+      manualFields: PresetManualField[]
+      /** «valores típicos de placa…» hint under the picker. */
+      presetNote?: TemplateLabel
       label: TemplateLabel
+      urlKey?: string
+      termId?: GlossaryId
     }
   | {
       id: string
@@ -118,13 +153,20 @@ export type TemplateQuestion =
       /** Plain number, or a ValueSpec referencing EARLIER questions (answers resolve in declaration order). */
       default: ValueSpec
       label: TemplateLabel
+      urlKey?: string
+      termId?: GlossaryId
+      /** Widget hint. Default 'slider'. */
+      ui?: 'slider' | 'field'
     }
   | {
       id: string
       type: 'choice'
-      default: string
-      choices: Array<{ value: string; label: TemplateLabel }>
+      /** Plain value, or a ValueSpec referencing EARLIER questions. */
+      default: string | ValueSpec
+      choices: Array<{ value: string; label: TemplateLabel; termId?: GlossaryId }>
       label: TemplateLabel
+      urlKey?: string
+      termId?: GlossaryId
     }
 
 export type TemplateOption =
@@ -132,9 +174,11 @@ export type TemplateOption =
       id: string
       type: 'choice'
       default: string
-      choices: Array<{ value: string; label: TemplateLabel }>
+      choices: Array<{ value: string; label: TemplateLabel; termId?: GlossaryId }>
       disabledWhen?: Condition
       label: TemplateLabel
+      urlKey?: string
+      termId?: GlossaryId
     }
   | {
       id: string
@@ -145,24 +189,38 @@ export type TemplateOption =
       step: number
       default: number
       label: TemplateLabel
+      urlKey?: string
+      termId?: GlossaryId
+      /** Widget hint. Default 'field' (options are secondary controls). */
+      ui?: 'slider' | 'field'
     }
 
 export interface TemplateEngineCall {
   id: string
-  /** Whitelisted registry key in the engine interpreter (sizeCircuit | sizeConduit | egcSize). */
+  /** Whitelisted registry key in the engine interpreter (see CALL_REGISTRY there). */
   fn: string
   input: Record<string, unknown>
 }
 
-export interface TemplateDerived {
-  id: string
-  kind: 'min-rating-at-least'
-  ratings: number[]
-  atLeast: ValueSpec
-  citations: CitationKey[]
-  assumption?: { key: string; en: string; es: string; citations?: CitationKey[] }
-  label: TemplateLabel
-}
+export type TemplateDerived =
+  | {
+      id: string
+      kind: 'min-rating-at-least'
+      ratings: number[]
+      atLeast: ValueSpec
+      citations: CitationKey[]
+      assumption?: TemplateAssumption
+      label: TemplateLabel
+    }
+  | {
+      /** Materialize a computed value once so conditions/parameters can $ref it. */
+      id: string
+      kind: 'value'
+      value: ValueSpec
+      citations?: CitationKey[]
+      assumption?: TemplateAssumption
+      label: TemplateLabel
+    }
 
 export interface TemplateParameter {
   id: string
@@ -173,6 +231,8 @@ export interface TemplateParameter {
   citationsFrom?: string
   /** …and/or list them explicitly. */
   citations?: CitationKey[]
+  /** Display hint (e.g. voltage drop as a percentage). */
+  format?: 'percent'
 }
 
 export type BomItemSelector =
@@ -191,6 +251,10 @@ export type BomQty =
       }
     }
   | { perInterval: { lengthM: RefPath; intervalM: number; plus?: number } }
+  | {
+      /** qty = count × each + plus, clamped ≥ 0 (negative plus expresses «all but one»). */
+      perCount: { count: RefPath; each?: number; plus?: number }
+    }
 
 export interface BomRule {
   id: string
@@ -205,7 +269,8 @@ export interface BomRule {
 
 export interface TemplateWarning {
   id: string
-  when: Condition
+  /** A single condition, or an array (all must hold — AND, like BomRule.when). */
+  when: Condition | Condition[]
   text: TemplateLabel
 }
 
@@ -221,4 +286,6 @@ export interface JobTemplate {
   parameters: TemplateParameter[]
   bom: BomRule[]
   warnings: TemplateWarning[]
+  /** Template-level statics merged into every run result (v1 simplification notes). */
+  assumptions?: TemplateAssumption[]
 }

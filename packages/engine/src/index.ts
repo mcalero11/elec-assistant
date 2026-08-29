@@ -41,6 +41,7 @@ export {
   type SizeConduitInput,
 } from './conduit-fill.js'
 export { egcSize, type EgcInput, type EgcResult } from './egc.js'
+export { gecSize, type GecInput, type GecResult } from './gec.js'
 export {
   residentialLoad,
   type LoadDeviceInput,
@@ -51,9 +52,11 @@ export {
   type ResolvedLoadDevice,
 } from './load-calc.js'
 export {
+  resolveTemplateState,
   runTemplate,
   type BomLine,
   type ResolvedParameter,
+  type ResolvedTemplateState,
   type ResolvedWarning,
   type TemplateRunInput,
   type TemplateRunResult,

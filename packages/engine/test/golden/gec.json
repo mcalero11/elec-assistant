@@ -1,0 +1,16 @@
+{
+  "note": "Hand-verified Table 250.66 lookups plus the 250.66(A) rod-electrode cap. Rows are 'not exceeding' thresholds on the largest ungrounded service conductor, with separate columns for copper vs aluminum service conductors (the lookup column) and copper vs aluminum GEC (the result column). The rod cap LIMITS to 6 Cu / 4 Al but never raises: a table value smaller than the cap stays as-is.",
+  "cases": [
+    { "name": "Cu #2 de acometida → GEC 8 Cu (fila «2 o menor»)", "input": { "largestUngroundedSize": "2", "serviceMaterial": "copper", "material": "copper" }, "expected": { "size": "8", "tableSize": "8", "rodCapApplied": false } },
+    { "name": "Cu #4 cae en la primera fila → 8 Cu", "input": { "largestUngroundedSize": "4", "serviceMaterial": "copper", "material": "copper" }, "expected": { "size": "8", "tableSize": "8", "rodCapApplied": false } },
+    { "name": "Cu 1/0 → 6 Cu", "input": { "largestUngroundedSize": "1/0", "serviceMaterial": "copper", "material": "copper" }, "expected": { "size": "6", "tableSize": "6", "rodCapApplied": false } },
+    { "name": "Cu 3/0 → 4 Cu", "input": { "largestUngroundedSize": "3/0", "serviceMaterial": "copper", "material": "copper" }, "expected": { "size": "4", "tableSize": "4", "rodCapApplied": false } },
+    { "name": "Cu 350 kcmil → 2 Cu (ejemplo dakotaprep)", "input": { "largestUngroundedSize": "350", "serviceMaterial": "copper", "material": "copper" }, "expected": { "size": "2", "tableSize": "2", "rodCapApplied": false } },
+    { "name": "Cu 600 kcmil → 1/0 Cu (ejemplo expertce con 500 kcmil, misma fila)", "input": { "largestUngroundedSize": "600", "serviceMaterial": "copper", "material": "copper" }, "expected": { "size": "1/0", "tableSize": "1/0", "rodCapApplied": false } },
+    { "name": "Acometida de aluminio 250 kcmil → columna Al: fila «4/0 o 250» → 4 Cu", "input": { "largestUngroundedSize": "250", "serviceMaterial": "aluminum", "material": "copper" }, "expected": { "size": "4", "tableSize": "4", "rodCapApplied": false } },
+    { "name": "Tope de varillas: Cu 3/0 con electrode rod → 6 Cu (la tabla daba 4)", "input": { "largestUngroundedSize": "3/0", "serviceMaterial": "copper", "material": "copper", "electrode": "rod" }, "expected": { "size": "6", "tableSize": "4", "rodCapApplied": true } },
+    { "name": "El tope no eleva: Cu #2 con varillas → 8 Cu se mantiene (8 < 6)", "input": { "largestUngroundedSize": "2", "serviceMaterial": "copper", "material": "copper", "electrode": "rod" }, "expected": { "size": "8", "tableSize": "8", "rodCapApplied": false } },
+    { "name": "GEC de aluminio: Cu #2 → 6 Al; con varillas queda 6 (menor que el tope Al de 4)", "input": { "largestUngroundedSize": "2", "serviceMaterial": "copper", "material": "aluminum", "electrode": "rod" }, "expected": { "size": "6", "tableSize": "6", "rodCapApplied": false } },
+    { "name": "GEC Al con tope: Cu 350 → 1/0 Al de tabla → tope 4 Al", "input": { "largestUngroundedSize": "350", "serviceMaterial": "copper", "material": "aluminum", "electrode": "rod" }, "expected": { "size": "4", "tableSize": "1/0", "rodCapApplied": true } }
+  ]
+}

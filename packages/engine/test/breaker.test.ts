@@ -19,3 +19,24 @@ describe('standardBreaker (golden)', () => {
     )
   })
 })
+
+describe('standardBreaker minBreakerA floor', () => {
+  it('raises the rating to the floor and flags it (33.3 A load, 40 A floor → 40, not 35)', () => {
+    const result = standardBreaker({ loadA: 33.3, minBreakerA: 40 })
+    expect(result.rating).toBe(40)
+    expect(result.minBreakerApplied).toBe(true)
+  })
+
+  it('a floor below the load requirement changes nothing', () => {
+    const result = standardBreaker({ loadA: 33.3, minBreakerA: 20 })
+    expect(result.rating).toBe(35)
+    expect(result.minBreakerApplied).toBe(false)
+  })
+
+  it('the 240.4 guard still rejects a floored breaker the conductor cannot support', () => {
+    // Floor forces 40 A, but a 30 A conductor (standard-matched) allows at most 30 A.
+    expect(() =>
+      standardBreaker({ loadA: 20, minBreakerA: 40, conductorProtectionAmpacity: 30 }),
+    ).toThrow(EngineError)
+  })
+})

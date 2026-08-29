@@ -16,7 +16,7 @@ Scope and acceptance criteria for each feature live in [PRD.md](./PRD.md).
 | Conduit fill (Ch. 9) | ✅ shipped | 2026-08-16 · golden + property tests; EMT / PVC Sch 40 / LFNC-B, nipple 60%, Note 7; bare EGC later (needs T8 area column) |
 | Box fill (314.16) | ✅ shipped | 2026-08-28 · golden + property tests; check + size modes, (B)(1)–(B)(5) incl. EGC quarter rule; Tables 314.16(A)/(B)(1) cross-verified vs two NFPA-licensed reprints |
 | Residential load calc (Art. 120, ex-220) | ✅ shipped | 2026-08-28 · both methods (standard + optional 120.82) with per-line bilingual breakdowns, golden + property tests; NEC 2026 moved load calcs to new Art. 120 with 22 VA/m² lighting + 8 kVA optional tier (cross-verified) |
-| Grounding (250.66, 250.122) | 🚧 in progress | 2026-08-17 · `egcSize` + 250.122(B)/(D) proportional upsizing shipped (cmil-exact, capped per (A), Table 8 cmil column cross-verified); 250.66 GEC later |
+| Grounding (250.66, 250.122) | ✅ shipped | 2026-08-28 · `egcSize` (250.122 + (B)/(D) proportional upsizing) and `gecSize` (Table 250.66 + 250.66(A) rod cap, cross-verified vs zing2/dakotaprep/expertce/ELR) both golden-tested |
 | Solar sizing (Art. 690 + panels/inverter/battery) | 📋 planned | |
 
 ## Data

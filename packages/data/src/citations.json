@@ -161,6 +161,18 @@
     "reasonEn": "ground-wire size",
     "reasonEs": "calibre del alambre de tierra"
   },
+  "nec2026.t250_66": {
+    "en": "NEC 2026, Table 250.66 — grounding electrode conductor for AC systems",
+    "es": "NEC 2026, Tabla 250.66 — conductor al electrodo de puesta a tierra en sistemas de CA",
+    "reasonEn": "grounding electrode conductor size",
+    "reasonEs": "calibre del conductor al electrodo"
+  },
+  "nec2026.s250_66_a": {
+    "en": "NEC 2026, 250.66(A) — sole connection to rod/pipe/plate electrodes: never required larger than 6 AWG Cu (4 AWG Al)",
+    "es": "NEC 2026, 250.66(A) — conexión únicamente a varillas/tubos/placas: nunca se exige mayor que #6 Cu (#4 Al)",
+    "reasonEn": "rod-electrode size cap",
+    "reasonEs": "límite por ir solo a varillas"
+  },
   "nec2026.s250_122_b": {
     "en": "NEC 2026, 250.122(D) — EGC increased proportionally (circular-mil area) when circuit conductors are upsized beyond ampacity requirements (250.122(B) in pre-2026 editions)",
     "es": "NEC 2026, 250.122(D) — aumento proporcional del conductor de tierra (área en circular mils) cuando los conductores del circuito se agrandan más allá de lo requerido por ampacidad (250.122(B) en ediciones anteriores)",
