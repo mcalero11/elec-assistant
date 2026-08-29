@@ -66,6 +66,14 @@ prices land):
 Recheck Vidrí's access status on the next run; if it stays closed, these move
 to the manual-research column with Freund/EPA.
 
+**Planned for later this phase** (see FEATURES.md): run this same procedure by
+driving a real browser — Playwright in **headful** mode at human pace,
+optionally parallelized across agents — instead of plain HTTP fetches, which
+now get challenged. Scope stays limited to retailers whose robots.txt permits
+crawling (Vidrí); Freund and EPA declare an explicit AI opt-out
+(`ai-input=no` + disallow) and remain manual-research only, per the policy
+above.
+
 Market adaptations recorded 2026-08-17 from the user's manual research:
 
 - **A/C disconnect = «caja térmica» NEMA 3R.** Dedicated pull-out disconnects are
