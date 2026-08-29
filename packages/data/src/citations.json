@@ -239,6 +239,24 @@
     "reasonEn": "EMT supports",
     "reasonEs": "soportes de EMT"
   },
+  "nec2026.s210_19_c": {
+    "en": "NEC 2026, 210.19(C) — minimum 40 A branch circuit for ranges rated 8¾ kW or more (210.19(A)(3) in pre-2023 editions)",
+    "es": "NEC 2026, 210.19(C) — circuito ramal mínimo de 40 A para estufas de 8¾ kW o más (210.19(A)(3) en ediciones anteriores a 2023)",
+    "reasonEn": "40 A minimum for ranges",
+    "reasonEs": "mínimo de 40 A para estufas"
+  },
+  "nec2026.s210_21_b": {
+    "en": "NEC 2026, 210.21(B) — receptacle rating must match the circuit",
+    "es": "NEC 2026, 210.21(B) — el tomacorriente debe corresponder al circuito",
+    "reasonEn": "receptacle matches circuit",
+    "reasonEs": "el tomacorriente corresponde al circuito"
+  },
+  "nec2026.s220_61": {
+    "en": "NEC 2026, 220.61 — neutral load (this app sizes the neutral equal to the phases, a conservative simplification)",
+    "es": "NEC 2026, 220.61 — carga del neutro (esta app dimensiona el neutro igual a las fases, una simplificación conservadora)",
+    "reasonEn": "neutral sizing",
+    "reasonEs": "calibre del neutro"
+  },
   "nec2026.s210_8": {
     "en": "NEC 2026, 210.8 — GFCI protection for personnel (bathrooms, outdoors, kitchens, laundry areas)",
     "es": "NEC 2026, 210.8 — protección GFCI para las personas (baños, exteriores, cocinas, lavanderías)",

@@ -66,9 +66,36 @@ const heaterPresets: readonly DevicePreset[] = [
   },
 ]
 
+/**
+ * Household ranges and dryers for the 240 V receptacle template. `demandA` is
+ * HAND-DERIVED branch-circuit demand, documented per preset (the load calc's
+ * Article 120 engine handles feeders; a single appliance branch circuit uses
+ * the demand directly): estufa ≤ 12 kW → Table 120.55 Column C row 1 = 8 kW →
+ * 8000/240 = 33.33 A, with the 40 A minimum branch circuit for ranges ≥ 8¾ kW
+ * (210.19(C)); secadora típica 5.5 kW → 5500/240 = 22.92 ≈ 22.9 A, 30 A
+ * breaker per nameplate. Typical values pending user verification.
+ */
+const rangeDryerPresets: readonly DevicePreset[] = [
+  {
+    id: 'estufa',
+    label: { es: 'Estufa eléctrica (hasta 12 kW)', en: 'Electric range (up to 12 kW)' },
+    detail: { es: 'demanda 33.33 A · térmico mín. 40 A', en: 'demand 33.33 A · min breaker 40 A' },
+    synonyms: ['estufa', 'cocina eléctrica', 'rango'],
+    values: { demandA: 33.33, minBreakerA: 40 },
+  },
+  {
+    id: 'secadora',
+    label: { es: 'Secadora de ropa (5–6 kW)', en: 'Clothes dryer (5–6 kW)' },
+    detail: { es: 'demanda 22.9 A · térmico 30 A', en: 'demand 22.9 A · 30 A breaker' },
+    synonyms: ['secadora', 'secadora de ropa', 'dryer'],
+    values: { demandA: 22.9, minBreakerA: 30 },
+  },
+]
+
 export const presetCatalogs = {
   'ac-presets': acDevicePresets,
   'heater-presets': heaterPresets,
+  'range-dryer-presets': rangeDryerPresets,
 } as const satisfies Record<string, readonly DevicePreset[]>
 
 export type PresetCatalogId = keyof typeof presetCatalogs

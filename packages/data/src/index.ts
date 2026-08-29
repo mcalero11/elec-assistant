@@ -19,6 +19,7 @@ import citationsJson from './citations.json'
 import { RETAILERS, type JobTemplate as JobTemplateType, type PriceEntry, type Retailer } from './catalog/types.js'
 import { acMinisplitTemplate as acMinisplitTemplateValue } from './templates/ac-minisplit.js'
 import { duchaElectricaTemplate as duchaElectricaTemplateValue } from './templates/ducha-electrica.js'
+import { tomacorriente240vTemplate as tomacorriente240vTemplateValue } from './templates/tomacorriente-240v.js'
 
 export const NEC_EDITION = 'nec-2026'
 
@@ -325,6 +326,7 @@ export { appliancePresets, type AppliancePresetId } from './catalog/appliance-pr
 export { presetCatalogs, type DevicePreset, type PresetCatalogId } from './catalog/presets.js'
 export { acMinisplitTemplate } from './templates/ac-minisplit.js'
 export { duchaElectricaTemplate } from './templates/ducha-electrica.js'
+export { tomacorriente240vTemplate } from './templates/tomacorriente-240v.js'
 
 /**
  * Registry of all job templates — data owns it so the engine test suite can
@@ -333,6 +335,7 @@ export { duchaElectricaTemplate } from './templates/ducha-electrica.js'
 export const allTemplates: readonly JobTemplateType[] = [
   acMinisplitTemplateValue,
   duchaElectricaTemplateValue,
+  tomacorriente240vTemplateValue,
 ]
 
 /** prices.json is written by the research procedure in PRICES.md — validate at load. */

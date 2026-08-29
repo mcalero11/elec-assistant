@@ -41,8 +41,13 @@ const KNOWN_UNPRICED = new Set([
   'breaker-2p-60',
   'breaker-1p-gfci-30',
   'breaker-1p-gfci-40',
+  'breaker-2p-gfci-30',
   'breaker-2p-gfci-40',
   'breaker-2p-gfci-50',
+  // tomacorriente-240v items from the same closed-Vidrí run:
+  'receptacle-nema-14-30',
+  'receptacle-nema-14-50',
+  'box-2x4-deep',
 ])
 
 function reachableItemIds(rules: readonly BomRule[]): Set<string> {

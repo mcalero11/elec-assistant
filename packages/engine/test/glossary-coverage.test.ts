@@ -36,7 +36,7 @@ const REQUIRED_TERMS: readonly string[] = [
   // load calc
   'factorDemanda', 'acometida', 'cargaConectada', 'voltamperio', 'metodoOpcional', 'duchaElectrica',
   // job templates 2–5
-  'gfci',
+  'gfci', 'neutro', 'nema1430', 'nema1450',
 ]
 
 const webSrc = fileURLToPath(new URL('../../web/src/', import.meta.url))

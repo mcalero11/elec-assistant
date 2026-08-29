@@ -28,7 +28,7 @@ Scope and acceptance criteria for each feature live in [PRD.md](./PRD.md).
 | Bilingual citation labels (en/es) | ✅ shipped | 2026-08-15 · 2026-08-17: + plain-language reasons (`reasonEs/reasonEn`, `citationReason()`) for beginner-facing chips |
 | Device catalog (wattages, synonyms, photos) | 🚧 in progress | 2026-08-28 · AC nameplate presets (5, MCA/MOCP) + 17 appliance wattage presets (es-SV synonyms, Art. 120 categories, typical values pending user verification); photos later |
 | Glossary / regional terminology DB | 🚧 in progress | 2026-08-17 · 36 entries in data (definición + sinónimos es-SV + inglés + artículos NEC), CI coverage lint; photos + growth toward ~100 terms pending — the moat |
-| Job templates (5 seed jobs) | 🚧 in progress | 2026-08-28 · 2/5 shipped: aire mini-split (4 fixtures) + ducha eléctrica/calentador (3 fixtures: $calc amps, piso de térmico del fabricante, GFCI en el BOM por defecto con aviso al quitarlo); interpreter v2 + runner genérico |
+| Job templates (5 seed jobs) | 🚧 in progress | 2026-08-28 · 3/5 shipped: aire mini-split (4 fixtures), ducha/calentador (3), tomacorriente 240 V estufa/secadora (3: demanda T120.55 Col C a mano, piso 40 A de 210.19(C), NEMA 14-30/50 derivado, neutro + caja en el BOM); interpreter v2 + runner genérico |
 | Price catalog (per-retailer, updatedAt-stamped) | 🚧 in progress | 2026-08-17 · 33 entries: 30 Vidrí (reproducible run) + 3 manual Freund/Vidrí (user-verified; Freund/EPA block AI access); cheapest-basket live on dual-priced lines; 2 documented gaps (25 A breaker, ½″ LFNC connector — market availability) |
 
 ## Web app

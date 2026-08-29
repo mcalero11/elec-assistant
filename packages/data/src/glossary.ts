@@ -447,6 +447,36 @@ export const glossary = {
     },
     necArticles: ['nec2026.s314_16_b_4'],
   },
+  neutro: {
+    es: 'neutro',
+    en: 'neutral conductor',
+    synonyms: ['blanco', 'conductor puesto a tierra', 'neutral'],
+    definition: {
+      es: 'El conductor blanco que regresa la corriente; en circuitos de 120/240 V lleva solo el desbalance entre las dos fases.',
+      en: 'The white return conductor; on 120/240 V circuits it carries only the imbalance between the two hots.',
+    },
+    necArticles: ['nec2026.s220_61'],
+  },
+  nema1430: {
+    es: 'NEMA 14-30',
+    en: 'NEMA 14-30 receptacle',
+    synonyms: ['toma de secadora', 'toma 30 amperios 240'],
+    definition: {
+      es: 'Tomacorriente de 4 ranuras para secadora: dos fases, neutro y tierra, 30 A a 125/250 V.',
+      en: 'Four-slot dryer receptacle: two hots, neutral, and ground, 30 A at 125/250 V.',
+    },
+    necArticles: ['nec2026.s210_21_b'],
+  },
+  nema1450: {
+    es: 'NEMA 14-50',
+    en: 'NEMA 14-50 receptacle',
+    synonyms: ['toma de estufa', 'toma 50 amperios 240'],
+    definition: {
+      es: 'Tomacorriente de 4 ranuras para estufa: dos fases, neutro y tierra, 50 A a 125/250 V.',
+      en: 'Four-slot range receptacle: two hots, neutral, and ground, 50 A at 125/250 V.',
+    },
+    necArticles: ['nec2026.s210_21_b'],
+  },
   gfci: {
     es: 'GFCI',
     en: 'GFCI (ground-fault circuit interrupter)',

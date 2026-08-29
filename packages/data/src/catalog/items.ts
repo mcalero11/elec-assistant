@@ -26,7 +26,13 @@ export const catalogItems = [
   { id: 'breaker-1p-gfci-30', name: { es: 'térmico GFCI 1 polo 30 A', en: '1-pole GFCI breaker 30 A' }, unit: 'unidad', category: 'material', synonyms: ['breaker gfci 30', 'interruptor de falla a tierra 30'] },
   { id: 'breaker-1p-gfci-40', name: { es: 'térmico GFCI 1 polo 40 A', en: '1-pole GFCI breaker 40 A' }, unit: 'unidad', category: 'material', synonyms: ['breaker gfci 40', 'interruptor de falla a tierra 40'] },
   { id: 'breaker-2p-gfci-40', name: { es: 'térmico GFCI 2 polos 40 A', en: '2-pole GFCI breaker 40 A' }, unit: 'unidad', category: 'material', synonyms: ['breaker gfci doble 40'] },
+  { id: 'breaker-2p-gfci-30', name: { es: 'térmico GFCI 2 polos 30 A', en: '2-pole GFCI breaker 30 A' }, unit: 'unidad', category: 'material', synonyms: ['breaker gfci doble 30'] },
   { id: 'breaker-2p-gfci-50', name: { es: 'térmico GFCI 2 polos 50 A', en: '2-pole GFCI breaker 50 A' }, unit: 'unidad', category: 'material', synonyms: ['breaker gfci doble 50'] },
+
+  // Tomacorrientes 240 V y caja
+  { id: 'receptacle-nema-14-30', name: { es: 'tomacorriente NEMA 14-30 (secadora, 30 A)', en: 'NEMA 14-30 receptacle (dryer, 30 A)' }, unit: 'unidad', category: 'material', synonyms: ['toma de secadora', 'tomacorriente 30 amperios'] },
+  { id: 'receptacle-nema-14-50', name: { es: 'tomacorriente NEMA 14-50 (estufa, 50 A)', en: 'NEMA 14-50 receptacle (range, 50 A)' }, unit: 'unidad', category: 'material', synonyms: ['toma de estufa', 'tomacorriente 50 amperios'] },
+  { id: 'box-2x4-deep', name: { es: 'caja rectangular profunda 2×4 (para toma 240 V)', en: 'deep 2×4 device box (for 240 V receptacle)' }, unit: 'unidad', category: 'material', synonyms: ['caja profunda', 'caja de toma'] },
 
   // Alambre THHN/THWN-2 cobre (por metro)
   { id: 'thhn-cu-14', name: { es: 'alambre THHN/THWN-2 Cu #14', en: 'THHN/THWN-2 Cu wire #14' }, unit: 'm', category: 'material', synonyms: ['alambre 14', 'cable 14'] },
