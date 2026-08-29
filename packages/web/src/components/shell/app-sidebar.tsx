@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { AirVent, BookOpen, Box, Cable, Cylinder, Earth, House, LayoutDashboard, Search, Zap } from 'lucide-react'
+import { BookOpen, Box, Cable, Cylinder, Earth, House, LayoutDashboard, Search, Zap } from 'lucide-react'
 import {
   Sidebar,
   SidebarContent,
@@ -16,7 +16,7 @@ import {
   SidebarRail,
 } from '@/components/ui/sidebar'
 import { getMessages } from '@/lib/i18n'
-import { ALL_TEMPLATES, templateRoute } from '@/lib/templates'
+import { ALL_TEMPLATES, templateIcon, templateRoute } from '@/lib/templates'
 
 export function AppSidebar() {
   const m = getMessages()
@@ -102,16 +102,19 @@ export function AppSidebar() {
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-              {ALL_TEMPLATES.map((t) => (
-                <SidebarMenuItem key={t.id}>
-                  <SidebarMenuButton asChild isActive={isActive(templateRoute(t))} tooltip={t.name.es} className="min-h-11 md:min-h-8">
-                    <Link href={templateRoute(t)}>
-                      <AirVent aria-hidden />
-                      <span>{t.name.es}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {ALL_TEMPLATES.map((t) => {
+                const Icon = templateIcon(t.id)
+                return (
+                  <SidebarMenuItem key={t.id}>
+                    <SidebarMenuButton asChild isActive={isActive(templateRoute(t))} tooltip={t.name.es} className="min-h-11 md:min-h-8">
+                      <Link href={templateRoute(t)}>
+                        <Icon aria-hidden />
+                        <span>{t.name.es}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                )
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

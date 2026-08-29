@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { acMinisplitTemplate, type JobTemplate } from '@elec-assistant/data'
 import { EngineError, resolveTemplateState, runTemplate } from '@elec-assistant/engine'
-import golden from './golden/template-ac-minisplit.json'
 
 const baseAnswers = {
   device: { id: 'ac-36k', mcaA: 24, mocpA: 40 },
@@ -39,45 +38,7 @@ describe('ambient temperature question', () => {
   })
 })
 
-describe('runTemplate ac-minisplit (golden)', () => {
-  for (const c of golden.cases) {
-    it(c.name, () => {
-      const result = runTemplate(acMinisplitTemplate, {
-        answers: c.answers,
-        options: c.options,
-      })
-
-      const byId = new Map(result.parameters.map((p) => [p.id, p]))
-      for (const [id, value] of Object.entries(c.expected.parameters)) {
-        expect(byId.get(id)?.value, `parameter ${id}`).toBe(value)
-      }
-      expect(byId.get('drop')?.value as number).toBeCloseTo(c.expected.dropPercent, 3)
-
-      // Every parameter line must carry at least one citation (PRD: cited outputs).
-      for (const p of result.parameters) {
-        expect(p.citations.length, `citations of ${p.id}`).toBeGreaterThan(0)
-      }
-
-      expect(
-        result.bom.map((line) => ({
-          ruleId: line.ruleId,
-          itemId: line.itemId,
-          qty: line.qty,
-          ...(line.optional ? { optional: true } : {}),
-        })),
-      ).toEqual(c.expected.bom)
-
-      const keys = new Set(result.assumptions.map((a) => a.key))
-      for (const k of c.expected.assumptionKeys) {
-        expect(keys.has(k), `assumption ${k}`).toBe(true)
-      }
-      for (const k of c.expected.absentAssumptionKeys) {
-        expect(keys.has(k), `assumption ${k} should be absent`).toBe(false)
-      }
-      expect(result.warnings.length).toBe(c.expected.warningCount)
-    })
-  }
-})
+// Golden fixtures run in template-golden.test.ts, registry-driven over allTemplates.
 
 describe('runTemplate mechanics', () => {
   it('fires the panel-space warning', () => {
@@ -288,7 +249,8 @@ describe('interpreter v2 primitives', () => {
       answers: baseAnswers,
       options: { conduitType: 'lfnc', bends: 'dobladora' },
     })
-    expect(acState.disabledOptionIds).toEqual(['bends'])
+    // LFNC disables both the bends choice and the bend count (neither applies).
+    expect(acState.disabledOptionIds).toEqual(['bends', 'bendCount'])
     expect(acState.options['bends']).toBe('curvas') // forced back to default
     expect(acState.answers['ambientC']).toBe(40) // location-aware default
   })

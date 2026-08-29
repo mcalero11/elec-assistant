@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { acMinisplitTemplate } from '@elec-assistant/data'
-import { JobRunner } from '@/components/jobs/job-runner'
+import { TemplateRunner } from '@/components/jobs/template-runner'
 
 export const metadata: Metadata = {
   title: 'Aire acondicionado mini-split',
@@ -16,7 +16,7 @@ export default function AcMinisplitPage() {
         <h1 className="text-2xl font-bold tracking-tight">{acMinisplitTemplate.name.es}</h1>
       </div>
       <Suspense>
-        <JobRunner />
+        <TemplateRunner template={acMinisplitTemplate} />
       </Suspense>
     </div>
   )

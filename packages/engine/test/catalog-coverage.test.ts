@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
-  acMinisplitTemplate,
+  allTemplates,
   catalogItems,
   priceEntries,
   type BomRule,
@@ -14,7 +14,7 @@ import {
  * walker can see every reachable itemId statically.
  */
 
-const TEMPLATES: JobTemplate[] = [acMinisplitTemplate]
+const TEMPLATES: readonly JobTemplate[] = allTemplates
 
 /**
  * Documented pricing gaps (packages/data/PRICES.md, updated 2026-08-17 with the

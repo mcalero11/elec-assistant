@@ -16,7 +16,8 @@ import article220Json from './nec-2026/article-220-residential.json'
 import pvWireJson from './reference/pv-wire.json'
 import pricesJson from './catalog/prices.json'
 import citationsJson from './citations.json'
-import { RETAILERS, type PriceEntry, type Retailer } from './catalog/types.js'
+import { RETAILERS, type JobTemplate as JobTemplateType, type PriceEntry, type Retailer } from './catalog/types.js'
+import { acMinisplitTemplate as acMinisplitTemplateValue } from './templates/ac-minisplit.js'
 
 export const NEC_EDITION = 'nec-2026'
 
@@ -322,6 +323,12 @@ export { acPresets, type AcPresetId } from './catalog/ac-presets.js'
 export { appliancePresets, type AppliancePresetId } from './catalog/appliance-presets.js'
 export { presetCatalogs, type DevicePreset, type PresetCatalogId } from './catalog/presets.js'
 export { acMinisplitTemplate } from './templates/ac-minisplit.js'
+
+/**
+ * Registry of all job templates — data owns it so the engine test suite can
+ * loop it (golden 1:1 coverage, catalog lint) and the web layer re-exports it.
+ */
+export const allTemplates: readonly JobTemplateType[] = [acMinisplitTemplateValue]
 
 /** prices.json is written by the research procedure in PRICES.md — validate at load. */
 function asPriceEntry(raw: Record<string, unknown>): PriceEntry {

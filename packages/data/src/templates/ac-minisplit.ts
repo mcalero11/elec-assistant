@@ -157,6 +157,8 @@ export const acMinisplitTemplate: JobTemplate = {
       max: 8,
       step: 1,
       default: 3,
+      // LFNC bends by hand — neither elbows nor a bender apply.
+      disabledWhen: { ref: 'options.conduitType', eq: 'lfnc' },
       label: { es: 'Número de vueltas de 90°', en: 'Number of 90° bends' },
       urlKey: 'bc',
     },

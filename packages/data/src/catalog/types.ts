@@ -188,6 +188,7 @@ export type TemplateOption =
       max: number
       step: number
       default: number
+      disabledWhen?: Condition
       label: TemplateLabel
       urlKey?: string
       termId?: GlossaryId

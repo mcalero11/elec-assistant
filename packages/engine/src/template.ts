@@ -301,7 +301,7 @@ export function resolveTemplateState(
   }
   const disabledOptionIds: string[] = []
   for (const opt of template.options) {
-    if (opt.type === 'choice' && opt.disabledWhen && evalCondition(opt.disabledWhen, ctx)) {
+    if (opt.disabledWhen && evalCondition(opt.disabledWhen, ctx)) {
       ctx.options[opt.id] = opt.default
       disabledOptionIds.push(opt.id)
     }

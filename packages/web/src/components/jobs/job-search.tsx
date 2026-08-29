@@ -2,11 +2,10 @@
 
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
-import { AirVent } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { searchTemplates } from '@/lib/job-search'
 import { getMessages } from '@/lib/i18n'
-import { ALL_TEMPLATES, templateRoute } from '@/lib/templates'
+import { ALL_TEMPLATES, templateIcon, templateRoute } from '@/lib/templates'
 
 export function JobSearch() {
   const m = getMessages()
@@ -26,22 +25,25 @@ export function JobSearch() {
         <p className="text-sm text-muted-foreground">{m.jobs.noResults}</p>
       ) : (
         <ul className="grid gap-3">
-          {results.map((t) => (
-            <li key={t.id}>
-              <Link
-                href={templateRoute(t)}
-                className="flex items-start gap-3 rounded-lg border p-4 transition-colors hover:bg-accent"
-              >
-                <AirVent className="mt-0.5 size-5 text-muted-foreground" aria-hidden />
-                <span>
-                  <span className="block font-semibold">{t.name.es}</span>
-                  <span className="block text-xs text-muted-foreground">
-                    {t.synonyms.slice(0, 4).join(' · ')}
+          {results.map((t) => {
+            const Icon = templateIcon(t.id)
+            return (
+              <li key={t.id}>
+                <Link
+                  href={templateRoute(t)}
+                  className="flex items-start gap-3 rounded-lg border p-4 transition-colors hover:bg-accent"
+                >
+                  <Icon className="mt-0.5 size-5 text-muted-foreground" aria-hidden />
+                  <span>
+                    <span className="block font-semibold">{t.name.es}</span>
+                    <span className="block text-xs text-muted-foreground">
+                      {t.synonyms.slice(0, 4).join(' · ')}
+                    </span>
                   </span>
-                </span>
-              </Link>
-            </li>
-          ))}
+                </Link>
+              </li>
+            )
+          })}
         </ul>
       )}
     </div>
