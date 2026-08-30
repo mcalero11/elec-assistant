@@ -58,6 +58,7 @@ export {
   type ResolvedParameter,
   type ResolvedTemplateState,
   type ResolvedWarning,
+  type TemplateCallResult,
   type TemplateRunInput,
   type TemplateRunResult,
 } from './template.js'

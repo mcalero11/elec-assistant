@@ -72,6 +72,21 @@ describe('runTemplate mechanics', () => {
     expect(result.bom.some((l) => l.ruleId === 'emt-elbows')).toBe(false)
   })
 
+  it('exposes raw engine-call results in declaration order (memoria source)', () => {
+    const result = runTemplate(acMinisplitTemplate, { answers: baseAnswers })
+    expect(result.calls.map((c) => ({ id: c.id, fn: c.fn }))).toEqual([
+      { id: 'circuit', fn: 'sizeCircuit' },
+      { id: 'egc', fn: 'egcSize' },
+      { id: 'conduit', fn: 'sizeConduit' },
+    ])
+    const circuit = result.calls[0]
+    if (circuit?.fn !== 'sizeCircuit') expect.unreachable('first call must be the circuit')
+    else {
+      expect(['ampacity', 'voltage-drop', 'protection']).toContain(circuit.result.governedBy)
+      expect(circuit.result.breaker.rating).toBeGreaterThan(0)
+    }
+  })
+
   it('rejects a missing preset answer with a bilingual EngineError', () => {
     try {
       runTemplate(acMinisplitTemplate, { answers: { runLengthM: 10 }, options: {} })

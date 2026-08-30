@@ -8,11 +8,11 @@ import {
   type JobTemplate,
   type TemplateLabel,
 } from '@elec-assistant/data'
-import { boxFill } from './box-fill.js'
-import { sizeCircuit } from './circuit.js'
-import { sizeConduit } from './conduit-fill.js'
-import { egcSize } from './egc.js'
-import { gecSize } from './gec.js'
+import { boxFill, type BoxFillResult } from './box-fill.js'
+import { sizeCircuit, type CircuitResult } from './circuit.js'
+import { sizeConduit, type ConduitFillResult } from './conduit-fill.js'
+import { egcSize, type EgcResult } from './egc.js'
+import { gecSize, type GecResult } from './gec.js'
 import {
   EngineError,
   mergeAssumptions,
@@ -197,10 +197,20 @@ export interface ResolvedWarning {
   text: TemplateLabel
 }
 
+/** One raw engine-call result, discriminated by the call's `fn` (the CALL_REGISTRY keys). */
+export type TemplateCallResult =
+  | { id: string; fn: 'sizeCircuit'; result: CircuitResult }
+  | { id: string; fn: 'sizeConduit'; result: ConduitFillResult }
+  | { id: string; fn: 'egcSize'; result: EgcResult }
+  | { id: string; fn: 'gecSize'; result: GecResult }
+  | { id: string; fn: 'boxFill'; result: BoxFillResult }
+
 export interface TemplateRunResult extends WithProvenance {
   parameters: ResolvedParameter[]
   bom: BomLine[]
   warnings: ResolvedWarning[]
+  /** Raw engine-call results in template declaration order — the memoria's worked-detail source. */
+  calls: TemplateCallResult[]
 }
 
 /* -------------------------------- interpreter -------------------------------- */
@@ -409,6 +419,9 @@ export function runTemplate(template: JobTemplate, run: TemplateRunInput): Templ
     parameters,
     bom,
     warnings,
+    calls: template.calls.map(
+      (c) => ({ id: c.id, fn: c.fn, result: ctx.calls[c.id] }) as TemplateCallResult,
+    ),
     citations: mergeCitations(
       ...callResults.map((r) => r.citations),
       ...derivedResults.map((r) => r.citations),
