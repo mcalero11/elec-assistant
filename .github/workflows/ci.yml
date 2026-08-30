@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  IMAGE: ghcr.io/mcalero11/elec-assistant/web
+  IMAGE: ghcr.io/mcalero11/nec-assistant/web
 
 jobs:
   checks:
