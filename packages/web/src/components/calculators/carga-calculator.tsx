@@ -233,7 +233,7 @@ export function CargaCalculator() {
                     <SelectContent>
                       {appliancePresets.map((p) => (
                         <SelectItem key={p.id} value={p.id}>
-                          {p.label.es} · {fmtNumber(p.typicalVa)} VA
+                          {p.label.es} · {fmtNumber(p.typicalVa)} W
                         </SelectItem>
                       ))}
                       <SelectItem value={MANUAL}>{m.carga.manualEntry}</SelectItem>
@@ -254,7 +254,7 @@ export function CargaCalculator() {
                   <div className="flex items-center gap-2 pl-16">
                     <div className="space-y-1">
                       <Label className="text-xs">
-                        <Term id="voltamperio">{m.carga.va}</Term>
+                        <Term id="vatio">{m.carga.watts}</Term>
                       </Label>
                       <Input
                         type="number"

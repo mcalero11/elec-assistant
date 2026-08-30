@@ -5,6 +5,12 @@ import type { DevicePresetAc } from './types.js'
  * These are representative values from common inverter units sold in Central
  * America — the UI must always surface «valores típicos de placa; verifique la
  * placa de SU equipo» and offer manual MCA/MOCP entry (PRD US-1).
+ *
+ * Verification: packages/data/WATTAGES.md is the research procedure. Per-entry
+ * `verifiedAt`/`source` stamps supersede the blanket caveat as they land;
+ * unstamped entries are tracked in KNOWN_UNVERIFIED_AC
+ * (packages/engine/test/wattage-verification.test.ts). Verifying an MCA preset
+ * also derived-verifies its appliance-presets.ts twin (stamp both, same date).
  */
 export const acPresets = [
   {

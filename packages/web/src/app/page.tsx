@@ -64,6 +64,9 @@ const NEC_TABLES = [
 
 const NEC_LABEL = NEC_EDITION.replace('nec-', 'NEC ')
 const CITATION_COUNT = Object.keys(citations).length
+// Widened so the optional provenance stamp is readable on the literal-typed presets.
+const ALL_PRESETS: readonly { id: string; verifiedAt?: string }[] = [...appliancePresets, ...acPresets]
+const UNVERIFIED_PRESETS = ALL_PRESETS.filter((p) => p.verifiedAt === undefined).length
 const INSULATION_COUNT = Object.keys(INSULATION_TEMP_RATING).length
 const LATEST_PRICE_DATE = priceEntries.reduce(
   (max, e) => (e.updatedAt > max ? e.updatedAt : max),
@@ -155,7 +158,7 @@ export default function HomePage() {
           icon={Package}
           value={catalogItems.length}
           label={m.home.catalogLabel}
-          detail={`${acPresets.length + appliancePresets.length} ${m.home.presetsLabel}`}
+          detail={`${acPresets.length + appliancePresets.length} ${m.home.presetsLabel} · ${UNVERIFIED_PRESETS} ${m.home.staleToVerify}`}
         />
         <StatTile
           icon={CircleDollarSign}

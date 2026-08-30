@@ -11,6 +11,11 @@ import type { DevicePresetAppliance } from './types.js'
  * typicalVa ≈ (typicalMcaA ÷ 1.25) × 230 V, rounded to 10 VA (MCA is 125% of
  * the compressor+fan load per 440.4(B), so dividing it back out approximates
  * the running load). A data-sanity test asserts this stays consistent.
+ *
+ * Verification: packages/data/WATTAGES.md is the research procedure. Per-entry
+ * `verifiedAt`/`source` stamps supersede the blanket caveat above as they land;
+ * unstamped entries are tracked in KNOWN_UNVERIFIED_APPLIANCES
+ * (packages/engine/test/wattage-verification.test.ts).
  */
 export const appliancePresets = [
   {
@@ -124,6 +129,7 @@ export const appliancePresets = [
     typicalVa: 1290,
     voltage: 240,
     category: 'ac',
+    source: 'derivado de ac-presets.ts (MCA ÷ 1.25 × 230 V)',
   },
   {
     id: 'ac-12k',
@@ -132,6 +138,7 @@ export const appliancePresets = [
     typicalVa: 1840,
     voltage: 240,
     category: 'ac',
+    source: 'derivado de ac-presets.ts (MCA ÷ 1.25 × 230 V)',
   },
   {
     id: 'ac-18k',
@@ -140,6 +147,7 @@ export const appliancePresets = [
     typicalVa: 2580,
     voltage: 240,
     category: 'ac',
+    source: 'derivado de ac-presets.ts (MCA ÷ 1.25 × 230 V)',
   },
   {
     id: 'ac-24k',
@@ -148,6 +156,7 @@ export const appliancePresets = [
     typicalVa: 3130,
     voltage: 240,
     category: 'ac',
+    source: 'derivado de ac-presets.ts (MCA ÷ 1.25 × 230 V)',
   },
 ] as const satisfies readonly DevicePresetAppliance[]
 

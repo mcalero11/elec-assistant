@@ -25,6 +25,13 @@ export interface DevicePresetAc {
   typicalMocpA: number
   label: { es: string; en: string }
   synonyms: string[]
+  /** ISO date ('YYYY-MM-DD') the typical values were last verified against a
+   *  published spec sheet or a user-confirmed nameplate. Absent ⇒ listed in
+   *  KNOWN_UNVERIFIED_AC (packages/engine/test/wattage-verification.test.ts).
+   *  Procedure: packages/data/WATTAGES.md. */
+  verifiedAt?: string
+  /** Spec-sheet URL or 'placa — verificado por el usuario'. */
+  source?: string
 }
 
 /**
@@ -55,6 +62,14 @@ export interface DevicePresetAppliance {
   typicalVa: number
   voltage: 120 | 240
   category: ApplianceCategory
+  /** ISO date ('YYYY-MM-DD') the typical value was last verified against a
+   *  published spec sheet or a user-confirmed nameplate. Absent ⇒ listed in
+   *  KNOWN_UNVERIFIED_APPLIANCES (packages/engine/test/wattage-verification.test.ts).
+   *  ac-* entries are derived-verified: stamp them in lockstep with their
+   *  ac-presets.ts twin. Procedure: packages/data/WATTAGES.md. */
+  verifiedAt?: string
+  /** Spec-sheet URL, 'placa — verificado por el usuario', or the ac-presets derivation note. */
+  source?: string
 }
 
 export const RETAILERS = ['vidri', 'freund', 'epa'] as const
