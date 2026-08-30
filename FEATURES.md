@@ -45,6 +45,12 @@ Scope and acceptance criteria for each feature live in [PRD.md](./PRD.md).
 | Glossary page (`/glosario`) | ✅ shipped | 2026-08-17 · searchable by término/sinónimo es-SV/inglés, NEC chips per entry; linked from sidebar |
 | Memoria de cálculo (PDF) | 🚧 in progress | 2026-08-16 · «Exportar PDF» print-stylesheet on the job flow; full memoria document later |
 
+## Infrastructure
+
+| Feature | Status | Notes |
+|---|---|---|
+| Homelab deployment (nec.mcalero.dev) | ✅ shipped | 2026-08-30 · CI builds linux/arm64 nginx image → public GHCR on main merges; box release = `apps/nec/deploy.sh` in homelab-infrastructure (pull + up); SW-safe cache headers; Cloudflare-proxied, LE cert at origin |
+
 ## Later ideas (build when needed)
 
 Saved projects · recent calculations on the panel (localStorage `ea-recent`, cap 8) ·
