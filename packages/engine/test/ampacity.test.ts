@@ -5,7 +5,7 @@ import {
   minConductorForLoad,
   type DeratedAmpacityInput,
   type MinConductorInput,
-} from '@elec-assistant/engine'
+} from '@nec-assistant/engine'
 import ampacityGolden from './golden/ampacity.json'
 import minConductorGolden from './golden/min-conductor.json'
 

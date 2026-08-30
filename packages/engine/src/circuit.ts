@@ -1,4 +1,4 @@
-import { CONDUCTOR_SIZES, table31016, type ConductorSize } from '@elec-assistant/data'
+import { CONDUCTOR_SIZES, table31016, type ConductorSize } from '@nec-assistant/data'
 import {
   evaluateConductor,
   minConductorForLoad,

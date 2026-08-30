@@ -1,5 +1,5 @@
 {
-  "name": "@elec-assistant/web",
+  "name": "@nec-assistant/web",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -10,8 +10,8 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@elec-assistant/data": "workspace:*",
-    "@elec-assistant/engine": "workspace:*",
+    "@nec-assistant/data": "workspace:*",
+    "@nec-assistant/engine": "workspace:*",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.31.0",

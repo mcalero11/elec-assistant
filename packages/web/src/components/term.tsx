@@ -1,7 +1,7 @@
 'use client'
 
 import { CircleHelp } from 'lucide-react'
-import { glossary, type GlossaryEntry, type GlossaryId } from '@elec-assistant/data'
+import { glossary, type GlossaryEntry, type GlossaryId } from '@nec-assistant/data'
 import { CitationChips } from '@/components/calculators/citation-chips'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 

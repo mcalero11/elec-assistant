@@ -3,8 +3,8 @@ import {
   priceEntries,
   type PriceEntry,
   type Retailer,
-} from '@elec-assistant/data'
-import type { BomLine } from '@elec-assistant/engine'
+} from '@nec-assistant/data'
+import type { BomLine } from '@nec-assistant/engine'
 
 export const RETAILER_LABELS: Record<Retailer, string> = {
   vidri: 'Vidrí',

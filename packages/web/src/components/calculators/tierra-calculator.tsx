@@ -8,8 +8,8 @@ import {
   useQueryState,
 } from 'nuqs'
 import { TriangleAlert } from 'lucide-react'
-import { CONDUCTOR_SIZES, type ConductorSize } from '@elec-assistant/data'
-import { EngineError, egcSize, type EgcResult } from '@elec-assistant/engine'
+import { CONDUCTOR_SIZES, type ConductorSize } from '@nec-assistant/data'
+import { EngineError, egcSize, type EgcResult } from '@nec-assistant/engine'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'

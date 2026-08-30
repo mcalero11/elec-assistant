@@ -7,7 +7,7 @@ import {
   type ConductorSize,
   type ConduitType,
   type TradeSize,
-} from '@elec-assistant/data'
+} from '@nec-assistant/data'
 import {
   EngineError,
   INSULATION_TEMP_RATING,

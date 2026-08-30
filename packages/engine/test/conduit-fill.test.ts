@@ -5,7 +5,7 @@ import {
   sizeConduit,
   type ConduitFillInput,
   type SizeConduitInput,
-} from '@elec-assistant/engine'
+} from '@nec-assistant/engine'
 import goldenFill from './golden/conduit-fill.json'
 import goldenSize from './golden/size-conduit.json'
 

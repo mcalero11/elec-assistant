@@ -92,7 +92,7 @@ export interface PriceEntry {
  * `satisfies JobTemplate` — same declarative shape as JSON, but the compiler
  * validates discriminated unions, which plain resolveJsonModule cannot.
  * The qty/condition vocabulary is a fixed whitelist interpreted by
- * @elec-assistant/engine `runTemplate`; new needs grow the vocabulary there.
+ * @nec-assistant/engine `runTemplate`; new needs grow the vocabulary there.
  */
 
 /** Dot path into the run context: 'answers.<id>…', 'options.<id>', 'calls.<id>.<path>', 'derived.<id>.<path>'. */

@@ -15,7 +15,7 @@ import {
   standardBoxes,
   standardBreakers,
   table31016,
-} from '@elec-assistant/data'
+} from '@nec-assistant/data'
 import {
   ambientFactor,
   boxFill,
@@ -29,7 +29,7 @@ import {
   sizeConduit,
   standardBreaker,
   type BoxFillItemsInput,
-} from '@elec-assistant/engine'
+} from '@nec-assistant/engine'
 
 describe('monotonicity properties', () => {
   it('larger conductors never have lower derated ampacity (Cu THHN)', () => {

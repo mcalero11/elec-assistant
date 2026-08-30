@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import { Search } from 'lucide-react'
-import { glossary, type GlossaryEntry, type GlossaryId } from '@elec-assistant/data'
+import { glossary, type GlossaryEntry, type GlossaryId } from '@nec-assistant/data'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { CitationChips } from '@/components/calculators/citation-chips'

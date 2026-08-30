@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { EngineError, residentialLoad, type ResidentialLoadInput } from '@elec-assistant/engine'
+import { EngineError, residentialLoad, type ResidentialLoadInput } from '@nec-assistant/engine'
 import golden from './golden/load-calc.json'
 
 describe('residentialLoad (golden)', () => {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { acMinisplitTemplate, type JobTemplate } from '@elec-assistant/data'
-import { EngineError, resolveTemplateState, runTemplate } from '@elec-assistant/engine'
+import { acMinisplitTemplate, type JobTemplate } from '@nec-assistant/data'
+import { EngineError, resolveTemplateState, runTemplate } from '@nec-assistant/engine'
 
 const baseAnswers = {
   device: { id: 'ac-36k', mcaA: 24, mocpA: 40 },

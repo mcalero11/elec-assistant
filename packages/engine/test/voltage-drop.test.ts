@@ -5,7 +5,7 @@ import {
   voltageDrop,
   type MinSizeForVoltageDropInput,
   type VoltageDropInput,
-} from '@elec-assistant/engine'
+} from '@nec-assistant/engine'
 import golden from './golden/voltage-drop.json'
 
 describe('voltageDrop (golden)', () => {

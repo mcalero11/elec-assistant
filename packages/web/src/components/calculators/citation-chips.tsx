@@ -1,6 +1,6 @@
 'use client'
 
-import { citationLabel, citationReason, type CitationKey } from '@elec-assistant/data'
+import { citationLabel, citationReason, type CitationKey } from '@nec-assistant/data'
 import { Badge } from '@/components/ui/badge'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'

@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
   // Emit route/index.html so plain static file servers resolve /route/ URLs.
   trailingSlash: true,
   // Workspace packages export raw TypeScript (./src/index.ts) — Next compiles them.
-  transpilePackages: ['@elec-assistant/engine', '@elec-assistant/data'],
+  transpilePackages: ['@nec-assistant/engine', '@nec-assistant/data'],
   images: { unoptimized: true },
   webpack: (config) => {
     // The engine/data packages use Node-ESM style `.js` extensions on relative

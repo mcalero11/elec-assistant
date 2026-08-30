@@ -1,9 +1,9 @@
 'use client'
 
 import { useMemo } from 'react'
-import { voltageDrop } from '@elec-assistant/engine'
-import type { ConductorMaterial, ConductorSize } from '@elec-assistant/data'
-import { citationLabel } from '@elec-assistant/data'
+import { voltageDrop } from '@nec-assistant/engine'
+import type { ConductorMaterial, ConductorSize } from '@nec-assistant/data'
+import { citationLabel } from '@nec-assistant/data'
 import { fmtPercent, getMessages } from '@/lib/i18n'
 
 const W = 320

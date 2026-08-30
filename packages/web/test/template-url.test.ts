@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { acMinisplitTemplate } from '@elec-assistant/data'
+import { acMinisplitTemplate } from '@nec-assistant/data'
 import { presetSelection, urlStateToRunInput } from '../src/lib/template-url'
 
 /**

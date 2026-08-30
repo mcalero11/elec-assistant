@@ -8,14 +8,14 @@ import {
   APPLIANCE_CATEGORIES,
   appliancePresets,
   type ApplianceCategory,
-} from '@elec-assistant/data'
+} from '@nec-assistant/data'
 import {
   EngineError,
   residentialLoad,
   type LoadDeviceInput,
   type LoadMethodResult,
   type ResidentialLoadResult,
-} from '@elec-assistant/engine'
+} from '@nec-assistant/engine'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'

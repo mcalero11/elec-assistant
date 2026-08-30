@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import { Pencil, RotateCcw, TriangleAlert } from 'lucide-react'
-import type { Retailer } from '@elec-assistant/data'
-import { RETAILERS } from '@elec-assistant/data'
+import type { Retailer } from '@nec-assistant/data'
+import { RETAILERS } from '@nec-assistant/data'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'

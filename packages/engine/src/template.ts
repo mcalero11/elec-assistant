@@ -7,7 +7,7 @@ import {
   type Condition,
   type JobTemplate,
   type TemplateLabel,
-} from '@elec-assistant/data'
+} from '@nec-assistant/data'
 import { boxFill, type BoxFillResult } from './box-fill.js'
 import { sizeCircuit, type CircuitResult } from './circuit.js'
 import { sizeConduit, type ConduitFillResult } from './conduit-fill.js'

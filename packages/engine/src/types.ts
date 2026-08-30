@@ -1,4 +1,4 @@
-import type { CitationKey, TempRating } from '@elec-assistant/data'
+import type { CitationKey, TempRating } from '@nec-assistant/data'
 
 /**
  * Common building-wire insulation types and their temperature rating (dry locations).

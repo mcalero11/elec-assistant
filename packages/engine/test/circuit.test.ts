@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { sizeCircuit } from '@elec-assistant/engine'
+import { sizeCircuit } from '@nec-assistant/engine'
 
 describe('sizeCircuit (end-to-end)', () => {
   it('mini-split: 24 A MCA (continuous), 15 m, 240 V → 10 AWG Cu THHN + 30 A breaker', () => {

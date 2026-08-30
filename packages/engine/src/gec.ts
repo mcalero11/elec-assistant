@@ -3,7 +3,7 @@ import {
   gecTable,
   type ConductorMaterial,
   type ConductorSize,
-} from '@elec-assistant/data'
+} from '@nec-assistant/data'
 import { EngineError, type Assumption, type WithProvenance } from './types.js'
 
 /**

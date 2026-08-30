@@ -1,4 +1,4 @@
-# elec-assistant
+# nec-assistant
 
 Spanish-first, NEC-based electrical assistant for electricians and apprentices in
 El Salvador: interactive calculators, job-based purchase lists, and solar sizing.
@@ -25,7 +25,7 @@ pnpm install
 pnpm typecheck
 pnpm test
 pnpm build            # static export → packages/web/out/
-pnpm --filter @elec-assistant/web dev
+pnpm --filter @nec-assistant/web dev
 ```
 
 > Results are calculation aids, not a substitute for a licensed electrician or

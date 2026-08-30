@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { priceEntries } from '@elec-assistant/data'
+import { priceEntries } from '@nec-assistant/data'
 import { isStale } from '@/lib/pricing'
 import { getMessages } from '@/lib/i18n'
 

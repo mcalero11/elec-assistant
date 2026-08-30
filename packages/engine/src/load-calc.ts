@@ -6,7 +6,7 @@ import {
   standardBreakers,
   type ApplianceCategory,
   type CitationKey,
-} from '@elec-assistant/data'
+} from '@nec-assistant/data'
 import {
   EngineError,
   mergeAssumptions,

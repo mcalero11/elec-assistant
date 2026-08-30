@@ -15,7 +15,7 @@ import {
   standardBoxes,
   type BoxConductorSize,
   type BoxShape,
-} from '@elec-assistant/data'
+} from '@nec-assistant/data'
 import {
   EngineError,
   boxFill,
@@ -23,7 +23,7 @@ import {
   type BoxConductorEntry,
   type BoxDeviceYokeEntry,
   type BoxFillResult,
-} from '@elec-assistant/engine'
+} from '@nec-assistant/engine'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'

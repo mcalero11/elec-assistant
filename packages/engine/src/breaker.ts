@@ -1,4 +1,4 @@
-import { standardBreakers } from '@elec-assistant/data'
+import { standardBreakers } from '@nec-assistant/data'
 import { ASSUME_CONTINUOUS_125, EngineError, type Assumption, type WithProvenance } from './types.js'
 
 export interface BreakerInput {

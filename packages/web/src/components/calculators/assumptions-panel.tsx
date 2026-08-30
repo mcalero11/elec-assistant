@@ -1,7 +1,7 @@
 'use client'
 
 import { ChevronDown } from 'lucide-react'
-import type { Assumption } from '@elec-assistant/engine'
+import type { Assumption } from '@nec-assistant/engine'
 import {
   Collapsible,
   CollapsibleContent,

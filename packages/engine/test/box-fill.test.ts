@@ -5,7 +5,7 @@ import {
   sizeBox,
   type BoxFillInput,
   type SizeBoxInput,
-} from '@elec-assistant/engine'
+} from '@nec-assistant/engine'
 import goldenFill from './golden/box-fill.json'
 import goldenSize from './golden/size-box.json'
 

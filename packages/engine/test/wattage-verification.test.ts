@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { acPresets, appliancePresets } from '@elec-assistant/data'
+import { acPresets, appliancePresets } from '@nec-assistant/data'
 
 /**
  * Wattage provenance lint (packages/data/WATTAGES.md): every typical value in

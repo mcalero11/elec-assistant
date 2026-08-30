@@ -1,4 +1,4 @@
-import { allTemplates, type JobTemplate } from '@elec-assistant/data'
+import { allTemplates, type JobTemplate } from '@nec-assistant/data'
 import { AirVent, Lightbulb, Plug, ShowerHead, Warehouse, Wrench, type LucideIcon } from 'lucide-react'
 
 /**

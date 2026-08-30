@@ -19,7 +19,7 @@ const WIRE_TABLE = {
 
 /**
  * Seed template #1: aire acondicionado mini-split (240 V circuit + disconnect + whip).
- * Declarative data interpreted by @elec-assistant/engine runTemplate — the engine-call
+ * Declarative data interpreted by @nec-assistant/engine runTemplate — the engine-call
  * graph chains sizeCircuit → egcSize → sizeConduit exactly like the composition idiom
  * documented in conduit-fill.ts.
  */

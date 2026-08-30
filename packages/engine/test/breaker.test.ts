@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { EngineError, standardBreaker, type BreakerInput } from '@elec-assistant/engine'
+import { EngineError, standardBreaker, type BreakerInput } from '@nec-assistant/engine'
 import golden from './golden/breaker.json'
 
 describe('standardBreaker (golden)', () => {

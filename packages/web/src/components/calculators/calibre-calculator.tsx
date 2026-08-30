@@ -21,11 +21,11 @@ import {
   type ConductorEvaluation,
   type Insulation,
   type VoltageDropResult,
-} from '@elec-assistant/engine'
+} from '@nec-assistant/engine'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { BOX_CONDUCTOR_SIZES, CONDUCTOR_SIZES, citationLabel, type ConductorSize } from '@elec-assistant/data'
-import { CONDUIT_FILL_INSULATIONS } from '@elec-assistant/engine'
+import { BOX_CONDUCTOR_SIZES, CONDUCTOR_SIZES, citationLabel, type ConductorSize } from '@nec-assistant/data'
+import { CONDUIT_FILL_INSULATIONS } from '@nec-assistant/engine'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'

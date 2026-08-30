@@ -5,7 +5,7 @@ import {
   type BoxConductorSize,
   type BoxShape,
   type StandardBox,
-} from '@elec-assistant/data'
+} from '@nec-assistant/data'
 import { EngineError, type Assumption, type WithProvenance } from './types.js'
 
 /**

@@ -2,7 +2,7 @@ import { readFileSync, readdirSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
-import { glossary } from '@elec-assistant/data'
+import { glossary } from '@nec-assistant/data'
 
 /**
  * Glossary coverage lint (PRD success criterion 5: every technical term rendered

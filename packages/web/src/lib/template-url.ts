@@ -1,5 +1,5 @@
-import { presetCatalogs, type JobTemplate } from '@elec-assistant/data'
-import type { TemplateRunInput } from '@elec-assistant/engine'
+import { presetCatalogs, type JobTemplate } from '@nec-assistant/data'
+import type { TemplateRunInput } from '@nec-assistant/engine'
 
 /**
  * Pure mapping from raw query-string values to a `runTemplate` input — kept

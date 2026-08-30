@@ -12,7 +12,7 @@ import {
   ScrollText,
   type LucideIcon,
 } from 'lucide-react'
-import { INSULATION_TEMP_RATING } from '@elec-assistant/engine'
+import { INSULATION_TEMP_RATING } from '@nec-assistant/engine'
 import {
   CONDUCTOR_SIZES,
   CONDUIT_TYPES,
@@ -37,7 +37,7 @@ import {
   standardBoxes,
   standardBreakers,
   table31016,
-} from '@elec-assistant/data'
+} from '@nec-assistant/data'
 import { Card, CardContent } from '@/components/ui/card'
 import { PriceFreshness } from '@/components/dashboard/price-freshness'
 import { StatTile } from '@/components/dashboard/stat-tile'

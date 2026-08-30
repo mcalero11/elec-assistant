@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { CONDUCTOR_SIZES } from '@elec-assistant/data'
-import { gecSize, type GecInput } from '@elec-assistant/engine'
+import { CONDUCTOR_SIZES } from '@nec-assistant/data'
+import { gecSize, type GecInput } from '@nec-assistant/engine'
 import golden from './golden/gec.json'
 
 describe('gecSize (golden)', () => {

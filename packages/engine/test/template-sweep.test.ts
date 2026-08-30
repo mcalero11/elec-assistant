@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { allTemplates, presetCatalogs } from '@elec-assistant/data'
-import { runTemplate } from '@elec-assistant/engine'
+import { allTemplates, presetCatalogs } from '@nec-assistant/data'
+import { runTemplate } from '@nec-assistant/engine'
 
 /**
  * Reachability sweep: for every template, run the full cross-product of preset

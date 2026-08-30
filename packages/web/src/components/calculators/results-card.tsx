@@ -1,6 +1,6 @@
 'use client'
 
-import type { CitationKey } from '@elec-assistant/data'
+import type { CitationKey } from '@nec-assistant/data'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { CitationChips } from './citation-chips'

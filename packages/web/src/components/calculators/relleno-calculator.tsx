@@ -15,7 +15,7 @@ import {
   type ConductorSize,
   type ConduitType,
   type TradeSize,
-} from '@elec-assistant/data'
+} from '@nec-assistant/data'
 import {
   CONDUIT_FILL_INSULATIONS,
   EngineError,
@@ -24,7 +24,7 @@ import {
   type ConductorFillEntry,
   type ConduitFillResult,
   type Insulation,
-} from '@elec-assistant/engine'
+} from '@nec-assistant/engine'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'

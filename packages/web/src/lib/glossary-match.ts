@@ -1,4 +1,4 @@
-import { glossary, type GlossaryId } from '@elec-assistant/data'
+import { glossary, type GlossaryId } from '@nec-assistant/data'
 
 /**
  * Pure tokenizer that finds glossary terms inside plain-Spanish strings coming

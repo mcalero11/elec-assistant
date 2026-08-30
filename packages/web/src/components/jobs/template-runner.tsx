@@ -9,14 +9,14 @@ import {
   type JobTemplate,
   type TemplateOption,
   type TemplateQuestion,
-} from '@elec-assistant/data'
+} from '@nec-assistant/data'
 import {
   EngineError,
   resolveTemplateState,
   runTemplate,
   type ResolvedTemplateState,
   type TemplateRunResult,
-} from '@elec-assistant/engine'
+} from '@nec-assistant/engine'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'

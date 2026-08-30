@@ -5,7 +5,7 @@ import {
   priceEntries,
   type BomRule,
   type JobTemplate,
-} from '@elec-assistant/data'
+} from '@nec-assistant/data'
 
 /**
  * Coverage lint (PRD §4): CI fails if a BOM can emit an item that is missing

@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
-import { circuitoRamalTemplate } from '@elec-assistant/data'
+import { circuitoRamalTemplate } from '@nec-assistant/data'
 import { TemplateRunner } from '@/components/jobs/template-runner'
 
 export const metadata: Metadata = {

@@ -2,8 +2,8 @@ import { readFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
-import { allTemplates } from '@elec-assistant/data'
-import { runTemplate } from '@elec-assistant/engine'
+import { allTemplates } from '@nec-assistant/data'
+import { runTemplate } from '@nec-assistant/engine'
 
 /**
  * Registry-driven golden runner: every template in `allTemplates` MUST have a

@@ -1,4 +1,4 @@
-import type { JobTemplate } from '@elec-assistant/data'
+import type { JobTemplate } from '@nec-assistant/data'
 
 /**
  * Accent-stripped, lowercase scoring over template names + synonyms.

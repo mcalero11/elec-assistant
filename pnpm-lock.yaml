@@ -16,7 +16,7 @@ importers:
 
   packages/engine:
     dependencies:
-      '@elec-assistant/data':
+      '@nec-assistant/data':
         specifier: workspace:*
         version: link:../data
     devDependencies:
@@ -29,10 +29,10 @@ importers:
 
   packages/web:
     dependencies:
-      '@elec-assistant/data':
+      '@nec-assistant/data':
         specifier: workspace:*
         version: link:../data
-      '@elec-assistant/engine':
+      '@nec-assistant/engine':
         specifier: workspace:*
         version: link:../engine
       class-variance-authority:

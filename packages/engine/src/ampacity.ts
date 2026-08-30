@@ -7,7 +7,7 @@ import {
   type ConductorSize,
   type TempRating,
   type TempRatingKey,
-} from '@elec-assistant/data'
+} from '@nec-assistant/data'
 import {
   ASSUME_CONTINUOUS_125,
   EngineError,

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { EngineError, egcSize, type EgcInput } from '@elec-assistant/engine'
+import { EngineError, egcSize, type EgcInput } from '@nec-assistant/engine'
 import golden from './golden/egc.json'
 
 describe('egcSize (golden)', () => {
