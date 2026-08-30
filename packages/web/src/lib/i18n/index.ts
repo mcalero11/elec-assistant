@@ -28,3 +28,10 @@ export function fmtNumber(value: number): string {
 export function fmtPercent(value: number): string {
   return `${percentFormat.format(value)} %`
 }
+
+const dateFormat = new Intl.DateTimeFormat('es-SV', { dateStyle: 'long' })
+
+/** Long-form es-SV date («30 de agosto de 2026») for document headers. */
+export function fmtDate(value: Date): string {
+  return dateFormat.format(value)
+}

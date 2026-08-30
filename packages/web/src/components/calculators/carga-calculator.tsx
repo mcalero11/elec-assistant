@@ -1,9 +1,9 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { createParser, parseAsInteger, useQueryState } from 'nuqs'
 import Link from 'next/link'
-import { ArrowRight, Plus, TriangleAlert, X } from 'lucide-react'
+import { ArrowRight, FileDown, Plus, TriangleAlert, X } from 'lucide-react'
 import {
   APPLIANCE_CATEGORIES,
   appliancePresets,
@@ -31,10 +31,13 @@ import {
 } from '@/components/ui/select'
 import { Disclaimer } from '@/components/disclaimer'
 import { Term } from '@/components/term'
+import { MemoriaDocument } from '@/components/memoria/memoria-document'
+import { ProjectInfoFields, useProjectInfo } from '@/components/memoria/project-info-fields'
 import { AssumptionsPanel } from './assumptions-panel'
 import { InputSlider } from './input-slider'
 import { ResultLine, ResultsCard } from './results-card'
 import { fmtNumber, getMessages } from '@/lib/i18n'
+import { buildCargaMemoria } from '@/lib/memoria'
 
 /** Short URL codes for the Article 120 categories. */
 const CAT_CODES = ['coc', 'sec', 'fij', 'mot', 'ac', 'cal', 'cub'] as const
@@ -112,6 +115,8 @@ export function CargaCalculator() {
   const [sa, setSa] = useQueryState('sa', parseAsInteger.withDefault(2))
   const [laundry, setLaundry] = useQueryState('la', parseAsInteger.withDefault(1))
   const [rows, setRows] = useQueryState('d', deviceRowsParser.withDefault(DEFAULT_DEVICES))
+  const [today] = useState(() => new Date())
+  const projectInfo = useProjectInfo()
 
   const computation: Computation = useMemo(() => {
     try {
@@ -148,9 +153,30 @@ export function CargaCalculator() {
     covered: m.carga.catCovered,
   }
 
+  const { project, client, responsible } = projectInfo
+  const memoria = useMemo(
+    () =>
+      computation.kind === 'ok'
+        ? buildCargaMemoria({
+            areaM2,
+            smallApplianceCircuits: sa,
+            laundryCircuits: laundry,
+            result: computation.result,
+            today,
+            m,
+            ...(project ? { project } : {}),
+            ...(client ? { client } : {}),
+            ...(responsible ? { responsible } : {}),
+          })
+        : null,
+    [computation, areaM2, sa, laundry, today, m, project, client, responsible],
+  )
+
   return (
-    <div className="grid gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+    <>
+    <div className="grid gap-6 print:hidden lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
       {/* ------------------------------ inputs ------------------------------ */}
+      <div className="space-y-4">
       <Card>
         <CardHeader>
           <CardTitle className="text-base">{m.carga.title}</CardTitle>
@@ -297,6 +323,9 @@ export function CargaCalculator() {
         </CardContent>
       </Card>
 
+      <ProjectInfoFields info={projectInfo} />
+      </div>
+
       {/* ------------------------------ results ----------------------------- */}
       <div className="space-y-4">
         {computation.kind === 'error' ? (
@@ -306,11 +335,28 @@ export function CargaCalculator() {
             <AlertDescription>{computation.error.es}</AlertDescription>
           </Alert>
         ) : (
-          <CargaResults result={computation.result} />
+          <>
+            <div className="flex justify-end">
+              <Button variant="outline" size="sm" onClick={() => window.print()}>
+                <FileDown className="size-3.5" /> {m.jobs.exportPdf}
+              </Button>
+            </div>
+            <CargaResults result={computation.result} />
+          </>
         )}
         <Disclaimer />
       </div>
     </div>
+
+    {memoria ? (
+      <MemoriaDocument model={memoria} />
+    ) : computation.kind === 'error' ? (
+      // Prevents a blank printed page when the engine rejects the inputs.
+      <p className="hidden text-sm print:block">
+        {m.calibre.engineErrorTitle}: {computation.error.es}
+      </p>
+    ) : null}
+    </>
   )
 }
 

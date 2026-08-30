@@ -13,7 +13,7 @@ export default function CargaPage() {
   const m = getMessages()
   return (
     <div className="mx-auto w-full max-w-5xl px-4 py-6">
-      <div className="mb-6">
+      <div className="mb-6 print:hidden">
         <h1 className="text-2xl font-bold tracking-tight">{m.carga.title}</h1>
         <p className="mt-1 text-sm text-muted-foreground">{m.carga.subtitle}</p>
       </div>

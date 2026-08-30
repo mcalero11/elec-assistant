@@ -13,6 +13,13 @@ import type { TemplateRunInput } from '@nec-assistant/engine'
 
 export const MANUAL_PRESET = 'manual'
 
+/**
+ * Query-string keys owned by the runner shell, not by templates: retailer
+ * toggle (`r`) and the memoria project-info fields (`pj`/`cl`/`rp`). Template
+ * urlKeys must avoid them — enforced by a test over every template.
+ */
+export const RESERVED_RUNNER_KEYS = ['r', 'pj', 'cl', 'rp'] as const
+
 export type RawParams = Record<string, string | null | undefined>
 
 const parseNumber = (raw: string | null | undefined): number | undefined => {

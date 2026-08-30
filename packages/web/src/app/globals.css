@@ -163,9 +163,13 @@
   }
 }
 
-/* «Exportar PDF» = print stylesheet: the results column becomes the document. */
+/* «Memoria de cálculo (PDF)» = print stylesheet: printing renders ONLY the
+   .memoria document (screens are print-hidden where a memoria exists). */
 @media print {
-  body {
+  body,
+  [data-slot="sidebar-wrapper"],
+  [data-slot="sidebar-inset"],
+  main {
     background: white !important;
     color: black !important;
   }
@@ -179,5 +183,42 @@
     padding: 0 !important;
     box-shadow: none !important;
     border-radius: 0 !important;
+  }
+
+  @page {
+    margin: 18mm 15mm;
+  }
+  .memoria {
+    font-size: 11px;
+    line-height: 1.45;
+  }
+  .memoria h1 {
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .memoria h2 {
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 12px;
+    margin-bottom: 4px;
+    break-after: avoid;
+  }
+  .memoria table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .memoria th,
+  .memoria td {
+    border-bottom: 1px solid #ddd;
+    padding: 3px 4px;
+    text-align: left;
+    vertical-align: top;
+  }
+  .memoria tr,
+  .memoria li {
+    break-inside: avoid;
+  }
+  .memoria sup {
+    font-size: 8px;
   }
 }

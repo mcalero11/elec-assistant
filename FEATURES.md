@@ -43,7 +43,7 @@ Scope and acceptance criteria for each feature live in [PRD.md](./PRD.md).
 | Tooltips backed by glossary | ✅ shipped | 2026-08-17 · Term ids compile-time checked against the data glossary; popovers (tap-friendly on mobile) show definición, sinónimos, inglés y artículos NEC; coverage CI-enforced (success criterion 5 v1); auto-linking (`GlossaryText`) wraps terms in labels/BOM/supuestos |
 | Beginner-readable provenance (chips + supuestos) | ✅ shipped | 2026-08-17 · citation chips lead with the plain-Spanish reason («ajuste por agrupamiento»), full NEC cite on tap; correction/adjustment tables cited only when their factor ≠ 1; assumption prose rewritten plain with structured `citations` chips |
 | Glossary page (`/glosario`) | ✅ shipped | 2026-08-17 · searchable by término/sinónimo es-SV/inglés, NEC chips per entry; linked from sidebar |
-| Memoria de cálculo (PDF) | 🚧 in progress | 2026-08-16 · «Exportar PDF» print-stylesheet on the job flow; full memoria document later |
+| Memoria de cálculo (PDF) | ✅ shipped | 2026-08-30 · print-only document on all 5 job flows + `/calculadoras/carga` (PRD US-6 / success criterion 1): datos de entrada (marca «valor por defecto»), parámetros, detalle por llamada al motor (derrateo, «limitado por», relleno), supuestos, avisos, BOM con precios (`*` override, `†` stale), citas NEC como notas al pie numeradas, descargo y línea de firma; datos de proyecto opcionales URL-persistidos (`pj`/`cl`/`rp` reservados, test de colisión); `window.print()` sigue siendo el exportador (offline-safe, sin librerías) |
 
 ## Infrastructure
 

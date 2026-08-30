@@ -37,7 +37,10 @@ import { AssumptionsPanel } from '@/components/calculators/assumptions-panel'
 import { InputSlider } from '@/components/calculators/input-slider'
 import { ResultLine, ResultsCard } from '@/components/calculators/results-card'
 import { BomTable } from './bom-table'
+import { MemoriaDocument } from '@/components/memoria/memoria-document'
+import { ProjectInfoFields, useProjectInfo } from '@/components/memoria/project-info-fields'
 import { fmtNumber, fmtPercent, getMessages } from '@/lib/i18n'
+import { buildJobMemoria } from '@/lib/memoria'
 import { priceBom } from '@/lib/pricing'
 import { MANUAL_PRESET, presetSelection, urlStateToRunInput, type RawParams } from '@/lib/template-url'
 
@@ -45,7 +48,9 @@ import { MANUAL_PRESET, presetSelection, urlStateToRunInput, type RawParams } fr
  * Schema-driven runner: widgets, URL keys, defaults, and disabled states all
  * come from the JobTemplate — no per-template code. Everything downstream of
  * runTemplate (warnings, parameters, priced BOM, assumptions, print) is shared.
- * The retailer key `r` is runner-owned; template urlKeys must avoid it.
+ * The keys in RESERVED_RUNNER_KEYS (`r`, `pj`, `cl`, `rp`) are runner-owned;
+ * template urlKeys must avoid them (test-enforced). Printing renders ONLY the
+ * MemoriaDocument — the on-screen grid is print-hidden.
  */
 
 type Computation = { ok: true; result: TemplateRunResult } | { ok: false; error: EngineError }
@@ -72,6 +77,7 @@ export function TemplateRunner({ template }: { template: JobTemplate }) {
 
   const [overrides, setOverrides] = useState<Map<string, number>>(new Map())
   const [today] = useState(() => new Date())
+  const projectInfo = useProjectInfo()
 
   const runInput = useMemo(() => urlStateToRunInput(template, params as RawParams), [template, params])
 
@@ -109,8 +115,30 @@ export function TemplateRunner({ template }: { template: JobTemplate }) {
   const numberOptions = template.options.filter((o) => o.type === 'number')
   const choiceOptions = template.options.filter((o) => o.type === 'choice')
 
+  const { project, client, responsible } = projectInfo
+  const memoria = useMemo(
+    () =>
+      computation.ok && summary
+        ? buildJobMemoria({
+            template,
+            runInput,
+            state,
+            result: computation.result,
+            summary,
+            retailer,
+            today,
+            m,
+            ...(project ? { project } : {}),
+            ...(client ? { client } : {}),
+            ...(responsible ? { responsible } : {}),
+          })
+        : null,
+    [computation, summary, template, runInput, state, retailer, today, m, project, client, responsible],
+  )
+
   return (
-    <div className="grid gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+    <>
+    <div className="grid gap-6 print:hidden lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
       {/* ------------------------------ inputs (hidden on print) ------------------------------ */}
       <div className="space-y-4 print:hidden">
         <Card>
@@ -150,19 +178,12 @@ export function TemplateRunner({ template }: { template: JobTemplate }) {
             </CardContent>
           </Card>
         ) : null}
+
+        <ProjectInfoFields info={projectInfo} />
       </div>
 
       {/* ------------------------------ results ------------------------------ */}
       <div className="space-y-4">
-        <div className="hidden print:block">
-          <h2 className="text-lg font-bold">
-            {template.name.es} — {m.common.appName}
-          </h2>
-          <p className="text-xs text-muted-foreground">
-            {m.jobs.printedOn} {today.toLocaleDateString('es-SV')}
-          </p>
-        </div>
-
         {!computation.ok ? (
           <Alert variant="destructive">
             <TriangleAlert className="size-4" />
@@ -226,6 +247,16 @@ export function TemplateRunner({ template }: { template: JobTemplate }) {
         <Disclaimer />
       </div>
     </div>
+
+    {memoria ? (
+      <MemoriaDocument model={memoria} />
+    ) : !computation.ok ? (
+      // Prevents a blank printed page when the engine rejects the inputs.
+      <p className="hidden text-sm print:block">
+        {m.calibre.engineErrorTitle}: {computation.error.es}
+      </p>
+    ) : null}
+    </>
   )
 }
 
