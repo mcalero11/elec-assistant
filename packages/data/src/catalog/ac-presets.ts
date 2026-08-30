@@ -32,6 +32,8 @@ export const acPresets = [
     typicalMocpA: 15,
     label: { es: '12,000 BTU (1 ton)', en: '12,000 BTU (1 ton)' },
     synonyms: ['12000', '12k', 'una tonelada'],
+    verifiedAt: '2026-08-30',
+    source: 'https://www.morleyassociates.com/wp-content/uploads/2021/03/DLCSRAH12AAK.pdf (Midea 9 A/15 A; observado MCA 9–13 A, MOCP 15 A en 5 modelos)',
   },
   {
     id: 'ac-18k',
@@ -42,6 +44,8 @@ export const acPresets = [
     typicalMocpA: 20,
     label: { es: '18,000 BTU (1.5 ton)', en: '18,000 BTU (1.5 ton)' },
     synonyms: ['18000', '18k', 'tonelada y media'],
+    verifiedAt: '2026-08-30',
+    source: 'https://globeunited.us/wp-content/uploads/2026/01/BreezeIN-24.pdf (TCL 12 A/20 A; observado MCA 12–19 A, MOCP 20 A moda en 6 modelos)',
   },
   {
     id: 'ac-24k',

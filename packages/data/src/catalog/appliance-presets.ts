@@ -33,6 +33,8 @@ export const appliancePresets = [
     typicalVa: 4500,
     voltage: 240,
     category: 'fixed',
+    verifiedAt: '2026-08-30',
+    source: 'https://www.homedepot.com/p/Rheem-Performance-40-Gal-Medium-4500-Watt-Double-Element-Electric-Water-Heater-with-6-Year-Warranty-XE40M06ST45U1/326434008 (elemento estándar 4,500 W; igual Camco 02583)',
   },
   {
     id: 'estufa',
@@ -49,6 +51,8 @@ export const appliancePresets = [
     typicalVa: 4000,
     voltage: 240,
     category: 'range',
+    verifiedAt: '2026-08-30',
+    source: 'https://www.retailspecs.com/files/pdf/attachment/81948/Specification_Sheet.pdf (Frigidaire FCWS3027: 3.7 kW; GCWS3067AF: 4.5 kW — 4.0 kVA queda en el centro)',
   },
   {
     id: 'secadora',
@@ -97,6 +101,8 @@ export const appliancePresets = [
     typicalVa: 1200,
     voltage: 120,
     category: 'fixed',
+    verifiedAt: '2026-08-30',
+    source: 'https://www.retailspecs.com/files/pdf/attachment/79597/Specification_Sheet.pdf (Frigidaire FFCD2413U: 10.0 A @ 120 V = 1,200 VA)',
   },
   {
     id: 'plancha',
@@ -105,6 +111,8 @@ export const appliancePresets = [
     typicalVa: 1200,
     voltage: 120,
     category: 'covered',
+    verifiedAt: '2026-08-30',
+    source: 'https://www.osterlatino.com/manuales/planchas_de_vapor/GCSTBS5802_GCSTBS5803_GCSTBS5804_GCSTBS5805_GCSTBS5806_GCSTBS5807_GCSTBS5812_GCSTBS5813.pdf (Oster 120 V/1,200 W; B+D IR1850/IRBD200 1,200 W)',
   },
   {
     id: 'tv',
@@ -113,6 +121,8 @@ export const appliancePresets = [
     typicalVa: 150,
     voltage: 120,
     category: 'covered',
+    verifiedAt: '2026-08-30',
+    source: 'https://www.samsung.com/latin/tvs/uhd-4k-tv/cu7000-55-inch-un55cu7000pxpa/ (consumo máx. 150 W; 43″ 130 W, 50″ 145 W)',
   },
   {
     id: 'bomba',
@@ -121,6 +131,8 @@ export const appliancePresets = [
     typicalVa: 1200,
     voltage: 120,
     category: 'motor',
+    verifiedAt: '2026-08-30',
+    source: 'NEC Tabla 430.248 (FLC ½ HP 115 V: 9.8 A ≈ 1,176 VA); 430.6(A)(1)/120.11 mandan valor de tabla, no placa — placas reales 3–5.5 A (Truper/Pedrollo), la tabla es conservadora',
   },
   {
     id: 'ac-9k',
@@ -138,6 +150,7 @@ export const appliancePresets = [
     typicalVa: 1840,
     voltage: 240,
     category: 'ac',
+    verifiedAt: '2026-08-30',
     source: 'derivado de ac-presets.ts (MCA ÷ 1.25 × 230 V)',
   },
   {
@@ -147,6 +160,7 @@ export const appliancePresets = [
     typicalVa: 2580,
     voltage: 240,
     category: 'ac',
+    verifiedAt: '2026-08-30',
     source: 'derivado de ac-presets.ts (MCA ÷ 1.25 × 230 V)',
   },
   {

@@ -31,6 +31,11 @@ never-invent rule, per-entry provenance, and a shrinking known-gap list
 - **Motor / electronic loads** (bomba, refri, congelador, lavadora, micro, tv):
   prefer nameplate `A × V`; if only W is published, record the conversion in the
   ledger row.
+- **Motors sized by the code itself**: where the NEC prescribes Table 430.248 FLC
+  over nameplate (430.6(A)(1); motor loads enter the calc via 120.11), the table
+  value is itself a citable source — stamp with the table reference. Research
+  showing real nameplates BELOW the table value supports the stamp (the table is
+  deliberately conservative); nameplates above it would be a finding to log.
 - **A/C entries**: never use spec-sheet "cooling watts" (that is thermal output,
   not electrical draw). The appliance `ac-*` VA values are **derived**:
   `typicalVa ≈ (typicalMcaA ÷ 1.25) × 230 V`, rounded to 10 VA (440.4(B) rationale,
@@ -55,32 +60,32 @@ Status: `por verificar` until a run stamps the entry. Values current as of 2026-
 
 ### appliance-presets.ts (typicalVa)
 
-| id | VA | V | category | rationale for current value | candidate sources | status |
+| id | VA | V | category | rationale / observed (2026-08-30 run) | candidate sources | status |
 |---|---|---|---|---|---|---|
-| ducha | 4,400 | 120 | fixed | mainstream 120 V shower heads (Lorenzetti/Corona/Boccherini class) cluster at 4,200–4,600 W | manufacturer spec pages; retailer listings naming W | por verificar |
-| termo | 4,500 | 240 | fixed | standard tank heating element is 4,500 W | Whirlpool/Rheem spec sheets | por verificar |
-| estufa | 9,600 | 240 | range | typical 30″ electric range nameplate ≈ 9.6 kW | Mabe/Whirlpool/Frigidaire spec sheets | por verificar |
-| horno | 4,000 | 240 | range | wall ovens cluster 3.4–4.8 kW | Mabe/Whirlpool spec sheets | por verificar |
-| secadora | 5,000 | 240 | dryer | electric dryers 5.0–5.6 kW; 120.54 floor is 5 kVA anyway | Whirlpool/LG/Samsung spec sheets | por verificar |
-| refri | 500 | 120 | covered | nameplate rated current ~2–4 A × 120 V | Mabe/LG/Samsung spec sheets (rated A) | por verificar |
-| congelador | 500 | 120 | fixed | chest freezers similar compressor class to refri | Frigidaire/Mabe spec sheets | por verificar |
-| micro | 1,200 | 120 | covered | countertop input power 1.0–1.5 kW (input, not cooking W) | Oster/Whirlpool/LG spec sheets | por verificar |
-| lavadora | 1,200 | 120 | covered | washer motor + controls; nameplate A × 120 V | Mabe/LG/Samsung spec sheets | por verificar |
-| lavaplatos | 1,200 | 120 | fixed | dishwasher with heater 1.2–1.5 kW | Whirlpool/Frigidaire spec sheets | por verificar |
-| plancha | 1,200 | 120 | covered | household irons 1,100–1,400 W | Oster/Black+Decker spec sheets | por verificar |
-| tv | 150 | 120 | covered | mid-size LED TV 100–200 W | LG/Samsung spec sheets | por verificar |
-| bomba | 1,200 | 120 | motor | ½ HP motor ≈ 9.8 A × 120 V ≈ 1,180 VA | Truper/Pedrollo/Foset pump spec sheets | por verificar |
-| ac-9k / ac-12k / ac-18k / ac-24k | 1,290 / 1,840 / 2,580 / 3,130 | 240 | ac | **derived** from ac-presets MCA (rule above) — verify the MCA preset instead | — | por verificar (lockstep) |
+| ducha | 4,400 | 120 | fixed | observed 3,960–5,500 W across 6 models; the CA staples (Corona Gorducha, Thermoducha, Lorenzetti) cluster 5,400–5,500 W — 4,400 sits between the ~4,000 W economy models and that cluster | see proposal below | por verificar — hallazgo registrado |
+| termo | 4,500 | 240 | fixed | 4,500 W is THE standard element (Camco 02583, Rheem XE40M06ST45U1 dual 4,500 W) | — | ✅ 2026-08-30 |
+| estufa | 9,600 | 240 | range | US smooth-top spec sheets say 12–13 kW connected (Frigidaire FCRE306/GCRE306); LATAM coil-tops (Mabe EME7630) publish only surface watts (6,600 W), total unpublished | see proposal below | por verificar — hallazgo registrado |
+| horno | 4,000 | 240 | range | observed 3.7–4.5 kW connected across 3 Frigidaire single ovens — 4.0 mid-cluster | — | ✅ 2026-08-30 |
+| secadora | 5,000 | 240 | dryer | observed 5,400–5,600 W where published (GE GTD33 5,600 W/24 A; Whirlpool element 5,400 W); Samsung/LG publish only 30 A. 120.54's 5 kVA floor masks the gap only at exactly 5,000 | see proposal below | por verificar — hallazgo registrado |
+| refri | 500 | 120 | covered | nameplate running current is LOW: Mabe manuals 1.1–1.32 A ≈ 125–150 VA (LG/Samsung don't publish amps); 500 VA carries defrost/start margin, and `covered` contributes 0 demand anyway | — | por verificar — hallazgo registrado |
+| congelador | 500 | 120 | fixed | Mabe manuals: 0.85–1.5 A ≈ 100–175 VA (5–15 ft³); a Frigidaire retail listing says 5 A (secondary source) | see proposal below | por verificar — hallazgo registrado |
+| micro | 1,200 | 120 | covered | observed INPUT 1,150–1,600 W (LG LMC0975 1,600 W/14 A; Samsung AME0114 1,600 W; AMW831K 1,150 W) — 1,000 W-output units draw ~1,600 W input | see proposal below | por verificar — hallazgo registrado |
+| lavadora | 1,200 | 120 | covered | Mabe rates 6.0–8.0 A @ 110–127 V ≈ 720–1,016 VA; Whirlpool tech manual states 248/709 input W | see proposal below | por verificar — hallazgo registrado |
+| lavaplatos | 1,200 | 120 | fixed | Frigidaire FFCD2413U: 10.0 A @ 120 V = 1,200 VA (connected load 1.44 kW, 15 A circuit) | — | ✅ 2026-08-30 |
+| plancha | 1,200 | 120 | covered | remarkably uniform 1,200 W (Oster GCSTBS family manual; B+D IR1850/IRBD200) | — | ✅ 2026-08-30 |
+| tv | 150 | 120 | covered | Samsung CU7000 max consumption: 43″ 130 W, 50″ 145 W, 55″ 150 W | — | ✅ 2026-08-30 |
+| bomba | 1,200 | 120 | motor | NEC Tabla 430.248 FLC ½ HP 115 V = 9.8 A ≈ 1,176 VA (the code-mandated basis per 430.6(A)(1)/120.11); real nameplates run 3–5.5 A (Truper 4.7 A, Pretul 3 A, Pedrollo PKm 60 5.5 A) — table is conservative, as designed | — | ✅ 2026-08-30 (base de tabla NEC) |
+| ac-9k / ac-12k / ac-18k / ac-24k | 1,290 / 1,840 / 2,580 / 3,130 | 240 | ac | **derived** from ac-presets MCA (rule above) — verify the MCA preset instead | — | ac-12k/ac-18k ✅ 2026-08-30 (lockstep); ac-9k/ac-24k pendientes |
 
 ### ac-presets.ts (typicalMcaA / typicalMocpA)
 
-| id | MCA | MOCP | rationale for current value | candidate sources | status |
+| id | MCA | MOCP | rationale / observed (2026-08-30 run) | candidate sources | status |
 |---|---|---|---|---|---|
-| ac-9k | 7 | 15 | 9k BTU inverter units cluster MCA 6–8 A | Comfee/Midea/TCL/Pioneer submittal sheets | por verificar |
-| ac-12k | 10 | 15 | 12k inverter units cluster MCA 9–11 A | same | por verificar |
-| ac-18k | 14 | 20 | 18k inverter units cluster MCA 13–16 A | same | por verificar |
-| ac-24k | 17 | 25 | 24k inverter units cluster MCA 16–19 A | same | por verificar |
-| ac-36k | 24 | 40 | 36k inverter units cluster MCA 22–26 A | same | por verificar |
+| ac-9k | 7 | 15 | observed MCA 9–13 A (Midea 9, Senville 10, TCL 10, Pioneer 13) — **7 A is below every published value**; MOCP 15 unanimous | see proposal below | por verificar — hallazgo registrado |
+| ac-12k | 10 | 15 | observed MCA 9–13 A, MOCP 15 A across 5 models (Midea 9, TCL 10–11, Senville 12, Pioneer 13) — 10/15 squarely in range | — | ✅ 2026-08-30 |
+| ac-18k | 14 | 20 | observed MCA 12–19 A, MOCP mode 20 A across 6 models (TCL 12–13/20, MrCool 15/20, Senville 15/20; Midea 17/25, Pioneer 19/30 higher) — 14/20 representative | — | ✅ 2026-08-30 |
+| ac-24k | 17 | 25 | observed MCA 13–24.9 A; MOCP **dominant 30 A** (TCL 17/30, MrCool 18/30, Midea 20/30, Pioneer 22/30; only Senville pairs 24.9/25) — MCA 17 fine, MOCP 25 underrepresents | see proposal below | por verificar — hallazgo registrado |
+| ac-36k | 24 | 40 | observed MCA 25–33 A (Midea/MrCool/Senville-AURA 25, Senville-LETO 33) — 24 just below the floor; MOCP 30–40 observed, median 35, 40 covers worst case | see proposal below | por verificar — hallazgo registrado |
 
 Cross-check target (out of scope to merge): `src/catalog/presets.ts` carries
 overlapping hand-derived values (`ducha-3500`/`ducha-4400` in W,
@@ -89,12 +94,41 @@ for contradiction and note it here if found.
 
 ## Proposed value changes
 
-_None yet. A verification run that finds a mismatch logs it here (id, current
-value, found value, source, affected goldens) instead of editing data._
+Logged by the 2026-08-30 run — **not applied**; each needs a deliberate commit that
+updates `golden/load-calc.json` in step, and ideally the user's nameplate check first.
+
+| id | current | proposal | evidence |
+|---|---|---|---|
+| ducha | 4,400 VA | consider **5,400** | CA staples cluster 5,400–5,500 W (Corona Gorducha 5,500/5,400; Thermoducha 5,500; Lorenzetti Maxi 5,500); economy models 3,960–4,320 W exist, so 4,400 undersizes the common case |
+| estufa | 9,600 VA | needs a LATAM total-connected figure | US smooth-tops publish 12–13 kW; Mabe coil-top totals unpublished (surface alone 6,600 W — oven elements could plausibly land near 9.6 kW, unconfirmed) |
+| secadora | 5,000 VA | consider **5,400** | GE 5,600 W/24 A, Whirlpool element 5,400 W; at exactly 5,000 the 120.54 floor hides the difference |
+| micro | 1,200 VA | consider **1,500** | 1,000 W-output units draw ~1,600 W input (LG/Samsung); only the 800 W-output class lands near 1,150 |
+| congelador | 500 VA | consider **300** | Mabe nameplates 100–175 VA; Frigidaire retail «5 A» (600 VA) is the only high figure and is secondary |
+| lavadora | 1,200 VA | consider **1,000** | Mabe 6–8 A @ 110–127 V ≈ 720–1,016 VA; Whirlpool input 248–709 W |
+| ac-9k MCA | 7 A | propose **10 A** (MOCP 15 confirmed) | every published 9k MCA is 9–13 A; 7 A would undersize the derived VA too (1,290 → ~1,840) |
+| ac-24k MOCP | 25 A | propose **30 A** (MCA 17 confirmed) | 30 A dominant across TCL/MrCool/Midea/Pioneer; only Senville pairs 24.9/25 |
+| ac-36k | MCA 24 / MOCP 40 | propose **MCA 25 / MOCP 35** | observed MCA floor is 25 (3 of 4 models); MOCP median 35 (30/35/35/40) |
 
 ## Run reports
 
-_None yet._
+### 2026-08-30 run report
+
+Three research passes (resistive/kitchen, motor/electronic, mini-split MCA/MOCP)
+against published manufacturer spec sheets, manuals, and submittals (Lorenzetti,
+Corona, Boccherini, Thermoducha, Rheem/Camco, Frigidaire, GE, Whirlpool, Mabe,
+Oster, Black+Decker, Samsung, LG, Truper/Pretul, Pedrollo, Midea, TCL, Pioneer,
+MrCool, Senville).
+
+- **Stamped (8 appliance + 2 AC entries):** termo, horno, plancha, lavaplatos, tv,
+  bomba (NEC-table basis), and the ac-12k/ac-18k twin pairs. Sets shrunk 17→9 and
+  5→3.
+- **Findings without a clean match:** logged above as proposed changes; no value
+  was edited, goldens untouched.
+- **Misses:** LG/Samsung refrigerator pages publish kWh, not rated amps; Comfee
+  publishes no MCA/MOCP anywhere public; Mirage fichas list only running amperaje;
+  AJ Madison served 403; Samsung/LG dryer sheets state «240 V / 30 A» without watts.
+- **Compliance:** freundferreteria.com and sv.epaenlinea.com not fetched (AI
+  opt-out); vidri.com.sv not fetched (challenge — no workaround attempted).
 
 ## Agent prompt (copy-paste verbatim to run a verification pass)
 

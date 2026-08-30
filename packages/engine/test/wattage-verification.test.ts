@@ -13,27 +13,22 @@ import { acPresets, appliancePresets } from '@nec-assistant/data'
  * into one id-keyed set.
  */
 
+// 2026-08-30 run (WATTAGES.md): termo/horno/plancha/lavaplatos/tv/bomba and the
+// ac-12k/ac-18k twins were spec-verified; the ids below have logged findings but
+// no clean match — see «Proposed value changes» in WATTAGES.md.
 const KNOWN_UNVERIFIED_APPLIANCES = new Set([
   'ducha',
-  'termo',
   'estufa',
-  'horno',
   'secadora',
   'refri',
   'congelador',
   'micro',
   'lavadora',
-  'lavaplatos',
-  'plancha',
-  'tv',
-  'bomba',
   'ac-9k',
-  'ac-12k',
-  'ac-18k',
   'ac-24k',
 ])
 
-const KNOWN_UNVERIFIED_AC = new Set(['ac-9k', 'ac-12k', 'ac-18k', 'ac-24k', 'ac-36k'])
+const KNOWN_UNVERIFIED_AC = new Set(['ac-9k', 'ac-24k', 'ac-36k'])
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/
 
