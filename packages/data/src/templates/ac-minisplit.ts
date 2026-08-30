@@ -275,7 +275,7 @@ export const acMinisplitTemplate: JobTemplate = {
     },
     {
       id: 'mocp',
-      label: { es: 'Protección máxima (MOCP) según la placa', en: 'Maximum protection (MOCP) per nameplate' },
+      label: { es: 'Protección máxima (MOCP) según la placa de datos', en: 'Maximum protection (MOCP) per nameplate' },
       value: { $ref: 'answers.device.mocpA' },
       unit: 'A',
       citations: ['nec2026.s440_4_b', 'nec2026.s440_22'],

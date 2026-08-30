@@ -410,11 +410,11 @@ export function CajasCalculator() {
             </label>
             <label className="flex items-center gap-2 text-sm">
               <Switch checked={stud} onCheckedChange={setStud} />
-              {m.cajas.stud}
+              <Term id="esparrago">{m.cajas.stud}</Term>
             </label>
             <label className="flex items-center gap-2 text-sm">
               <Switch checked={hickey} onCheckedChange={setHickey} />
-              {m.cajas.hickey}
+              <Term id="hickey">{m.cajas.hickey}</Term>
             </label>
           </div>
         </CardContent>

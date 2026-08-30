@@ -531,7 +531,7 @@ export const duchaElectricaTemplate: JobTemplate = {
     {
       key: 'ducha-dedicated-circuit',
       en: 'Dedicated circuit sized to the nameplate current; the manufacturer’s marked minimum breaker governs when larger.',
-      es: 'Circuito dedicado dimensionado a la corriente de placa; el térmico mínimo marcado por el fabricante manda cuando es mayor.',
+      es: 'Circuito dedicado dimensionado a la corriente de la placa de datos; el térmico mínimo marcado por el fabricante manda cuando es mayor.',
       citations: ['nec2026.s422_10', 'nec2026.s422_11'],
     },
   ],

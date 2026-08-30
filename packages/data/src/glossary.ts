@@ -621,6 +621,403 @@ export const glossary = {
       en: 'Shower head with a heating element that warms water on the fly; draws a lot (3,500–5,500 W) and needs its own circuit.',
     },
   },
+  placaDeDatos: {
+    es: 'placa de datos',
+    en: 'nameplate',
+    synonyms: ['placa del equipo', 'placa de características', 'datos de placa'],
+    definition: {
+      es: 'La etiqueta del aparato con sus datos eléctricos (W, V, MCA/MOCP); de ahí salen los valores reales del cálculo.',
+      en: 'The label on the equipment with its electrical data (W, V, MCA/MOCP); the real values for the calculation come from it.',
+    },
+    necArticles: ['nec2026.s440_4_b'],
+  },
+  fase: {
+    es: 'fase',
+    en: 'hot conductor (line)',
+    synonyms: ['línea', 'vivo', 'línea viva'],
+    definition: {
+      es: 'El conductor que trae el voltaje (normalmente negro o rojo); el servicio residencial tiene dos fases de 120 V.',
+      en: 'The conductor carrying voltage (usually black or red); residential service has two 120 V hot legs.',
+    },
+  },
+  circuitoRamal: {
+    es: 'circuito ramal',
+    en: 'branch circuit',
+    synonyms: ['ramal', 'circuito derivado'],
+    definition: {
+      es: 'El circuito desde el último térmico hasta las tomas o luces: lo que sale del panel a los puntos de uso.',
+      en: 'The circuit from the final breaker to the outlets or lights: what leaves the panel toward the points of use.',
+    },
+    necArticles: ['nec2026.s210_11'],
+  },
+  circuitoDedicado: {
+    es: 'circuito dedicado',
+    en: 'dedicated (individual) circuit',
+    synonyms: ['circuito individual', 'línea exclusiva'],
+    definition: {
+      es: 'Circuito que alimenta un solo aparato (ducha, aire, estufa) con su propio térmico, sin compartir con nada más.',
+      en: 'A circuit feeding a single appliance (shower, A/C, range) with its own breaker, shared with nothing else.',
+    },
+    necArticles: ['nec2026.s422_10'],
+  },
+  polo: {
+    es: 'polo',
+    en: 'pole (breaker)',
+    synonyms: ['polos del térmico', 'un polo', 'dos polos'],
+    definition: {
+      es: 'Cuántas fases corta el térmico: 1 polo para circuitos de 120 V, 2 polos para 240 V.',
+      en: 'How many hot legs the breaker opens: 1 pole for 120 V circuits, 2 poles for 240 V.',
+    },
+  },
+  metodoEstandar: {
+    es: 'método estándar',
+    en: 'standard method (Art. 120)',
+    synonyms: ['cálculo estándar', 'método general'],
+    definition: {
+      es: 'El cálculo de carga general del NEC: suma por categorías y aplica a cada una su factor de demanda.',
+      en: 'The general NEC load calculation: sums by category and applies each category’s demand factor.',
+    },
+    necArticles: ['nec2026.t220_45'],
+  },
+  circuitosPequenosArtefactos: {
+    es: 'circuitos de pequeños artefactos',
+    en: 'small-appliance branch circuits',
+    synonyms: ['circuitos de cocina', 'pequeños artefactos'],
+    definition: {
+      es: 'Los 2 circuitos de 20 A obligatorios para las tomas de cocina y comedor; cada uno entra al cálculo con 1,500 VA.',
+      en: 'The 2 mandatory 20 A circuits for kitchen and dining receptacles; each enters the calculation at 1,500 VA.',
+    },
+    necArticles: ['nec2026.s220_52', 'nec2026.s210_11'],
+  },
+  circuitoLavanderia: {
+    es: 'circuito de lavandería',
+    en: 'laundry branch circuit',
+    synonyms: ['circuito de lavadora', 'lavandería'],
+    definition: {
+      es: 'El circuito de 20 A obligatorio para el área de lavado; entra al cálculo con 1,500 VA.',
+      en: 'The mandatory 20 A circuit for the laundry area; enters the calculation at 1,500 VA.',
+    },
+    necArticles: ['nec2026.s220_52'],
+  },
+  alumbradoGeneral: {
+    es: 'alumbrado general',
+    en: 'general lighting load',
+    synonyms: ['carga general de iluminación', 'iluminación y tomas generales'],
+    definition: {
+      es: 'La carga de luces y tomas comunes estimada por área: 22 VA por m² de vivienda, antes del factor de demanda.',
+      en: 'The lighting and general-receptacle load estimated by area: 22 VA per m² of dwelling, before the demand factor.',
+    },
+    necArticles: ['nec2026.s220_41', 'nec2026.t220_45'],
+  },
+  feedThrough: {
+    es: 'feed-through',
+    en: 'feed-through wiring',
+    synonyms: ['toma de paso', 'puenteado en la toma'],
+    definition: {
+      es: 'Conexión donde el cable sigue de una toma a la siguiente; en un GFCI, protege también todo lo que sigue aguas abajo.',
+      en: 'Wiring where the cable continues from one receptacle to the next; on a GFCI it also protects everything downstream.',
+    },
+    necArticles: ['nec2026.s210_8'],
+  },
+  cobre: {
+    es: 'cobre',
+    en: 'copper (Cu)',
+    synonyms: ['Cu', 'alambre de cobre'],
+    definition: {
+      es: 'El material estándar del conductor residencial: más caro que el aluminio pero conduce más con menos calibre.',
+      en: 'The standard residential conductor material: pricier than aluminum but carries more with a smaller size.',
+    },
+    necArticles: ['nec2026.t310_16'],
+  },
+  aluminio: {
+    es: 'aluminio',
+    en: 'aluminum (Al)',
+    synonyms: ['Al', 'alambre de aluminio'],
+    definition: {
+      es: 'Conductor más barato y liviano, común en alimentadores; pide calibre mayor, conectores aptos y antioxidante.',
+      en: 'Cheaper, lighter conductor common in feeders; needs a larger size, rated connectors, and antioxidant paste.',
+    },
+    necArticles: ['nec2026.t310_16'],
+  },
+  xhhw2: {
+    es: 'XHHW-2',
+    en: 'XHHW-2 insulation',
+    synonyms: ['XLPE', 'forro XHHW'],
+    definition: {
+      es: 'Forro de polietileno reticulado que aguanta 90 °C seco y mojado; el usual en alimentadores de aluminio.',
+      en: 'Cross-linked polyethylene jacket rated 90 °C dry and wet; the usual pick on aluminum feeders.',
+    },
+    necArticles: ['nec2026.t310_16'],
+  },
+  ccc: {
+    es: 'conductor portador de corriente',
+    en: 'current-carrying conductor (CCC)',
+    synonyms: ['CCC', 'portadores de corriente'],
+    definition: {
+      es: 'Conductor que lleva corriente en uso normal (las fases y, a veces, el neutro); su cuenta decide el ajuste por agrupamiento.',
+      en: 'A conductor carrying current in normal use (hots and sometimes the neutral); the count drives the bundling adjustment.',
+    },
+    necArticles: ['nec2026.t310_15_c_1'],
+  },
+  antioxidante: {
+    es: 'antioxidante',
+    en: 'antioxidant joint compound',
+    synonyms: ['pasta antioxidante', 'inhibidor de óxido'],
+    definition: {
+      es: 'Pasta para terminales de aluminio: evita la capa de óxido que afloja y sobrecalienta la conexión.',
+      en: 'Paste for aluminum terminations: prevents the oxide layer that loosens and overheats the joint.',
+    },
+  },
+  alambreDesnudo: {
+    es: 'alambre desnudo',
+    en: 'bare conductor',
+    synonyms: ['cobre desnudo', 'sin forro'],
+    definition: {
+      es: 'Conductor sin aislamiento; se usa para tierras (GEC y puentes) donde el forro no hace falta.',
+      en: 'Uninsulated conductor; used for grounding (GEC and bonding jumpers) where a jacket isn’t needed.',
+    },
+    necArticles: ['nec2026.t250_66'],
+  },
+  tomacorriente: {
+    es: 'tomacorriente',
+    en: 'receptacle (outlet)',
+    synonyms: ['toma', 'enchufe', 'contacto'],
+    definition: {
+      es: 'El punto donde se conecta un aparato; su amperaje y forma deben corresponder al circuito que lo alimenta.',
+      en: 'The point where an appliance plugs in; its rating and pattern must match the circuit feeding it.',
+    },
+    necArticles: ['nec2026.s210_21_b'],
+  },
+  luminaria: {
+    es: 'luminaria',
+    en: 'luminaire (light fixture)',
+    synonyms: ['lámpara', 'lámpara de techo'],
+    definition: {
+      es: 'El aparato de iluminación completo (lámpara, plafonera o panel LED), montado sobre una caja o riel.',
+      en: 'The complete lighting unit (fixture, lampholder, or LED panel), mounted on a box or track.',
+    },
+  },
+  clavija: {
+    es: 'clavija',
+    en: 'attachment plug',
+    synonyms: ['plug', 'enchufe macho'],
+    definition: {
+      es: 'La pieza al final del cordón del aparato que se mete al tomacorriente.',
+      en: 'The piece at the end of the appliance cord that goes into the receptacle.',
+    },
+  },
+  cordon: {
+    es: 'cordón',
+    en: 'flexible cord',
+    synonyms: ['cable del aparato', 'cordón flexible'],
+    definition: {
+      es: 'El cable flexible que trae el aparato hasta la toma; no sustituye el alambrado fijo de la casa.',
+      en: 'The flexible cable from the appliance to the outlet; not a substitute for the fixed wiring.',
+    },
+  },
+  condensador: {
+    es: 'condensador',
+    en: 'condensing unit (A/C outdoor)',
+    synonyms: ['unidad exterior', 'compresor del aire'],
+    definition: {
+      es: 'La unidad exterior del mini-split; su placa de datos (MCA/MOCP) manda el calibre y el térmico del circuito.',
+      en: 'The mini-split outdoor unit; its nameplate (MCA/MOCP) drives the circuit’s conductor and breaker.',
+    },
+    necArticles: ['nec2026.s440_4_b'],
+  },
+  miniSplit: {
+    es: 'mini-split',
+    en: 'mini-split A/C',
+    synonyms: ['split', 'aire de dos unidades'],
+    definition: {
+      es: 'Aire acondicionado de dos unidades (evaporadora adentro, condensador afuera) sin ductos; pide circuito dedicado de 240 V y desconectador.',
+      en: 'Ductless two-unit A/C (indoor evaporator, outdoor condenser); needs a dedicated 240 V circuit and a disconnect.',
+    },
+    necArticles: ['nec2026.s440_14'],
+  },
+  barraDeTierra: {
+    es: 'barra de tierra',
+    en: 'ground bar',
+    synonyms: ['bornera de tierras', 'barra de tierras'],
+    definition: {
+      es: 'La regleta del panel donde se rematan los conductores de tierra de equipos (EGC).',
+      en: 'The panel bar where the equipment grounding conductors (EGC) terminate.',
+    },
+    necArticles: ['nec2026.s250_32'],
+  },
+  barraDeNeutros: {
+    es: 'barra de neutros',
+    en: 'neutral bar',
+    synonyms: ['bornera de neutros'],
+    definition: {
+      es: 'La regleta de los blancos; en un subpanel va aislada del gabinete y separada de la barra de tierra.',
+      en: 'The bar for the whites; in a subpanel it is isolated from the enclosure and kept separate from the ground bar.',
+    },
+    necArticles: ['nec2026.s250_32'],
+  },
+  afci: {
+    es: 'AFCI',
+    en: 'AFCI (arc-fault circuit interrupter)',
+    synonyms: ['interruptor de falla de arco', 'antiarco'],
+    definition: {
+      es: 'Protección que detecta arcos por cables dañados o conexiones flojas y corta antes de que inicien fuego; complementa al GFCI.',
+      en: 'Protection that detects arcing from damaged cables or loose joints and trips before a fire starts; complements the GFCI.',
+    },
+  },
+  hickey: {
+    es: 'hickey',
+    en: 'fixture hickey',
+    synonyms: ['adaptador de lámpara', 'soporte roscado de lámpara'],
+    definition: {
+      es: 'Adaptador roscado dentro de la caja de techo para colgar lámparas de tubo; igual que el espárrago, suma al relleno de la caja.',
+      en: 'Threaded adapter inside the ceiling box for hanging stem fixtures; like the stud, it counts toward box fill.',
+    },
+    necArticles: ['nec2026.s314_16_b_3'],
+  },
+  esparrago: {
+    es: 'espárrago de luminaria',
+    en: 'fixture stud',
+    synonyms: ['stud', 'perno central de la caja'],
+    definition: {
+      es: 'El perno central de la caja octagonal del que cuelga la lámpara; cuenta un volumen en el relleno de la caja.',
+      en: 'The center bolt of the octagonal box the fixture hangs from; counts one volume allowance in box fill.',
+    },
+    necArticles: ['nec2026.s314_16_b_3'],
+  },
+  cajaCuadrada: {
+    es: 'caja cuadrada',
+    en: 'square box (4″)',
+    synonyms: ['caja 4×4', 'cuadrada de 4'],
+    definition: {
+      es: 'Caja de 4″ con más volumen que la rectangular; para dispositivos se cubre con anillo de repello.',
+      en: 'A 4″ box with more volume than a device box; covered with a plaster ring when it holds devices.',
+    },
+    necArticles: ['nec2026.t314_16_a'],
+  },
+  cajaMamposteria: {
+    es: 'caja de mampostería',
+    en: 'masonry box',
+    synonyms: ['caja para bloque', 'caja de concreto'],
+    definition: {
+      es: 'Caja profunda hecha para empotrarse en pared de bloque o concreto.',
+      en: 'A deep box made to be set into block or concrete walls.',
+    },
+    necArticles: ['nec2026.t314_16_a'],
+  },
+  cajaFsFd: {
+    es: 'caja FS/FD',
+    en: 'FS/FD box',
+    synonyms: ['caja fundida', 'caja de sobreponer roscada'],
+    definition: {
+      es: 'Caja metálica fundida con entradas roscadas, para instalación superficial o a la intemperie.',
+      en: 'Cast metal box with threaded hubs, for surface or weather-exposed installs.',
+    },
+  },
+  anilloDeRepello: {
+    es: 'anillo de repello',
+    en: 'plaster (mud) ring',
+    synonyms: ['mud ring', 'suplemento de caja'],
+    definition: {
+      es: 'Tapa elevada para caja cuadrada que deja el dispositivo al ras del acabado; si trae volumen marcado, se suma al de la caja.',
+      en: 'Raised cover for a square box that brings the device flush with the finish; marked volume adds to the box’s.',
+    },
+  },
+  empalme: {
+    es: 'empalme',
+    en: 'splice',
+    synonyms: ['unión de alambres', 'colas'],
+    definition: {
+      es: 'La unión de dos o más alambres dentro de una caja, rematada con conector de empalme (wire nut).',
+      en: 'The joint of two or more wires inside a box, finished with a wire nut.',
+    },
+    necArticles: ['nec2026.s314_16_b_1'],
+  },
+  contratuerca: {
+    es: 'contratuerca',
+    en: 'locknut',
+    synonyms: ['tuerca de conector', 'locknut'],
+    definition: {
+      es: 'La tuerca que asegura el conector del tubo a la caja por dentro.',
+      en: 'The nut that secures the conduit connector to the box from the inside.',
+    },
+  },
+  amperio: {
+    es: 'amperio (A)',
+    en: 'ampere (A)',
+    synonyms: ['amperaje', 'amperios', 'amp'],
+    definition: {
+      es: 'La unidad de corriente: térmicos, tablas de ampacidad y placas de datos se expresan en amperios.',
+      en: 'The unit of current: breakers, ampacity tables, and nameplates are all expressed in amperes.',
+    },
+  },
+  vatio: {
+    es: 'vatio (W)',
+    en: 'watt (W)',
+    synonyms: ['watts', 'vatios'],
+    definition: {
+      es: 'La unidad de potencia de las placas de los aparatos; en cargas residenciales típicas se toma 1 W = 1 VA para el cálculo (motores y electrónica pueden diferir).',
+      en: 'The power unit on appliance nameplates; typical residential loads are taken at 1 W = 1 VA for the calculation (motors and electronics can differ).',
+    },
+  },
+  ohm: {
+    es: 'ohmio (Ω)',
+    en: 'ohm (Ω)',
+    synonyms: ['ohm', 'ohmios'],
+    definition: {
+      es: 'La unidad de resistencia; una varilla de tierra que mida 25 Ω o menos puede ir sola, si no se instalan dos.',
+      en: 'The unit of resistance; a ground rod measuring 25 Ω or less may stand alone, otherwise two are installed.',
+    },
+    necArticles: ['nec2026.s250_53'],
+  },
+  hp: {
+    es: 'caballo de fuerza (HP)',
+    en: 'horsepower (HP)',
+    synonyms: ['HP', 'caballos'],
+    definition: {
+      es: 'Unidad de potencia de motores como bombas de agua (1 HP ≈ 746 W mecánicos); el consumo eléctrico real lo da la placa de datos.',
+      en: 'Motor power unit for loads like water pumps (1 HP ≈ 746 mechanical W); the real electrical draw comes from the nameplate.',
+    },
+    necArticles: ['nec2026.s220_50'],
+  },
+  tonelada: {
+    es: 'tonelada (de refrigeración)',
+    en: 'ton of refrigeration',
+    synonyms: ['ton', 'tonelada de aire'],
+    definition: {
+      es: 'Medida de capacidad de enfriamiento del aire acondicionado: 1 tonelada = 12,000 BTU/h.',
+      en: 'A/C cooling-capacity measure: 1 ton = 12,000 BTU/h.',
+    },
+  },
+  cedula80: {
+    es: 'cédula 80',
+    en: 'Schedule 80 PVC',
+    synonyms: ['Sch 80', 'PVC pesado'],
+    definition: {
+      es: 'PVC eléctrico de pared gruesa para zonas expuestas a golpes; deja menos área interna que la cédula 40.',
+      en: 'Thick-wall electrical PVC for damage-exposed areas; leaves less internal area than Schedule 40.',
+    },
+    necArticles: ['nec2026.ch9_t4'],
+  },
+  enterramiento: {
+    es: 'enterramiento',
+    en: 'burial depth (Table 300.5)',
+    synonyms: ['zanja', 'profundidad mínima'],
+    definition: {
+      es: 'La profundidad mínima de la zanja para tubería o cable enterrado, según la Tabla 300.5 (típico 450–600 mm).',
+      en: 'The minimum trench depth for buried raceway or cable, per Table 300.5 (typically 450–600 mm).',
+    },
+    necArticles: ['nec2026.t300_5'],
+  },
+  puestaATierra: {
+    es: 'puesta a tierra',
+    en: 'grounding system',
+    synonyms: ['sistema de tierra', 'aterrizaje'],
+    definition: {
+      es: 'El conjunto que conecta la instalación a la tierra física: las varillas, el conductor al electrodo (GEC) y las tierras de equipos.',
+      en: 'Everything bonding the installation to earth: the rods, the grounding electrode conductor (GEC), and the equipment grounds.',
+    },
+    necArticles: ['nec2026.t250_66', 'nec2026.s250_53'],
+  },
 } as const satisfies Record<string, GlossaryEntry>
 
 export type GlossaryId = keyof typeof glossary

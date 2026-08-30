@@ -39,6 +39,19 @@ const REQUIRED_TERMS: readonly string[] = [
   'gfci', 'neutro', 'nema1430', 'nema1450',
   'cajaRectangular', 'plafonera', 'apagador', 'placa',
   'alimentador', 'centroDeCarga', 'varillaDeTierra', 'gec',
+  // 2026-08-30 batch: circuit vocabulary
+  'fase', 'circuitoRamal', 'circuitoDedicado', 'polo', 'metodoEstandar',
+  'circuitosPequenosArtefactos', 'circuitoLavanderia', 'alumbradoGeneral', 'feedThrough',
+  // 2026-08-30 batch: conductors & materials
+  'cobre', 'aluminio', 'xhhw2', 'ccc', 'antioxidante', 'alambreDesnudo',
+  // 2026-08-30 batch: devices & equipment
+  'tomacorriente', 'luminaria', 'clavija', 'cordon', 'condensador', 'miniSplit',
+  'barraDeTierra', 'barraDeNeutros', 'afci', 'placaDeDatos',
+  // 2026-08-30 batch: box fill
+  'hickey', 'esparrago', 'cajaCuadrada', 'cajaMamposteria', 'cajaFsFd',
+  'anilloDeRepello', 'empalme', 'contratuerca',
+  // 2026-08-30 batch: units & install conditions
+  'amperio', 'vatio', 'ohm', 'hp', 'tonelada', 'cedula80', 'enterramiento', 'puestaATierra',
 ]
 
 const webSrc = fileURLToPath(new URL('../../web/src/', import.meta.url))

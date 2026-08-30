@@ -44,13 +44,13 @@ const ASSUME_240V: Assumption = {
 const ASSUME_TYPICAL_WATTAGES: Assumption = {
   key: 'load-typical-wattages',
   en: 'Preset appliance wattages are typical values — verify the nameplate of YOUR equipment.',
-  es: 'Los vatajes predefinidos son valores típicos — verifique la placa de SUS equipos.',
+  es: 'Los vatajes predefinidos son valores típicos — verifique la placa de datos de SUS equipos.',
 }
 
 const ASSUME_RANGE_COLUMN_C: Assumption = {
   key: 'range-column-c',
   en: 'Range demand uses Table 120.55 Column C, capped at the connected nameplate; Columns A/B for small ranges are not modeled.',
-  es: 'La demanda de estufas usa la Columna C de la Tabla 120.55, limitada a la placa; las columnas A/B para estufas pequeñas no están modeladas.',
+  es: 'La demanda de estufas usa la Columna C de la Tabla 120.55, limitada a la placa de datos; las columnas A/B para estufas pequeñas no están modeladas.',
   citations: ['nec2026.t220_55'],
 }
 

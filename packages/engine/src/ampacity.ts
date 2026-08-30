@@ -217,7 +217,7 @@ export function evaluateConductor(
     assumptions.push({
       key: 'terminal-rating-default',
       en: `Equipment terminals assumed rated ${terminalRatingC}°C (typical for circuits ${requiredTermination > 100 ? 'over' : 'up to'} 100 A); adjust if the nameplate says otherwise.`,
-      es: `Los bornes del equipo se asumen para ${terminalRatingC} °C (lo típico en circuitos ${requiredTermination > 100 ? 'mayores a' : 'de hasta'} 100 A); si la placa indica otra cosa, ajústelo.`,
+      es: `Los bornes del equipo se asumen para ${terminalRatingC} °C (lo típico en circuitos ${requiredTermination > 100 ? 'mayores a' : 'de hasta'} 100 A); si la placa de datos indica otra cosa, ajústelo.`,
       citations: ['nec2026.s110_14_c'],
     })
   }
