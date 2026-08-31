@@ -187,6 +187,20 @@ export const acMinisplitTemplate: JobTemplate = {
       urlKey: 'cd',
     },
     {
+      // The flexible stretch at the condenser. Coraza LT (LFMC, Art. 350) is the
+      // default: outdoors the steel core takes the knocks and the PVC jacket the
+      // sun, where poliducto does neither for long.
+      id: 'whipType',
+      type: 'choice',
+      default: 'coraza',
+      choices: [
+        { value: 'coraza', label: { es: 'Coraza LT (metálica)', en: 'Liquidtight metal (LFMC)' } },
+        { value: 'poliducto', label: { es: 'Poliducto (manguera)', en: 'Flexible nonmetallic (LFNC)' } },
+      ],
+      label: { es: 'Conexión flexible al condensador', en: 'Flexible run to the condenser' },
+      urlKey: 'whip',
+    },
+    {
       id: 'bends',
       type: 'choice',
       default: 'curvas',
@@ -526,11 +540,40 @@ export const acMinisplitTemplate: JobTemplate = {
       // is assembled on site from poliducto; its conductors come out of the same
       // wire rolls (covered by the wastage allowance).
       id: 'whip',
-      item: { itemId: 'lfnc-12' },
+      item: {
+        map: {
+          keys: ['options.whipType'],
+          table: { coraza: 'lfmc-12', poliducto: 'lfnc-12' },
+        },
+      },
       qty: { fixed: 2 },
       note: {
-        es: 'conexión flexible al condensador, armada en sitio (~2 m de manguera; conductores del mismo rollo)',
-        en: 'flexible run to the condenser, assembled on site (~2 m of conduit; conductors from the same rolls)',
+        es: 'conexión flexible al condensador, armada en sitio (~2 m; conductores del mismo rollo)',
+        en: 'flexible run to the condenser, assembled on site (~2 m; conductors from the same rolls)',
+      },
+    },
+    {
+      // A liquidtight raceway sealed with an ordinary connector is not liquidtight.
+      // One straight at the disconnect, one 90° at the unit — how they actually land.
+      id: 'whip-connectors-lt',
+      when: [{ ref: 'options.whipType', eq: 'coraza' }],
+      item: { itemId: 'lfmc-connector-12' },
+      qty: { fixed: 1 },
+      citations: ['nec2026.s350_42'],
+      note: {
+        es: 'conector recto tipo LT en el desconectador',
+        en: 'straight liquidtight connector at the disconnect',
+      },
+    },
+    {
+      id: 'whip-connectors-lt-90',
+      when: [{ ref: 'options.whipType', eq: 'coraza' }],
+      item: { itemId: 'lfmc-connector-90-12' },
+      qty: { fixed: 1 },
+      citations: ['nec2026.s350_42'],
+      note: {
+        es: 'conector curvo 90° tipo LT en la unidad exterior',
+        en: '90° liquidtight connector at the condenser',
       },
     },
     {

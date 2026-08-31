@@ -28,6 +28,8 @@ const TEMPLATES: readonly JobTemplate[] = allTemplates
 const KNOWN_UNPRICED = new Set([
   // Added 2026-08-31; price research pending (PRICES.md procedure).
   'puntera-cable',
+  'lfmc-connector-12',
+  'lfmc-connector-90-12',
   'breaker-2p-35',
   'breaker-2p-45',
   'breaker-2p-25',

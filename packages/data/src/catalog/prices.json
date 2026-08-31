@@ -261,6 +261,13 @@
       "priceUsd": 29.95,
       "updatedAt": "2026-08-17",
       "note": "JF Products, caja térmica monofásica 2 espacios 100 A NEMA 3R — entrada manual (verificado por el usuario)"
+    },
+    {
+      "itemId": "lfmc-12",
+      "retailer": "vidri",
+      "priceUsd": 2.8,
+      "updatedAt": "2026-08-31",
+      "note": "Coraza lt de 1/2 pulg (12.70 mm) — Vidri SKU 4429, modelo VF LT 6102-30 1/2; precio por metro confirmado por el usuario"
     }
   ]
 }

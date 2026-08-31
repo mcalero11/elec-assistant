@@ -281,6 +281,12 @@
     "reasonEn": "ground-wire fill",
     "reasonEs": "conductores de tierra"
   },
+  "nec2026.s350_42": {
+    "en": "NEC 2026, 350.42 — LFMC couplings and connectors shall be listed for the purpose",
+    "es": "NEC 2026, 350.42 — los conectores y acoples de coraza LT deben ser listados para ese uso",
+    "reasonEn": "liquidtight fittings required",
+    "reasonEs": "requiere conectores tipo LT"
+  },
   "nec2026.s352_30": {
     "en": "NEC 2026, 352.30 — securing and supporting rigid PVC conduit",
     "es": "NEC 2026, 352.30 — fijación y soporte de tubería PVC rígida",

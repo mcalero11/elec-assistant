@@ -1,5 +1,5 @@
 {
-  "note": "Hand-verified end-to-end template runs (PRD requires ≥2 fixture configurations per template). Every quantity computed by hand: hots = run × (1+wastage) × 2 rounded up to whole meters; EGC = run × (1+wastage); EMT sticks = ceil(run×1.1 / 3.05); couplings = ceil(run/3.05); EMT straps = ceil(run/3)+1 (358.30); LFNC straps = ceil(run/0.9)+1 (356.30). Circuit values anchor to the hand-verified mini-split circuit golden (24 A MCA continuous, 15 m, 240 V → #10 Cu, 30 A, 1.221% drop); fixture 3 hand-checked: 10 A continuous → #14 (protection min(25, 15@60C, 15 cap) = 15 ≥ 12.5), drop 2×8×10×10.3/1000 = 1.648 V = 0.6867%. Ambient defaults resolve from the location answer (exterior→40°C, interior→35°C) since the ambientC question landed; at 60°C terminations with continuous load the termination limit governs, so sizes are unchanged vs the old 30°C basis — hand-checked: #10 THWN-2 derated 40×0.91=36.4 ≥ 24 (case 1/2/4 ampacity floor), #14 THHN 25×0.96=24 ≥ 10 (case 3). 2026-08-31: the A/C circuit no longer double-applies the continuous 125% on top of the nameplate MCA (440.4(B) already includes it), the device now comes from the nameplate MOCP under 440.22 with 240.4(G) exempting the conductor from the general 240.4 check, and the supply voltage question defaults to 220 V. Conductor sizes are UNCHANGED in these fixtures (the 60 °C termination limit governs at these currents); breaker/disconnect and the drop percentage moved. Drop scales exactly by 240/220 because dropVolts is voltage-independent.",
+  "note": "Hand-verified end-to-end template runs (PRD requires ≥2 fixture configurations per template). Every quantity computed by hand: hots = run × (1+wastage) × 2 rounded up to whole meters; EGC = run × (1+wastage); EMT sticks = ceil(run×1.1 / 3.05); couplings = ceil(run/3.05); EMT straps = ceil(run/3)+1 (358.30); LFNC straps = ceil(run/0.9)+1 (356.30). Circuit values anchor to the hand-verified mini-split circuit golden (24 A MCA continuous, 15 m, 240 V → #10 Cu, 30 A, 1.221% drop); fixture 3 hand-checked: 10 A continuous → #14 (protection min(25, 15@60C, 15 cap) = 15 ≥ 12.5), drop 2×8×10×10.3/1000 = 1.648 V = 0.6867%. Ambient defaults resolve from the location answer (exterior→40°C, interior→35°C) since the ambientC question landed; at 60°C terminations with continuous load the termination limit governs, so sizes are unchanged vs the old 30°C basis — hand-checked: #10 THWN-2 derated 40×0.91=36.4 ≥ 24 (case 1/2/4 ampacity floor), #14 THHN 25×0.96=24 ≥ 10 (case 3). 2026-08-31: the A/C circuit no longer double-applies the continuous 125% on top of the nameplate MCA (440.4(B) already includes it), the device now comes from the nameplate MOCP under 440.22 with 240.4(G) exempting the conductor from the general 240.4 check, and the supply voltage question defaults to 220 V. Conductor sizes are UNCHANGED in these fixtures (the 60 °C termination limit governs at these currents); breaker/disconnect and the drop percentage moved. Drop scales exactly by 240/220 because dropVolts is voltage-independent. The flexible run to the condenser now defaults to coraza LT (LFMC, Art. 350) with its two liquidtight fittings; poliducto stays selectable via options.whipType.",
   "cases": [
     {
       "name": "ac-36k, 15 m, exterior, EMT + curvas (wastage 10%, 3 vueltas)",
@@ -78,8 +78,18 @@
           },
           {
             "ruleId": "whip",
-            "itemId": "lfnc-12",
+            "itemId": "lfmc-12",
             "qty": 2
+          },
+          {
+            "ruleId": "whip-connectors-lt",
+            "itemId": "lfmc-connector-12",
+            "qty": 1
+          },
+          {
+            "ruleId": "whip-connectors-lt-90",
+            "itemId": "lfmc-connector-90-12",
+            "qty": 1
           },
           {
             "ruleId": "punteras",
@@ -175,8 +185,18 @@
           },
           {
             "ruleId": "whip",
-            "itemId": "lfnc-12",
+            "itemId": "lfmc-12",
             "qty": 2
+          },
+          {
+            "ruleId": "whip-connectors-lt",
+            "itemId": "lfmc-connector-12",
+            "qty": 1
+          },
+          {
+            "ruleId": "whip-connectors-lt-90",
+            "itemId": "lfmc-connector-90-12",
+            "qty": 1
           },
           {
             "ruleId": "punteras",
@@ -272,8 +292,18 @@
           },
           {
             "ruleId": "whip",
-            "itemId": "lfnc-12",
+            "itemId": "lfmc-12",
             "qty": 2
+          },
+          {
+            "ruleId": "whip-connectors-lt",
+            "itemId": "lfmc-connector-12",
+            "qty": 1
+          },
+          {
+            "ruleId": "whip-connectors-lt-90",
+            "itemId": "lfmc-connector-90-12",
+            "qty": 1
           },
           {
             "ruleId": "punteras",
@@ -373,8 +403,18 @@
           },
           {
             "ruleId": "whip",
-            "itemId": "lfnc-12",
+            "itemId": "lfmc-12",
             "qty": 2
+          },
+          {
+            "ruleId": "whip-connectors-lt",
+            "itemId": "lfmc-connector-12",
+            "qty": 1
+          },
+          {
+            "ruleId": "whip-connectors-lt-90",
+            "itemId": "lfmc-connector-90-12",
+            "qty": 1
           },
           {
             "ruleId": "punteras",

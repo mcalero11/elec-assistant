@@ -93,6 +93,14 @@ export const catalogItems = [
   { id: 'pvc-elbow-1', name: { es: 'curva PVC eléctrica 1"', en: 'electrical PVC elbow 1"' }, unit: 'unidad', category: 'material' },
   { id: 'pvc-adapter-1', name: { es: 'adaptador terminal PVC 1"', en: 'PVC terminal adapter 1"' }, unit: 'unidad', category: 'material' },
 
+  // Coraza LT / LFMC — Artículo 350. Espiral de acero con chaqueta de PVC
+  // hermética: el tramo flexible a la unidad exterior, donde el poliducto no
+  // aguanta el sol ni el golpe.
+  { id: 'lfmc-12', name: { es: 'coraza flexible tipo LT (LFMC) 1/2"', en: 'liquidtight flexible metal conduit 1/2"' }, unit: 'm', category: 'material', synonyms: ['coraza lt', 'coraza metálica forrada', 'liquid tight'] },
+  { id: 'lfmc-34', name: { es: 'coraza flexible tipo LT (LFMC) 3/4"', en: 'liquidtight flexible metal conduit 3/4"' }, unit: 'm', category: 'material', synonyms: ['coraza lt'] },
+  { id: 'lfmc-connector-12', name: { es: 'conector recto tipo LT 1/2"', en: 'straight liquidtight connector 1/2"' }, unit: 'unidad', category: 'material', synonyms: ['conector lt', 'conector liquid tight'] },
+  { id: 'lfmc-connector-90-12', name: { es: 'conector curvo 90° tipo LT 1/2"', en: '90° liquidtight connector 1/2"' }, unit: 'unidad', category: 'material', synonyms: ['conector lt curvo', 'conector 90 liquid tight'] },
+
   // Poliducto / LFNC (por metro)
   { id: 'lfnc-12', name: { es: 'manguera flexible eléctrica (poliducto/LFNC) 1/2"', en: 'liquidtight flexible nonmetallic conduit 1/2"' }, unit: 'm', category: 'material', synonyms: ['poliducto', 'manguera negra'] },
   { id: 'lfnc-34', name: { es: 'manguera flexible eléctrica (poliducto/LFNC) 3/4"', en: 'liquidtight flexible nonmetallic conduit 3/4"' }, unit: 'm', category: 'material', synonyms: ['poliducto'] },
