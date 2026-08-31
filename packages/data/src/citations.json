@@ -287,6 +287,18 @@
     "reasonEn": "liquidtight fittings required",
     "reasonEs": "requiere conectores tipo LT"
   },
+  "nec2026.s352_12": {
+    "en": "NEC 2026, 352.12 — PVC uses not permitted: ambient above what the conduit is listed for (50 °C for standard PVC)",
+    "es": "NEC 2026, 352.12 — usos no permitidos del PVC: temperatura ambiente mayor a la que el tubo tiene listada (50 °C en PVC estándar)",
+    "reasonEn": "PVC has an ambient ceiling",
+    "reasonEs": "el PVC tiene tope de temperatura"
+  },
+  "nec2026.s362_12": {
+    "en": "NEC 2026, 362.12 — ENT uses not permitted: ambient above 50 °C unless listed otherwise",
+    "es": "NEC 2026, 362.12 — usos no permitidos del ENT (tecnoducto): temperatura ambiente mayor a 50 °C salvo que esté listado para más",
+    "reasonEn": "ENT capped at 50 °C",
+    "reasonEs": "el tecnoducto tope 50 °C"
+  },
   "nec2026.s352_30": {
     "en": "NEC 2026, 352.30 — securing and supporting rigid PVC conduit",
     "es": "NEC 2026, 352.30 — fijación y soporte de tubería PVC rígida",

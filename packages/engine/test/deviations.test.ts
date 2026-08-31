@@ -190,6 +190,44 @@ describe('propagation', () => {
   })
 })
 
+describe('nonmetallic raceway ambient ceiling (352.12 / 362.12)', () => {
+  const ducha = () => allTemplates.find((t) => t.id === 'ac-minisplit')!
+
+  it('PVC on a 55 °C roof run is flagged', () => {
+    const t = ducha()
+    const result = runTemplate(t, {
+      answers: { ...defaultAnswers(t), location: 'techo', ambientC: 55 },
+      options: { conduitType: 'pvc' },
+    })
+    const w = result.warnings.find((x) => x.id === 'tubo-no-metalico-caliente')
+    expect(w, 'the ambient ceiling warning should fire').toBeDefined()
+    expect(w?.citations).toContain('nec2026.s352_12')
+    expect(w?.citations).toContain('nec2026.s362_12')
+    // «unless listed otherwise» — the app cannot read the tube's marking, so it
+    // warns without stamping the job as non-compliant.
+    expect(w?.severity).toBe('conditional')
+    expect(isNonCompliant(result)).toBe(false)
+  })
+
+  it('metal at the same temperature is not flagged', () => {
+    const t = ducha()
+    const result = runTemplate(t, {
+      answers: { ...defaultAnswers(t), location: 'techo', ambientC: 55 },
+      options: { conduitType: 'emt' },
+    })
+    expect(result.warnings.map((w) => w.id)).not.toContain('tubo-no-metalico-caliente')
+  })
+
+  it('PVC at exactly 50 °C is not flagged — the rule is "in excess of"', () => {
+    const t = ducha()
+    const result = runTemplate(t, {
+      answers: { ...defaultAnswers(t), location: 'techo', ambientC: 50 },
+      options: { conduitType: 'pvc' },
+    })
+    expect(result.warnings.map((w) => w.id)).not.toContain('tubo-no-metalico-caliente')
+  })
+})
+
 describe('local-practice coverage', () => {
   // A note keyed to something nothing emits is invisible: it would look present
   // in the data and never reach a reader. Same spirit as catalog-coverage.

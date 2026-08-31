@@ -606,6 +606,29 @@ export const acMinisplitTemplate: JobTemplate = {
 
   warnings: [
     {
+      // The conductors are already derated for ambient by the engine; this is
+      // about the TUBE. Standard PVC (352.12) and ENT/tecnoducto (362.12) are
+      // both listed to 50 °C, and this flow allows up to 65 °C for a roof or
+      // entretecho run — so a nonmetallic raceway up there is out of code
+      // unless that specific product is listed higher. Metal (EMT, coraza LT)
+      // has no such ceiling, which is why it is the suggested fix.
+      //
+      // ambientC is an integer field, so `gte: 51` is exactly "in excess of 50".
+      // 'conditional', not 'off-code': the rule ends in «unless listed
+      // otherwise», and the app cannot read the marking on the tube.
+      id: 'tubo-no-metalico-caliente',
+      when: [
+        { ref: 'options.conduitType', in: ['pvc', 'lfnc'] },
+        { ref: 'answers.ambientC', gte: 51 },
+      ],
+      severity: 'conditional',
+      citations: ['nec2026.s352_12', 'nec2026.s362_12'],
+      text: {
+        es: 'A esta temperatura el tubo no metálico se sale de norma: el PVC estándar (352.12) y el tecnoducto/ENT (362.12) están listados hasta 50 °C, y aquí el recorrido va más caliente. Ojo que esto es sobre el TUBO, no sobre el cable — el cable ya se calculó con su factor de temperatura. Use tubo metálico (EMT o coraza LT) en el tramo caliente, o confirme en la etiqueta que ese tubo esté listado para más.',
+        en: 'At this temperature the nonmetallic raceway falls outside the code: standard PVC (352.12) and ENT/tecnoducto (362.12) are listed to 50 °C, and this run is hotter. Note this is about the TUBE, not the wire — the conductor was already sized with the ambient correction. Use metal (EMT or liquidtight metal) on the hot stretch, or confirm on the label that the tube is listed higher.',
+      },
+    },
+    {
       // Same 12,000 BTU model line can call for 14 AWG in the on/off version and
       // 12 AWG in the inverter one. The calculated size is the code floor, not
       // the manufacturer's floor, and 110.3(B) makes their manual enforceable.
