@@ -7,11 +7,16 @@ import type { CatalogItem } from './types.js'
  */
 export const catalogItems = [
   // Térmicos 2 polos (breaker enchufable tipo CH/BR según panel — precio de referencia BR)
+  // Stranded conductors landing on a mini-split terminal block: a ferrule keeps
+  // strands from splaying under the screw. Sold locally as «punteras».
+  { id: 'puntera-cable', name: { es: 'punteras (terminales tubulares) para cable', en: 'wire ferrules' }, unit: 'unidad', category: 'material', synonyms: ['puntera', 'terminal tubular', 'terminal de aguja', 'ferrule'] },
   { id: 'breaker-2p-15', name: { es: 'térmico 2 polos 15 A', en: '2-pole breaker 15 A' }, unit: 'unidad', category: 'material', synonyms: ['flipón doble 15', 'breaker 2x15'] },
   { id: 'breaker-2p-20', name: { es: 'térmico 2 polos 20 A', en: '2-pole breaker 20 A' }, unit: 'unidad', category: 'material', synonyms: ['flipón doble 20', 'breaker 2x20'] },
   { id: 'breaker-2p-25', name: { es: 'térmico 2 polos 25 A', en: '2-pole breaker 25 A' }, unit: 'unidad', category: 'material', synonyms: ['flipón doble 25', 'breaker 2x25'] },
   { id: 'breaker-2p-30', name: { es: 'térmico 2 polos 30 A', en: '2-pole breaker 30 A' }, unit: 'unidad', category: 'material', synonyms: ['flipón doble 30', 'breaker 2x30'] },
+  { id: 'breaker-2p-35', name: { es: 'térmico 2 polos 35 A', en: '2-pole breaker 35 A' }, unit: 'unidad', category: 'material', synonyms: ['flipón doble 35', 'breaker 2x35'] },
   { id: 'breaker-2p-40', name: { es: 'térmico 2 polos 40 A', en: '2-pole breaker 40 A' }, unit: 'unidad', category: 'material', synonyms: ['flipón doble 40', 'breaker 2x40'] },
+  { id: 'breaker-2p-45', name: { es: 'térmico 2 polos 45 A', en: '2-pole breaker 45 A' }, unit: 'unidad', category: 'material', synonyms: ['flipón doble 45', 'breaker 2x45'] },
   { id: 'breaker-2p-50', name: { es: 'térmico 2 polos 50 A', en: '2-pole breaker 50 A' }, unit: 'unidad', category: 'material', synonyms: ['flipón doble 50', 'breaker 2x50'] },
   { id: 'breaker-2p-60', name: { es: 'térmico 2 polos 60 A', en: '2-pole breaker 60 A' }, unit: 'unidad', category: 'material', synonyms: ['flipón doble 60', 'breaker 2x60'] },
 

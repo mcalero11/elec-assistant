@@ -211,6 +211,54 @@ describe('buildCargaMemoria', () => {
     expect(new Set(model.citations.ordered)).toEqual(expected)
     expect(model.citations.ordered.length).toBeGreaterThan(0)
   })
+
+  it('a compliant run carries no deviations block and no stamp', () => {
+    expect(model.blocks.some((b) => b.kind === 'list' && b.tone === 'deviation')).toBe(false)
+    expect(model.nonCompliant).toBeFalsy()
+  })
+
+  describe('off-code run', () => {
+    // One kitchen circuit: the local reality the deviation channel exists for.
+    const offCode = residentialLoad({
+      areaM2: 120,
+      smallApplianceCircuits: 1,
+      laundryCircuits: 1,
+      devices: [{ presetId: 'ducha' }],
+    })
+    const offCodeModel = buildCargaMemoria({
+      areaM2: 120,
+      smallApplianceCircuits: 1,
+      laundryCircuits: 1,
+      result: offCode,
+      today,
+      m,
+    })
+    const block = offCodeModel.blocks.find((b) => b.kind === 'list' && b.tone === 'deviation')
+
+    it('renders a deviations block and stamps the document', () => {
+      expect(block).toBeDefined()
+      expect(offCodeModel.nonCompliant).toBe(true)
+      expect(block?.kind === 'list' && block.title).toBe(m.memoria.deviationsTitle)
+    })
+
+    it('carries the El Salvador practice note as small print', () => {
+      const items = block?.kind === 'list' ? block.items : []
+      expect(items.some((i) => i.note?.includes(m.common.localPractice))).toBe(true)
+    })
+
+    it('routes the deviation citations into the footnote appendix', () => {
+      const items = block?.kind === 'list' ? block.items : []
+      const cited = items.flatMap((i) => [...i.citations])
+      expect(cited.length).toBeGreaterThan(0)
+      for (const key of cited) {
+        expect(offCodeModel.citations.numberOf.get(key)).toBeGreaterThan(0)
+      }
+      // The «appendix covers exactly the row citations» invariant still holds.
+      expect(new Set(offCodeModel.citations.ordered)).toEqual(
+        new Set(allCitationGroups(offCodeModel).flat()),
+      )
+    })
+  })
 })
 
 describe('reserved runner URL keys', () => {

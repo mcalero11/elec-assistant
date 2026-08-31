@@ -10,6 +10,7 @@ import {
   House,
   Package,
   ScrollText,
+  UtilityPole,
   type LucideIcon,
 } from 'lucide-react'
 import { INSULATION_TEMP_RATING } from '@nec-assistant/engine'
@@ -101,6 +102,13 @@ export default function HomePage() {
       title: m.nav.tierra,
       desc: m.home.tierraDesc,
       stat: 'Tabla 250.122 · 250.122(B)',
+    },
+    {
+      href: '/calculadoras/acometida/',
+      icon: UtilityPole,
+      title: m.nav.acometida,
+      desc: m.home.acometidaDesc,
+      stat: 'Tabla 250.66 · 250.64(B) · 250.53',
     },
     {
       href: '/calculadoras/cajas/',

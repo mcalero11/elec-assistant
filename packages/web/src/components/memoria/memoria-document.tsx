@@ -89,8 +89,10 @@ function Block({
           {block.items.map((item, i) => (
             <li key={i}>
               {block.tone === 'warning' ? <strong>{m.jobs.warningsTitle}: </strong> : null}
+              {block.tone === 'deviation' ? <strong>{m.memoria.deviationPrefix}: </strong> : null}
               {item.text}
               <CiteRefs keys={item.citations} index={index} />
+              {item.note ? <div className="text-muted-foreground">{item.note}</div> : null}
             </li>
           ))}
         </ul>
@@ -157,6 +159,14 @@ export function MemoriaDocument({ model }: { model: MemoriaModel }) {
           {m.memoria.client}: <RuledValue value={model.client} />
         </p>
       </header>
+
+      {/* Bold and ruled rather than colored: the PDF is monochrome-light by
+          design, and this must survive a black-and-white print. */}
+      {model.nonCompliant ? (
+        <p className="mt-2 border-y border-foreground py-1 font-bold uppercase">
+          {m.memoria.nonCompliantStamp}
+        </p>
+      ) : null}
 
       {model.blocks.map((block, i) => (
         <Block key={i} block={block} number={i + 1} index={model.citations} />

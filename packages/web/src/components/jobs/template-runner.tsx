@@ -12,6 +12,7 @@ import {
 } from '@nec-assistant/data'
 import {
   EngineError,
+  isNonCompliant,
   resolveTemplateState,
   runTemplate,
   type ResolvedTemplateState,
@@ -20,7 +21,6 @@ import {
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
   Select,
@@ -34,7 +34,13 @@ import { Disclaimer } from '@/components/disclaimer'
 import { GlossaryText } from '@/components/glossary-text'
 import { Term } from '@/components/term'
 import { AssumptionsPanel } from '@/components/calculators/assumptions-panel'
+import { CitationChips } from '@/components/calculators/citation-chips'
+import {
+  DeviationsPanel,
+  NonComplianceBadge,
+} from '@/components/calculators/deviations-panel'
 import { InputSlider } from '@/components/calculators/input-slider'
+import { NumberField } from '@/components/calculators/number-field'
 import { ResultLine, ResultsCard } from '@/components/calculators/results-card'
 import { BomTable } from './bom-table'
 import { MemoriaDocument } from '@/components/memoria/memoria-document'
@@ -192,17 +198,31 @@ export function TemplateRunner({ template }: { template: JobTemplate }) {
           </Alert>
         ) : (
           <>
+            {/* Compliance findings first, then the template's practical advice.
+                A warning tagged with a severity is promoted into `deviations` by
+                the engine, so it also appears above — the two channels are
+                deliberately distinct: «Fuera de norma» vs «Avisos». */}
+            <DeviationsPanel deviations={computation.result.deviations} />
             {computation.result.warnings.map((w) => (
               <Alert key={w.id}>
                 <TriangleAlert className="size-4" />
                 <AlertTitle>{m.jobs.warningsTitle}</AlertTitle>
                 <AlertDescription>
                   <GlossaryText text={w.text.es} />
+                  {w.citations.length > 0 ? (
+                    <>
+                      {' '}
+                      <CitationChips keys={w.citations} />
+                    </>
+                  ) : null}
                 </AlertDescription>
               </Alert>
             ))}
 
-            <ResultsCard title={m.jobs.parametersTitle}>
+            <ResultsCard
+              title={m.jobs.parametersTitle}
+              badge={isNonCompliant(computation.result) ? <NonComplianceBadge /> : undefined}
+            >
               {computation.result.parameters.map((p) => {
                 const def = template.parameters.find((tp) => tp.id === p.id)
                 return (
@@ -323,17 +343,14 @@ function QuestionWidget({
               return (
                 <div key={f.id} className="space-y-1">
                   <Label className="text-[11px]">{f.label.es}</Label>
-                  <Input
-                    type="number"
+                  {/* Was `v > 0`, which ignored f.min/f.max entirely. */}
+                  <NumberField
                     className="h-8"
                     min={f.min}
                     max={f.max}
                     step={f.step}
                     value={answer?.[f.id] ?? f.default}
-                    onChange={(e) => {
-                      const v = Number(e.target.value)
-                      if (Number.isFinite(v) && v > 0) setParam(fieldKey, String(v))
-                    }}
+                    onChange={(v) => setParam(fieldKey, String(v))}
                   />
                 </div>
               )
@@ -364,17 +381,13 @@ function QuestionWidget({
         <Label className="text-xs">
           <LabelWithTerm termId={q.termId} text={q.label.es} />
         </Label>
-        <Input
-          type="number"
+        <NumberField
           className="h-8 w-24 text-right tabular-nums"
           min={q.min}
           max={q.max}
           step={q.step}
           value={value}
-          onChange={(e) => {
-            const v = Number(e.target.value)
-            if (Number.isFinite(v) && v >= q.min && v <= q.max) setParam(key, String(v))
-          }}
+          onChange={(v) => setParam(key, String(v))}
         />
       </div>
     )
@@ -394,8 +407,14 @@ function QuestionWidget({
         value={value}
         onValueChange={(v) => v && setParam(key, v)}
       >
+        {/* min-w-0 and wrapping text: with three longish choices the labels ran
+            into each other and spilled past the group's edge. */}
         {q.choices.map((c) => (
-          <ToggleGroupItem key={c.value} value={c.value} className="flex-1">
+          <ToggleGroupItem
+            key={c.value}
+            value={c.value}
+            className="min-w-0 flex-1 whitespace-normal text-center leading-tight"
+          >
             {c.termId ? <Term id={c.termId}>{c.label.es}</Term> : c.label.es}
           </ToggleGroupItem>
         ))}
@@ -458,18 +477,14 @@ function OptionNumberWidget({
         <LabelWithTerm termId={o.termId} text={o.label.es} />
         {o.unit ? ` (${o.unit})` : ''}
       </Label>
-      <Input
-        type="number"
+      <NumberField
         className="h-8"
         min={o.min}
         max={o.max}
         step={o.step}
         disabled={disabled}
         value={value}
-        onChange={(e) => {
-          const v = Number(e.target.value)
-          if (Number.isFinite(v) && v >= o.min && v <= o.max) setParam(key, String(v))
-        }}
+        onChange={(v) => setParam(key, String(v))}
       />
     </div>
   )

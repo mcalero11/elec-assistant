@@ -5,6 +5,7 @@ import {
   type CatalogItem,
   type CitationKey,
   type Condition,
+  type DeviationSeverity,
   type JobTemplate,
   type TemplateLabel,
 } from '@nec-assistant/data'
@@ -17,7 +18,9 @@ import {
   EngineError,
   mergeAssumptions,
   mergeCitations,
+  mergeDeviations,
   type Assumption,
+  type Deviation,
   type WithProvenance,
 } from './types.js'
 
@@ -195,6 +198,14 @@ export interface BomLine {
 export interface ResolvedWarning {
   id: string
   text: TemplateLabel
+  /** Always present ([] when none), so article numbers stop living in the prose. */
+  citations: CitationKey[]
+  /**
+   * Present ⇒ this warning is also a compliance statement, and is promoted into
+   * `TemplateRunResult.deviations` under the key `warning:<id>`. Absent ⇒ plain
+   * practical advice (panel space, burial depth) that says nothing about the code.
+   */
+  severity?: DeviationSeverity
 }
 
 /** One raw engine-call result, discriminated by the call's `fn` (the CALL_REGISTRY keys). */
@@ -344,21 +355,27 @@ export function runTemplate(template: JobTemplate, run: TemplateRunInput): Templ
         value: resolveDeep(rule.value, ctx),
         citations: rule.citations ?? [],
         assumptions: rule.assumption ? [rule.assumption] : [],
+        deviations: [],
       }
       continue
     }
     const atLeast = resolveNumber(rule.atLeast, ctx, `derived.${rule.id}`)
     const rating = [...rule.ratings].sort((a, b) => a - b).find((r) => r >= atLeast)
     if (rating === undefined) {
+      // Catalog availability, not a code rule: the template lists the ratings it
+      // can actually buy locally, so this is «outside the app's data», which is
+      // why it is a coverage limit rather than a compliance verdict.
       throw new EngineError(
         `No rating in [${rule.ratings.join(', ')}] covers ${atLeast} A for ${rule.id}`,
         `Ningún valor de [${rule.ratings.join(', ')}] cubre ${atLeast} A para ${rule.id}`,
+        'coverage',
       )
     }
     ctx.derived[rule.id] = {
       rating,
       citations: rule.citations,
       assumptions: rule.assumption ? [rule.assumption] : [],
+      deviations: [],
     }
   }
 
@@ -408,11 +425,39 @@ export function runTemplate(template: JobTemplate, run: TemplateRunInput): Templ
 
   const warnings: ResolvedWarning[] = template.warnings
     .filter((w) => evalConditions(w.when, ctx))
-    .map((w) => ({ id: w.id, text: w.text }))
+    .map((w) => ({
+      id: w.id,
+      text: w.text,
+      citations: w.citations ?? [],
+      ...(w.severity ? { severity: w.severity } : {}),
+    }))
+
+  // A severity-tagged warning is a compliance statement, so it also belongs in
+  // `deviations` — that is what gives the UI one badge source instead of two.
+  // `warnings` keeps every entry, tagged or not, so its ordering and count stay
+  // exactly as the template declared them.
+  const promotedDeviations: Deviation[] = warnings
+    .filter((w) => w.severity != null)
+    .map((w) => ({
+      key: `warning:${w.id}`,
+      en: w.text.en,
+      es: w.text.es,
+      citations: w.citations,
+      severity: w.severity!,
+    }))
 
   const callResults = template.calls.map((c) => ctx.calls[c.id] as WithProvenance)
+  // Probe calls contribute provenance but not compliance: see TemplateEngineCall.probe.
+  const deviatingCallResults = template.calls
+    .filter((c) => !c.probe)
+    .map((c) => ctx.calls[c.id] as WithProvenance)
   const derivedResults = template.derived.map(
-    (d) => ctx.derived[d.id] as { citations: CitationKey[]; assumptions: Assumption[] },
+    (d) =>
+      ctx.derived[d.id] as {
+        citations: CitationKey[]
+        assumptions: Assumption[]
+        deviations: Deviation[]
+      },
   )
 
   return {
@@ -432,6 +477,11 @@ export function runTemplate(template: JobTemplate, run: TemplateRunInput): Templ
       ...callResults.map((r) => r.assumptions),
       ...derivedResults.map((r) => r.assumptions),
       template.assumptions ?? [],
+    ),
+    deviations: mergeDeviations(
+      ...deviatingCallResults.map((r) => r.deviations),
+      ...derivedResults.map((r) => r.deviations),
+      promotedDeviations,
     ),
   }
 }

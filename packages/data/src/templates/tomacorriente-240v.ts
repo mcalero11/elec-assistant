@@ -466,9 +466,11 @@ export const tomacorriente240vTemplate: JobTemplate = {
     {
       id: 'gfci-estandar',
       when: { ref: 'options.proteccion', eq: 'estandar' },
+      severity: 'off-code',
+      citations: ['nec2026.s210_8'],
       text: {
-        es: 'El NEC exige protección GFCI para tomas de secadora y estufa (210.8). Con térmico estándar la instalación queda fuera de norma — verifique con electricista autorizado.',
-        en: 'The NEC requires GFCI protection for dryer and range receptacles (210.8). A standard breaker leaves the install out of code — verify with a licensed electrician.',
+        es: 'El NEC exige protección GFCI para tomas de secadora y estufa. Con térmico estándar la instalación queda fuera de norma — verifique con electricista autorizado.',
+        en: 'The NEC requires GFCI protection for dryer and range receptacles. A standard breaker leaves the install out of code — verify with a licensed electrician.',
       },
     },
     {

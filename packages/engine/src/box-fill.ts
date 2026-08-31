@@ -6,7 +6,7 @@ import {
   type BoxShape,
   type StandardBox,
 } from '@nec-assistant/data'
-import { EngineError, type Assumption, type WithProvenance } from './types.js'
+import { EngineError, type Assumption, type Deviation, type WithProvenance } from './types.js'
 
 /**
  * Box fill per NEC 314.16(B)(1)–(5): volume allowances for conductors, internal
@@ -37,6 +37,18 @@ import { EngineError, type Assumption, type WithProvenance } from './types.js'
  * when the four-EGC/quarter-allowance rule of (B)(5) replaced it — they simply
  * count in `egcCount`.
  */
+
+function deviationBoxFill(requiredCm3: number, boxVolumeCm3: number): Deviation {
+  const need = requiredCm3.toFixed(1)
+  const have = boxVolumeCm3.toFixed(1)
+  return {
+    key: 'box-fill-exceeds',
+    en: `The contents need ${need} cm³ and the box holds ${have} cm³. Packing it in anyway is outside the code — use a larger box or split the splices.`,
+    es: `El contenido necesita ${need} cm³ y la caja tiene ${have} cm³. Meterlo así queda fuera de norma: use una caja más grande o reparta los empalmes.`,
+    citations: ['nec2026.t314_16_b', 'nec2026.s314_16_b_1'],
+    severity: 'off-code',
+  }
+}
 
 const ASSUME_COUNTING: Assumption = {
   key: 'box-fill-counting',
@@ -279,13 +291,15 @@ export function boxFill(input: BoxFillInput): BoxFillResult {
   if (yokes.length > 0) assumptions.push(ASSUME_WIDE_DEVICES)
   if (!box) assumptions.push(ASSUME_MARKED_VOLUME)
 
+  const fits = requiredVolumeCm3 <= boxVolumeCm3
+
   return {
     boxId: box?.id ?? null,
     boxLabel: box?.label ?? null,
     shape: box?.shape ?? null,
     boxVolumeCm3,
     requiredVolumeCm3,
-    fits: requiredVolumeCm3 <= boxVolumeCm3,
+    fits,
     fillPercent: (requiredVolumeCm3 / boxVolumeCm3) * 100,
     breakdown,
     countedConductors,
@@ -295,6 +309,7 @@ export function boxFill(input: BoxFillInput): BoxFillResult {
     largestConductor,
     citations,
     assumptions,
+    deviations: fits ? [] : [deviationBoxFill(requiredVolumeCm3, boxVolumeCm3)],
   }
 }
 
@@ -313,15 +328,13 @@ export function sizeBox(input: SizeBoxInput): BoxFillResult {
   }
 
   // Rows are ordered ascending by volume (asserted by the data-sanity property
-  // test), so the first fit is the minimum box.
+  // test), so the first fit is the minimum box. When nothing fits, the largest
+  // candidate is returned with `fits: false` and boxFill's own deviation — the
+  // same shape `boxFill` has always returned, rather than a refusal to answer.
+  let last: BoxFillResult | undefined
   for (const box of candidates) {
-    const result = boxFill({ ...input, boxId: box.id })
-    if (result.fits) return result
+    last = boxFill({ ...input, boxId: box.id })
+    if (last.fits) return last
   }
-
-  const largest = candidates[candidates.length - 1]!
-  throw new EngineError(
-    `No standard box up to ${largest.volumeCm3} cm³ fits these contents (Table 314.16(A))`,
-    `Ninguna caja estándar hasta ${largest.volumeCm3} cm³ acepta este contenido (Tabla 314.16(A))`,
-  )
+  return last!
 }

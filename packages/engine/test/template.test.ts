@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { acMinisplitTemplate, type JobTemplate } from '@nec-assistant/data'
-import { EngineError, resolveTemplateState, runTemplate } from '@nec-assistant/engine'
+import { acMinisplitTemplate, circuitoRamalTemplate, type JobTemplate } from '@nec-assistant/data'
+import { EngineError, isNonCompliant, resolveTemplateState, runTemplate } from '@nec-assistant/engine'
 
 const baseAnswers = {
-  device: { id: 'ac-36k', mcaA: 24, mocpA: 40 },
+  device: { id: 'ac-36k', mcaA: 24, mocpA: 40, typicalW: 3400 },
   runLengthM: 15,
   location: 'exterior',
   panelSlots: '2polos',
@@ -112,12 +112,34 @@ describe('runTemplate mechanics', () => {
     ).toThrow(EngineError)
   })
 
-  it('propagates engine errors from the call graph (load beyond 600 kcmil)', () => {
-    expect(() =>
+  it('a load beyond 600 kcmil no longer stops the run — it is marked instead', () => {
+    // The conductor path used to throw here. It now returns the largest size it
+    // has, carrying its own off-code deviation, and the run continues. This
+    // template still stops, but on a genuine coverage limit: no disconnect in
+    // the local catalog is rated for that load.
+    try {
       runTemplate(acMinisplitTemplate, {
-        answers: { ...baseAnswers, device: { mcaA: 900, mocpA: 900 } },
-      }),
-    ).toThrow(EngineError)
+        answers: { ...baseAnswers, device: { mcaA: 900, mocpA: 900, typicalW: 100000 } },
+      })
+      expect.unreachable('the disconnect catalog rule should still stop this run')
+    } catch (e) {
+      expect(e).toBeInstanceOf(EngineError)
+      expect((e as EngineError).kind).toBe('coverage')
+    }
+  })
+
+  it('a probe call warns without marking the run non-compliant', () => {
+    // circuito-ramal's boxfill call asks whether the typical device box would do.
+    // At 12 AWG it would not (258.3 cm³ into 238 cm³), which is what the
+    // 'box-fill' warning is for — «use a square box with a mud ring». Reaching
+    // for a bigger box is the fix, so the job is not off-code.
+    const result = runTemplate(circuitoRamalTemplate, { answers: {}, options: {} })
+    const boxfill = result.calls.find((c) => c.id === 'boxfill')?.result as { fits: boolean }
+    expect(boxfill.fits).toBe(false)
+    expect(result.warnings.map((w) => w.id)).toContain('box-fill')
+    expect(result.deviations.map((d) => d.key)).not.toContain('box-fill-exceeds')
+    expect(isNonCompliant(result)).toBe(false)
+    expect(result.bom.length).toBeGreaterThan(0)
   })
 
   it('merges citations across the whole run', () => {

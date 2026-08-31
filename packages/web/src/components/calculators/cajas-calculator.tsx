@@ -19,6 +19,7 @@ import {
 import {
   EngineError,
   boxFill,
+  isNonCompliant,
   sizeBox,
   type BoxConductorEntry,
   type BoxDeviceYokeEntry,
@@ -27,7 +28,6 @@ import {
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
   Select,
@@ -42,8 +42,9 @@ import { Disclaimer } from '@/components/disclaimer'
 import { Term } from '@/components/term'
 import { fmtNumber, getMessages } from '@/lib/i18n'
 import { AssumptionsPanel } from './assumptions-panel'
-import { CitationChips } from './citation-chips'
+import { DeviationsPanel, NonComplianceBadge } from './deviations-panel'
 import { FillGauge } from './fill-gauge'
+import { NumberField } from './number-field'
 import { ResultLine, ResultsCard } from './results-card'
 
 const MODES = ['min', 'ver'] as const
@@ -62,18 +63,30 @@ const SHAPE_BY_KEY: Record<Exclude<ShapeKey, 'todas'>, BoxShape> = {
 /** Sentinel for «other box: marked volume» in the `caja` param. */
 const CUSTOM_BOX = 'custom'
 
+const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value))
+
+/**
+ * One `<count>x<size>` token. Null only when structurally unreadable: an
+ * out-of-range count is clamped rather than costing the reader the whole
+ * shared scenario.
+ */
+function parseCountSize(token: string, min: number, max: number) {
+  const xIdx = token.indexOf('x')
+  if (xIdx <= 0) return null
+  const rawCount = Number(token.slice(0, xIdx))
+  const size = token.slice(xIdx + 1)
+  if (!Number.isInteger(rawCount)) return null
+  if (!(BOX_CONDUCTOR_SIZES as readonly string[]).includes(size)) return null
+  return { count: clamp(rawCount, min, max), size: size as BoxConductorSize }
+}
+
 /** Rows travel in the URL as `<count>x<size>` joined by `_` (e.g. 3x12_2x14). */
 const conductorRowsParser = createParser<BoxConductorEntry[]>({
   parse: (value) => {
     const rows: BoxConductorEntry[] = []
     for (const token of value.split('_')) {
-      const xIdx = token.indexOf('x')
-      if (xIdx <= 0) return null
-      const count = Number(token.slice(0, xIdx))
-      const size = token.slice(xIdx + 1)
-      if (!Number.isInteger(count) || count < 1 || count > 60) return null
-      if (!(BOX_CONDUCTOR_SIZES as readonly string[]).includes(size)) return null
-      rows.push({ count, size: size as BoxConductorSize })
+      const parsed = parseCountSize(token, 1, 60)
+      if (parsed) rows.push(parsed)
     }
     return rows.length > 0 ? rows : null
   },
@@ -86,13 +99,8 @@ const yokeRowsParser = createParser<BoxDeviceYokeEntry[]>({
   parse: (value) => {
     const rows: BoxDeviceYokeEntry[] = []
     for (const token of value.split('_')) {
-      const xIdx = token.indexOf('x')
-      if (xIdx <= 0) return null
-      const count = Number(token.slice(0, xIdx))
-      const size = token.slice(xIdx + 1)
-      if (!Number.isInteger(count) || count < 1 || count > 10) return null
-      if (!(BOX_CONDUCTOR_SIZES as readonly string[]).includes(size)) return null
-      rows.push({ count, largestConductor: size as BoxConductorSize })
+      const parsed = parseCountSize(token, 1, 10)
+      if (parsed) rows.push({ count: parsed.count, largestConductor: parsed.size })
     }
     return rows
   },
@@ -104,15 +112,7 @@ const yokeRowsParser = createParser<BoxDeviceYokeEntry[]>({
 
 /** Single token `<count>x<size>` for the EGC group (e.g. 2x12). */
 const egcParser = createParser<{ count: number; size: BoxConductorSize }>({
-  parse: (value) => {
-    const xIdx = value.indexOf('x')
-    if (xIdx <= 0) return null
-    const count = Number(value.slice(0, xIdx))
-    const size = value.slice(xIdx + 1)
-    if (!Number.isInteger(count) || count < 0 || count > 20) return null
-    if (!(BOX_CONDUCTOR_SIZES as readonly string[]).includes(size)) return null
-    return { count, size: size as BoxConductorSize }
-  },
+  parse: (value) => parseCountSize(value, 0, 20),
   serialize: (v) => `${v.count}x${v.size}`,
   eq: (a, b) => a.count === b.count && a.size === b.size,
 })
@@ -256,16 +256,12 @@ export function CajasCalculator() {
                   <Label className="text-xs">
                     <Term id="volumenDeCaja">{m.cajas.customVolume}</Term> ({m.cajas.cm3})
                   </Label>
-                  <Input
-                    type="number"
+                  <NumberField
                     className="h-8 w-28 text-right tabular-nums"
                     min={1}
                     max={5000}
                     value={customVol}
-                    onChange={(e) => {
-                      const v = Number(e.target.value)
-                      if (v > 0) void setCustomVol(v)
-                    }}
+                    onChange={(v) => void setCustomVol(v)}
                   />
                 </div>
               ) : null}
@@ -277,17 +273,14 @@ export function CajasCalculator() {
             <p className="text-xs text-muted-foreground">{m.cajas.conductorsHint}</p>
             {rows.map((row, index) => (
               <div key={index} className="flex items-center gap-2">
-                <Input
-                  type="number"
+                <NumberField
                   className="h-8 w-16 text-right tabular-nums"
                   min={1}
                   max={60}
+                  integer
                   value={row.count}
                   aria-label={m.cajas.count}
-                  onChange={(e) => {
-                    const v = Number(e.target.value)
-                    if (Number.isInteger(v) && v >= 1 && v <= 60) updateRow(index, { count: v })
-                  }}
+                  onChange={(v) => updateRow(index, { count: v })}
                 />
                 <span className="text-xs text-muted-foreground">×</span>
                 <Select value={row.size} onValueChange={(v) => updateRow(index, { size: v as BoxConductorSize })}>
@@ -325,17 +318,14 @@ export function CajasCalculator() {
             </Label>
             {yokes.map((yoke, index) => (
               <div key={index} className="flex items-center gap-2">
-                <Input
-                  type="number"
+                <NumberField
                   className="h-8 w-16 text-right tabular-nums"
                   min={1}
                   max={10}
+                  integer
                   value={yoke.count}
                   aria-label={m.cajas.count}
-                  onChange={(e) => {
-                    const v = Number(e.target.value)
-                    if (Number.isInteger(v) && v >= 1 && v <= 10) updateYoke(index, { count: v })
-                  }}
+                  onChange={(v) => updateYoke(index, { count: v })}
                 />
                 <span className="text-xs text-muted-foreground">×</span>
                 <Select
@@ -372,17 +362,14 @@ export function CajasCalculator() {
           <div className="space-y-2">
             <Label className="text-xs">{m.cajas.egcTitle}</Label>
             <div className="flex items-center gap-2">
-              <Input
-                type="number"
+              <NumberField
                 className="h-8 w-16 text-right tabular-nums"
                 min={0}
                 max={20}
+                integer
                 value={egc.count}
                 aria-label={m.cajas.egcCount}
-                onChange={(e) => {
-                  const v = Number(e.target.value)
-                  if (Number.isInteger(v) && v >= 0 && v <= 20) void setEgc({ ...egc, count: v })
-                }}
+                onChange={(v) => void setEgc({ ...egc, count: v })}
               />
               <span className="text-xs text-muted-foreground">×</span>
               <Select
@@ -450,22 +437,19 @@ function CajasResults({ result, mode }: { result: BoxFillResult; mode: 'min' | '
 
   return (
     <>
-      {mode === 'ver' && !result.fits ? (
-        <Alert variant="destructive">
-          <TriangleAlert className="size-4" />
-          <AlertTitle>{m.cajas.fitsNo}</AlertTitle>
-          <AlertDescription>
-            <CitationChips keys={['nec2026.t314_16_b']} />
-          </AlertDescription>
-        </Alert>
-      ) : null}
-      <ResultsCard title={m.cajas.results}>
+      {/* Replaces the hand-rolled red «NO cumple» alert: boxFill now reports the
+          overflow as a deviation carrying its own prose and citations. */}
+      <DeviationsPanel deviations={result.deviations} />
+      <ResultsCard
+        title={m.cajas.results}
+        badge={isNonCompliant(result) ? <NonComplianceBadge /> : undefined}
+      >
         <ResultLine
           label={mode === 'min' ? m.cajas.minBox : m.cajas.checkedBox}
           value={boxName}
           detail={result.boxLabel ? `${fmtNumber(result.boxVolumeCm3)} ${m.cajas.cm3}` : undefined}
           citations={result.citations}
-          tone={mode === 'ver' && !result.fits ? 'destructive' : 'default'}
+          tone={result.fits ? 'default' : 'warning'}
         />
         <ResultLine
           label={m.cajas.requiredVolume}

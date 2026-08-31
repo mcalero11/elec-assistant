@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { BookOpen, Box, Cable, Cylinder, Earth, House, LayoutDashboard, Search, Zap } from 'lucide-react'
+import { BookOpen, Box, Cable, Cylinder, Earth, House, LayoutDashboard, Search, UtilityPole, Zap } from 'lucide-react'
 import {
   Sidebar,
   SidebarContent,
@@ -27,6 +27,7 @@ export function AppSidebar() {
     { href: '/calculadoras/calibre/', label: m.nav.calibre, icon: Cable },
     { href: '/calculadoras/tuberia/', label: m.nav.tuberia, icon: Cylinder },
     { href: '/calculadoras/tierra/', label: m.nav.tierra, icon: Earth },
+    { href: '/calculadoras/acometida/', label: m.nav.acometida, icon: UtilityPole },
     { href: '/calculadoras/cajas/', label: m.nav.cajas, icon: Box },
     { href: '/calculadoras/carga/', label: m.nav.carga, icon: House },
   ]

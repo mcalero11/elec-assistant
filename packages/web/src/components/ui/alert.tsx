@@ -11,6 +11,11 @@ const alertVariants = cva(
         default: "bg-card text-card-foreground",
         destructive:
           "bg-card text-destructive *:data-[slot=alert-description]:text-destructive/90 *:[svg]:text-current",
+        // Deliberately does NOT tint the description: a deviation body is several
+        // sentences (NEC prose plus local-practice context) and amber at that
+        // length is hard to read. Amber title and icon, neutral body.
+        warning:
+          "border-warning/35 bg-warning/10 text-warning dark:bg-warning/15 *:[svg]:text-current",
       },
     },
     defaultVariants: {
@@ -27,6 +32,7 @@ function Alert({
   return (
     <div
       data-slot="alert"
+      data-variant={variant ?? "default"}
       role="alert"
       className={cn(alertVariants({ variant }), className)}
       {...props}

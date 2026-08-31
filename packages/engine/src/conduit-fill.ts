@@ -12,6 +12,7 @@ import {
   EngineError,
   INSULATION_TEMP_RATING,
   type Assumption,
+  type Deviation,
   type Insulation,
   type WithProvenance,
 } from './types.js'
@@ -32,6 +33,21 @@ import {
  * Bare (uninsulated) grounding conductors are not expressible yet: Chapter 9 Table 8 in
  * this data set has no area column. Enter an insulated EGC (the regional norm) instead.
  */
+
+function deviationConduitFill(
+  actualPercent: number,
+  limitPercent: number,
+  tradeSize: TradeSize,
+): Deviation {
+  const got = actualPercent.toFixed(1)
+  return {
+    key: 'conduit-fill-exceeds',
+    en: `The conductors take up ${got}% of the ${tradeSize} in. conduit, over the ${limitPercent}% allowed. Pulling them like that damages the insulation and is outside the code.`,
+    es: `Los conductores ocupan ${got}% del tubo de ${tradeSize} pulg, arriba del ${limitPercent}% permitido. Jalar el cable así daña el aislamiento y queda fuera de norma.`,
+    citations: ['nec2026.ch9_t1'],
+    severity: 'off-code',
+  }
+}
 
 const ASSUME_JAM: Assumption = {
   key: 'jam-not-evaluated',
@@ -235,6 +251,15 @@ export function conduitFill(input: ConduitFillInput): ConduitFillResult {
     assumptions: usesPv
       ? [...typeAssumptions(input.conduitType), ASSUME_PV_DIMS]
       : typeAssumptions(input.conduitType),
+    deviations: fits
+      ? []
+      : [
+          deviationConduitFill(
+            (totalConductorArea / dims.totalAreaMm2) * 100,
+            fillPercentLimit,
+            input.tradeSize,
+          ),
+        ],
   }
 }
 
@@ -251,27 +276,37 @@ export function sizeConduit(input: SizeConduitInput): ConduitFillResult {
   const sizes = conduitDimensions.types[input.conduitType].sizes
   const minIndex = input.minTradeSize ? TRADE_SIZES.indexOf(input.minTradeSize) : 0
 
+  // Applied on both the fitting and the best-effort path, and without mutating a
+  // result that has already been handed back.
+  const withMinTradeSize = (result: ConduitFillResult): ConduitFillResult =>
+    input.minTradeSize
+      ? {
+          ...result,
+          assumptions: [...result.assumptions, minTradeSizeAssumption(input.minTradeSize)],
+        }
+      : result
+
+  let last: ConduitFillResult | undefined
   for (const [index, tradeSize] of TRADE_SIZES.entries()) {
     if (index < minIndex) continue
     if (!sizes[tradeSize]) continue
-    const result = conduitFill({
+    last = conduitFill({
       conduitType: input.conduitType,
       tradeSize,
       conductors: input.conductors,
       nipple: input.nipple,
     })
-    if (result.fits) {
-      if (input.minTradeSize) {
-        result.assumptions = [...result.assumptions, minTradeSizeAssumption(input.minTradeSize)]
-      }
-      return result
-    }
+    if (last.fits) return withMinTradeSize(last)
   }
 
-  const available = TRADE_SIZES.filter((s) => sizes[s])
-  const largest = available[available.length - 1]
-  throw new EngineError(
-    `No ${input.conduitType} trade size up to ${largest} in. fits these conductors (Chapter 9 Table 1)`,
-    `Ningún diámetro comercial de ${input.conduitType} hasta ${largest} pulg acepta estos conductores (Capítulo 9, Tabla 1)`,
-  )
+  if (!last) {
+    throw new EngineError(
+      `No ${input.conduitType} trade size at or above ${input.minTradeSize} is manufactured`,
+      `No se fabrica ningún diámetro comercial de ${input.conduitType} desde ${input.minTradeSize} pulg`,
+      'coverage',
+    )
+  }
+  // Nothing fits: the largest trade size this type is made in, carrying
+  // conduitFill's own over-fill deviation.
+  return withMinTradeSize(last)
 }

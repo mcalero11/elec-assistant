@@ -87,6 +87,10 @@ describe('monotonicity properties', () => {
   it('selected conductor always satisfies both load checks', () => {
     for (let loadA = 10; loadA <= 90; loadA += 5) {
       const result = minConductorForLoad({ loadA, material: 'copper', insulation: 'THHN' })
+      // Asserted explicitly: minConductorForLoad now returns a best-effort
+      // result when nothing satisfies, so "it returned" no longer implies this.
+      expect(result.satisfiesLoad).toBe(true)
+      expect(result.deviations).toEqual([])
       expect(result.deratedAmpacity).toBeGreaterThanOrEqual(loadA)
       expect(result.terminationAmpacity).toBeGreaterThanOrEqual(result.requiredTermination)
     }
@@ -126,12 +130,10 @@ describe('conduit fill properties', () => {
       for (const size of ['12', '10', '6', '1/0'] as const) {
         for (const count of [1, 2, 3, 5, 9]) {
           const conductors = [{ size, insulation: 'THHN' as const, count }]
-          let result
-          try {
-            result = sizeConduit({ conduitType, conductors })
-          } catch {
-            continue // set too large for this conduit type's range — covered by error tests
-          }
+          // sizeConduit no longer throws when nothing fits: it returns the
+          // largest trade size marked `fits: false`, so skip on the flag.
+          const result = sizeConduit({ conduitType, conductors })
+          if (!result.fits) continue // set too large for this type's range — covered by the size tests
           expect(result.fits).toBe(true)
           const chosenIndex = available.indexOf(result.tradeSize)
           if (chosenIndex > 0) {
@@ -258,12 +260,10 @@ describe('box fill properties', () => {
     for (const shape of [undefined, ...BOX_SHAPES]) {
       const candidates = standardBoxes.boxes.filter((b) => shape == null || b.shape === shape)
       for (const items of contents) {
-        let result
-        try {
-          result = sizeBox(shape ? { ...items, shape } : items)
-        } catch {
-          continue // contents too big for this shape group — covered by error tests
-        }
+        // sizeBox no longer throws when nothing fits: it returns the largest
+        // candidate marked `fits: false`, so skip on the flag.
+        const result = sizeBox(shape ? { ...items, shape } : items)
+        if (!result.fits) continue // too big for this shape group — covered by the size tests
         expect(result.fits).toBe(true)
         const chosenIndex = candidates.findIndex((b) => b.id === result.boxId)
         if (chosenIndex > 0) {
@@ -353,7 +353,7 @@ describe('residential load properties', () => {
       for (const method of [r.standard, r.optional]) {
         const sum = method.lines.reduce((acc, l) => acc + l.demandVa, 0)
         expect(method.totalDemandVa).toBeCloseTo(sum, 6)
-        expect(method.amps).toBeCloseTo(method.totalDemandVa / 240, 6)
+        expect(method.amps).toBeCloseTo(method.totalDemandVa / article220.nominalServiceVoltage, 6)
         const required = Math.max(method.amps, article220.minDwellingServiceA)
         expect(method.serviceA).toBeGreaterThanOrEqual(required)
         const index = standardBreakers.ratings.indexOf(method.serviceA)

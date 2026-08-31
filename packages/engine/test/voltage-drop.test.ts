@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
-  EngineError,
+  isNonCompliant,
   minSizeForVoltageDrop,
   voltageDrop,
   type MinSizeForVoltageDropInput,
@@ -29,15 +29,32 @@ describe('minSizeForVoltageDrop (golden)', () => {
     })
   }
 
-  it('throws when no size can meet the target', () => {
-    expect(() =>
-      minSizeForVoltageDrop({
-        currentA: 400,
-        lengthM: 2000,
-        material: 'copper',
-        systemVoltage: 120,
-        maxDropPercent: 1,
-      }),
-    ).toThrow(EngineError)
+  it('returns the largest size, marked, when no size can meet the target', () => {
+    const result = minSizeForVoltageDrop({
+      currentA: 400,
+      lengthM: 2000,
+      material: 'copper',
+      systemVoltage: 120,
+      maxDropPercent: 1,
+    })
+    // Best effort, not a refusal: the biggest wire we have, plus why it still misses.
+    expect(result.size).toBe('600')
+    expect(result.dropPercent).toBeGreaterThan(1)
+    const deviation = result.deviations.find((d) => d.key === 'voltage-drop-over-limit')
+    expect(deviation).toBeDefined()
+    expect(deviation?.citations).toContain('nec2026.in210_19_vd')
+    // The 3% guidance is an Informational Note — exceeding it is not «no cumple».
+    expect(deviation?.severity).toBe('recommendation')
+    expect(isNonCompliant(result)).toBe(false)
+  })
+
+  it('emits no deviation when the run is inside the limit', () => {
+    const result = minSizeForVoltageDrop({
+      currentA: 16,
+      lengthM: 30,
+      material: 'copper',
+      systemVoltage: 120,
+    })
+    expect(result.deviations).toEqual([])
   })
 })

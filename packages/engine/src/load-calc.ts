@@ -11,7 +11,9 @@ import {
   EngineError,
   mergeAssumptions,
   mergeCitations,
+  mergeDeviations,
   type Assumption,
+  type Deviation,
   type WithProvenance,
 } from './types.js'
 
@@ -37,8 +39,8 @@ import {
 
 const ASSUME_240V: Assumption = {
   key: 'load-240v-service',
-  en: 'Amps are computed at 240 V on a 120/240 V single-phase three-wire service — the residential standard in El Salvador.',
-  es: 'Los amperios se calculan a 240 V, con servicio monofásico de tres hilos (120/240 V) — el estándar residencial en El Salvador.',
+  en: `Amps are computed at ${article220.nominalServiceVoltage} V on a single-phase three-wire service. The service is nominally 120/240 V, but it measures nearer ${article220.nominalServiceVoltage} V at the panel here, and the lower figure is the conservative one — it reports more amps, not fewer.`,
+  es: `Los amperios se calculan a ${article220.nominalServiceVoltage} V, con servicio monofásico de tres hilos. El servicio es nominalmente de 120/240 V, pero en el tablero se mide más cerca de ${article220.nominalServiceVoltage} V, y el número más bajo es el conservador: reporta más amperios, no menos.`,
 }
 
 const ASSUME_TYPICAL_WATTAGES: Assumption = {
@@ -214,21 +216,41 @@ function tieredLightingDemand(connectedVa: number): number {
   return demand
 }
 
+/**
+ * The 230.79(C) 100 A floor here is a floor on the RESULT, not a gate on the
+ * input: a 100 A service on a 20 A calculated load is perfectly compliant, and
+ * the true figure stays visible on `amps`. It therefore emits no deviation —
+ * please don't "fix" that.
+ */
 function serviceFor(totalDemandVa: number): {
   amps: number
   serviceA: number
   flooredTo100: boolean
+  deviations: Deviation[]
 } {
-  const amps = totalDemandVa / 240
+  const amps = totalDemandVa / article220.nominalServiceVoltage
   const required = Math.max(amps, article220.minDwellingServiceA)
-  const rating = standardBreakers.ratings.find((r) => r >= required)
+  const ratings = standardBreakers.ratings
+  const rating = ratings.find((r) => r >= required)
+  const largest = ratings[ratings.length - 1]!
+  const flooredTo100 = amps < article220.minDwellingServiceA
   if (rating == null) {
-    throw new EngineError(
-      `Calculated service of ${n(amps)} A exceeds the largest standard rating`,
-      `La acometida calculada de ${n(amps)} A excede el valor estándar más grande`,
-    )
+    return {
+      amps,
+      serviceA: largest,
+      flooredTo100,
+      deviations: [
+        {
+          key: 'service-above-standard-ratings',
+          en: `The calculated service of ${n(amps)} A is above the largest standard rating (${largest} A). ${largest} A is shown; at that scale the job needs engineering design.`,
+          es: `La acometida calculada de ${n(amps)} A supera el valor estándar más grande (${largest} A). Se muestra ${largest} A; a esa escala el trabajo requiere diseño de ingeniería.`,
+          citations: ['nec2026.s240_6_a'],
+          severity: 'off-code',
+        },
+      ],
+    }
   }
-  return { amps, serviceA: rating, flooredTo100: amps < article220.minDwellingServiceA }
+  return { amps, serviceA: rating, flooredTo100, deviations: [] }
 }
 
 interface PoolBreakdown {
@@ -274,16 +296,18 @@ function buildStandard(
     const maxRow = rangeDemand.columnC[rangeDemand.columnC.length - 1]
     if (maxRow == null || rangeCount > maxRow.appliances) {
       throw new EngineError(
-        `More than ${maxRow?.appliances} cooking appliances exceeds the transcribed Table 120.55 Column C range`,
-        `Más de ${maxRow?.appliances} aparatos de cocción excede el rango transcrito de la Columna C de la Tabla 120.55`,
+        `More than ${maxRow?.appliances} cooking appliances is outside the Table 120.55 Column C rows transcribed into this app`,
+        `Más de ${maxRow?.appliances} aparatos de cocción queda fuera de las filas de la Columna C de la Tabla 120.55 que tiene cargadas la app. No es que incumpla: falta el dato.`,
+        'coverage',
       )
     }
     const connected = sumVa(devices, 'range')
     const maxUnitKw = Math.max(...rangeDevices.map((d) => d.va)) / 1000
     if (maxUnitKw > rangeDemand.note1MaxKw) {
       throw new EngineError(
-        `Ranges over ${rangeDemand.note1MaxKw} kW are outside Table 120.55 Note 1`,
-        `Estufas de más de ${rangeDemand.note1MaxKw} kW quedan fuera de la Nota 1 de la Tabla 120.55`,
+        `Ranges over ${rangeDemand.note1MaxKw} kW are outside the Table 120.55 Note 1 range transcribed into this app`,
+        `Estufas de más de ${rangeDemand.note1MaxKw} kW quedan fuera del rango de la Nota 1 de la Tabla 120.55 que tiene cargado la app. No es que incumpla: falta el dato.`,
+        'coverage',
       )
     }
     const baseKw = rangeDemand.columnC.find((r) => r.appliances === rangeCount)!.demandKw
@@ -322,8 +346,9 @@ function buildStandard(
     if (!factorRow) {
       const last = article220.dryerDemandFactors[article220.dryerDemandFactors.length - 1]
       throw new EngineError(
-        `More than ${last?.maxCount} dryers needs the full 120.54 count table (not transcribed)`,
-        `Más de ${last?.maxCount} secadoras requiere la tabla completa de conteo de 120.54 (no transcrita)`,
+        `More than ${last?.maxCount} dryers needs the full 120.54 count table, which is not transcribed into this app`,
+        `Más de ${last?.maxCount} secadoras requiere la tabla completa de conteo de 120.54, que la app todavía no tiene cargada. No es que incumpla: falta el dato.`,
+        'coverage',
       )
     }
     const connected = sumVa(devices, 'dryer')
@@ -452,7 +477,7 @@ function buildStandard(
 
   const totalConnectedVa = lines.reduce((sum, l) => sum + l.connectedVa, 0)
   const totalDemandVa = lines.reduce((sum, l) => sum + l.demandVa, 0)
-  const { amps, serviceA, flooredTo100 } = serviceFor(totalDemandVa)
+  const { amps, serviceA, flooredTo100, deviations: serviceDeviations } = serviceFor(totalDemandVa)
 
   const assumptions: Assumption[] = [ASSUME_240V]
   if (rangeCount > 0) assumptions.push(ASSUME_RANGE_COLUMN_C)
@@ -479,6 +504,7 @@ function buildStandard(
       ['nec2026.s240_6_a', 'nec2026.s230_79'],
     ),
     assumptions,
+    deviations: serviceDeviations,
   }
 }
 
@@ -546,7 +572,7 @@ function buildOptional(pool: PoolBreakdown, devices: ResolvedLoadDevice[]): Load
 
   const totalConnectedVa = lines.reduce((sum, l) => sum + l.connectedVa, 0)
   const totalDemandVa = lines.reduce((sum, l) => sum + l.demandVa, 0)
-  const { amps, serviceA, flooredTo100 } = serviceFor(totalDemandVa)
+  const { amps, serviceA, flooredTo100, deviations: serviceDeviations } = serviceFor(totalDemandVa)
 
   const assumptions: Assumption[] = [ASSUME_240V, ASSUME_OPTIONAL_APPLICABILITY]
   if (heatVa > 0) assumptions.push(ASSUME_HEAT_CENTRAL_65)
@@ -573,6 +599,7 @@ function buildOptional(pool: PoolBreakdown, devices: ResolvedLoadDevice[]): Load
       ['nec2026.s240_6_a', 'nec2026.s230_79'],
     ),
     assumptions,
+    deviations: serviceDeviations,
   }
 }
 
@@ -584,11 +611,24 @@ export function residentialLoad(input: ResidentialLoadInput): ResidentialLoadRes
     )
   }
   const sa = input.smallApplianceCircuits ?? article220.minSmallApplianceCircuits
-  if (!Number.isInteger(sa) || sa < article220.minSmallApplianceCircuits) {
+  // Split deliberately: a fractional or negative count is malformed input, but a
+  // count BELOW the code minimum is a real house we should still calculate for.
+  // Houses here are routinely wired with one kitchen circuit, or none.
+  if (!Number.isInteger(sa) || sa < 0) {
     throw new EngineError(
-      `120.52(A) requires at least ${article220.minSmallApplianceCircuits} small-appliance circuits (got ${sa})`,
-      `120.52(A) exige al menos ${article220.minSmallApplianceCircuits} circuitos de pequeños artefactos (se recibió ${sa})`,
+      `Small-appliance circuit count must be a whole number ≥ 0 (got ${sa})`,
+      `La cantidad de circuitos de pequeños artefactos debe ser un número entero ≥ 0 (se recibió ${sa})`,
     )
+  }
+  const inputDeviations: Deviation[] = []
+  if (sa < article220.minSmallApplianceCircuits) {
+    inputDeviations.push({
+      key: 'small-appliance-below-minimum',
+      en: `Calculated with ${sa} small-appliance circuit${sa === 1 ? '' : 's'}; the NEC requires at least ${article220.minSmallApplianceCircuits}. The figures reflect what is installed, but the installation does not comply.`,
+      es: `Se calculó con ${sa} circuito${sa === 1 ? '' : 's'} de pequeños artefactos; el NEC exige al menos ${article220.minSmallApplianceCircuits}. Los números reflejan lo que hay instalado, pero la instalación no cumple.`,
+      citations: ['nec2026.s220_52', 'nec2026.s210_11'],
+      severity: 'off-code',
+    })
   }
   const laundry = input.laundryCircuits ?? 1
   if (!Number.isInteger(laundry) || laundry < 0) {
@@ -623,5 +663,6 @@ export function residentialLoad(input: ResidentialLoadInput): ResidentialLoadRes
     devices,
     citations: mergeCitations(standard.citations, optional.citations),
     assumptions: mergeAssumptions(standard.assumptions, optional.assumptions, extraAssumptions),
+    deviations: mergeDeviations(standard.deviations, optional.deviations, inputDeviations),
   }
 }

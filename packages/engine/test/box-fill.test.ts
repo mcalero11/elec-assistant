@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   EngineError,
+  isNonCompliant,
   boxFill,
   sizeBox,
   type BoxFillInput,
@@ -158,7 +159,13 @@ describe('boxFill (errors)', () => {
     )
   })
 
-  it('sizeBox throws when nothing fits (10× #6 = 819 > 689 max)', () => {
-    expectBilingualError(() => sizeBox({ conductors: [{ size: '6', count: 10 }] }))
+  it('sizeBox returns the largest box, marked, when nothing fits (10× #6 = 819 > 689 max)', () => {
+    const result = sizeBox({ conductors: [{ size: '6', count: 10 }] })
+    // Best effort: the biggest box in Table 314.16(A), plus why it is still short.
+    expect(result.fits).toBe(false)
+    expect(result.boxVolumeCm3).toBe(689)
+    const deviation = result.deviations.find((d) => d.key === 'box-fill-exceeds')
+    expect(deviation?.severity).toBe('off-code')
+    expect(isNonCompliant(result)).toBe(true)
   })
 })

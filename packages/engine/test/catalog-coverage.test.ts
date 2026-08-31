@@ -26,6 +26,10 @@ const TEMPLATES: readonly JobTemplate[] = allTemplates
  * these gains a price, forcing this list to shrink honestly.
  */
 const KNOWN_UNPRICED = new Set([
+  // Added 2026-08-31; price research pending (PRICES.md procedure).
+  'puntera-cable',
+  'breaker-2p-35',
+  'breaker-2p-45',
   'breaker-2p-25',
   'lfnc-connector-12',
   // 2026-08-28 run: Vidrí now serves a Cloudflare challenge to non-browser

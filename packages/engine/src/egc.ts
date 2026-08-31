@@ -79,8 +79,9 @@ export function egcSize(input: EgcInput): EgcResult {
   if (!row) {
     const last = egcTable.rows[egcTable.rows.length - 1]
     throw new EngineError(
-      `No EGC entry for an overcurrent device over ${last?.maxOcpdA} A (transcribed Table 250.122 range)`,
-      `No hay entrada de conductor de puesta a tierra para un dispositivo de sobrecorriente mayor a ${last?.maxOcpdA} A (rango transcrito de la Tabla 250.122)`,
+      `No EGC entry for an overcurrent device over ${last?.maxOcpdA} A — outside the Table 250.122 rows transcribed into this app`,
+      `No hay entrada de tierra para un dispositivo de sobrecorriente mayor a ${last?.maxOcpdA} A: queda fuera de las filas de la Tabla 250.122 que tiene cargadas la app.`,
+      'coverage',
     )
   }
   const tableSize = input.material === 'copper' ? row.copper : row.aluminum
@@ -94,6 +95,7 @@ export function egcSize(input: EgcInput): EgcResult {
       material: input.material,
       citations: ['nec2026.t250_122'],
       assumptions: [ASSUME_NOT_UPSIZED],
+      deviations: [],
     }
   }
 
@@ -113,6 +115,7 @@ export function egcSize(input: EgcInput): EgcResult {
       throw new EngineError(
         `No conductor size up to 600 kcmil satisfies the 250.122(B) increase`,
         `Ningún calibre hasta 600 kcmil satisface el aumento de 250.122(B)`,
+        'coverage',
       )
     }
     // 250.122(A): never larger than the circuit conductors; never below the table value.
@@ -133,5 +136,6 @@ export function egcSize(input: EgcInput): EgcResult {
     material: input.material,
     citations: upsized ? ['nec2026.t250_122', 'nec2026.s250_122_b'] : ['nec2026.t250_122'],
     assumptions: upsized ? [ASSUME_UPSIZED] : [],
+    deviations: [],
   }
 }

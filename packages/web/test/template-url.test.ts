@@ -19,7 +19,7 @@ describe('urlStateToRunInput (mini-split back-compat)', () => {
       cd: 'emt',
       bd: 'dobladora',
     })
-    expect(input.answers['device']).toEqual({ id: 'ac-36k', mcaA: 24, mocpA: 40 })
+    expect(input.answers['device']).toEqual({ id: 'ac-36k', mcaA: 24, mocpA: 40, typicalW: 3400 })
     expect(input.answers['runLengthM']).toBe(15)
     expect(input.answers['location']).toBe('exterior')
     expect(input.answers['ambientC']).toBeUndefined() // untouched → template default (40 outdoors)
@@ -30,12 +30,12 @@ describe('urlStateToRunInput (mini-split back-compat)', () => {
 
   it('manual nameplate entry: d=manual + mca/mocp keys', () => {
     const input = urlStateToRunInput(acMinisplitTemplate, { d: 'manual', mca: '22', mocp: '35' })
-    expect(input.answers['device']).toEqual({ mcaA: 22, mocpA: 35 })
+    expect(input.answers['device']).toEqual({ mcaA: 22, mocpA: 35, typicalW: 1150 })
   })
 
   it('manual entry falls back to field defaults when keys are absent', () => {
     const input = urlStateToRunInput(acMinisplitTemplate, { d: 'manual' })
-    expect(input.answers['device']).toEqual({ mcaA: 10, mocpA: 15 })
+    expect(input.answers['device']).toEqual({ mcaA: 10, mocpA: 15, typicalW: 1150 })
   })
 
   it('an unknown preset id falls back to the template default preset', () => {

@@ -95,6 +95,24 @@
     "reasonEn": "100 A dwelling minimum",
     "reasonEs": "acometida mínima de 100 A"
   },
+  "nec2026.s230_70": {
+    "en": "NEC 2026, 230.70 — a service disconnecting means is required",
+    "es": "NEC 2026, 230.70 — se requiere un medio de desconexión de la acometida",
+    "reasonEn": "service disconnect required",
+    "reasonEs": "desconexión de acometida requerida"
+  },
+  "nec2026.s230_71": {
+    "en": "NEC 2026, 230.71 — maximum number of service disconnects",
+    "es": "NEC 2026, 230.71 — cantidad máxima de desconectadores de acometida",
+    "reasonEn": "how many main disconnects",
+    "reasonEs": "cuántos desconectadores principales"
+  },
+  "nec2026.s408_36": {
+    "en": "NEC 2026, 408.36 — panelboards shall be protected by an overcurrent device",
+    "es": "NEC 2026, 408.36 — los tableros deben protegerse con un dispositivo de sobrecorriente",
+    "reasonEn": "panel needs its own protection",
+    "reasonEs": "el tablero necesita su propia protección"
+  },
   "nec2026.s215_2": {
     "en": "NEC 2026, 215.2 — feeder conductor minimum ampacity",
     "es": "NEC 2026, 215.2 — ampacidad mínima de los conductores del alimentador",
@@ -118,6 +136,24 @@
     "es": "NEC 2026, Tabla 300.5 — profundidad mínima de enterrado para canalizaciones subterráneas",
     "reasonEn": "burial depth",
     "reasonEs": "profundidad de zanja"
+  },
+  "nec2026.s110_3_b": {
+    "en": "NEC 2026, 110.3(B) — listed equipment shall be installed per the manufacturer's instructions",
+    "es": "NEC 2026, 110.3(B) — el equipo listado se instala según las instrucciones del fabricante",
+    "reasonEn": "the manual is enforceable",
+    "reasonEs": "el manual del fabricante manda"
+  },
+  "nec2026.s240_4": {
+    "en": "NEC 2026, 240.4 — conductors shall be protected at their ampacity",
+    "es": "NEC 2026, 240.4 — los conductores deben protegerse según su ampacidad",
+    "reasonEn": "wire protected at its ampacity",
+    "reasonEs": "protección según la ampacidad del cable"
+  },
+  "nec2026.s240_4_g": {
+    "en": "NEC 2026, 240.4(G) — A/C and refrigeration conductors are protected per Article 440, not 240.4(B)/(D)",
+    "es": "NEC 2026, 240.4(G) — los conductores de aire acondicionado y refrigeración se protegen según el Artículo 440, no según 240.4(B)/(D)",
+    "reasonEn": "A/C follows Article 440",
+    "reasonEs": "el aire acondicionado se rige por el Artículo 440"
   },
   "nec2026.s240_4_b": {
     "en": "NEC 2026, 240.4(B) — next-higher standard rating permitted",

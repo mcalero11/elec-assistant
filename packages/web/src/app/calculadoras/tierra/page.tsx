@@ -4,7 +4,7 @@ import { TierraCalculator } from '@/components/calculators/tierra-calculator'
 import { getMessages } from '@/lib/i18n'
 
 export const metadata: Metadata = {
-  title: 'Puesta a tierra',
+  title: 'Tierra de equipos (EGC)',
   description:
     'Conductor de puesta a tierra de equipos según la Tabla 250.122 del NEC, con el aumento proporcional de 250.122(B) para conductores agrandados.',
 }

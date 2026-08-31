@@ -9,7 +9,7 @@ import {
 } from 'nuqs'
 import { TriangleAlert } from 'lucide-react'
 import { CONDUCTOR_SIZES, type ConductorSize } from '@nec-assistant/data'
-import { EngineError, egcSize, type EgcResult } from '@nec-assistant/engine'
+import { EngineError, egcSize, isNonCompliant, type EgcResult } from '@nec-assistant/engine'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -27,6 +27,7 @@ import { Disclaimer } from '@/components/disclaimer'
 import { Term } from '@/components/term'
 import { getMessages } from '@/lib/i18n'
 import { AssumptionsPanel } from './assumptions-panel'
+import { DeviationsPanel, NonComplianceBadge } from './deviations-panel'
 import { InputSlider } from './input-slider'
 import { ResultLine, ResultsCard } from './results-card'
 
@@ -147,11 +148,15 @@ export function TierraCalculator() {
           </Alert>
         ) : (
           <>
+            <DeviationsPanel deviations={computation.result.deviations} />
             <ResultsCard
               title={m.tierra.egc}
               badge={
-                computation.result.upsized ? (
-                  <Badge>{m.tierra.upsizedBadge}</Badge>
+                isNonCompliant(computation.result) || computation.result.upsized ? (
+                  <>
+                    {isNonCompliant(computation.result) ? <NonComplianceBadge /> : null}
+                    {computation.result.upsized ? <Badge>{m.tierra.upsizedBadge}</Badge> : null}
+                  </>
                 ) : undefined
               }
             >

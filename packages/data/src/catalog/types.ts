@@ -23,6 +23,16 @@ export interface DevicePresetAc {
   /** Typical nameplate values — always verify against the actual unit's plate. */
   typicalMcaA: number
   typicalMocpA: number
+  /**
+   * Typical input power in watts while cooling. Locals spec these units in
+   * watts, so this is the number people ask for — but it is NOT what conductors
+   * are sized from (that is the MCA). Provenance is tracked separately from
+   * MCA/MOCP: absent `typicalWVerifiedAt` ⇒ listed in KNOWN_UNVERIFIED_W and
+   * shown as «por verificar».
+   */
+  typicalW: number
+  typicalWVerifiedAt?: string
+  typicalWSource?: string
   label: { es: string; en: string }
   synonyms: string[]
   /** ISO date ('YYYY-MM-DD') the typical values were last verified against a
@@ -129,6 +139,16 @@ export interface TemplateAssumption {
   citations?: CitationKey[]
 }
 
+/**
+ * How far outside the code a departure sits. Only 'off-code' marks a result
+ * «no cumple NEC»: 'recommendation' covers advice the NEC itself does not
+ * mandate (Informational Notes), and 'conditional' covers mandatory rules that
+ * bite only if a fact the engine cannot know holds. Lives here rather than in
+ * the engine because templates declare severities and data cannot import the
+ * engine.
+ */
+export type DeviationSeverity = 'off-code' | 'conditional' | 'recommendation'
+
 /** Manual-entry field of a preset question (nameplate entry when no preset fits). */
 export interface PresetManualField {
   id: string
@@ -216,6 +236,14 @@ export interface TemplateEngineCall {
   /** Whitelisted registry key in the engine interpreter (see CALL_REGISTRY there). */
   fn: string
   input: Record<string, unknown>
+  /**
+   * Marks this call as a hypothesis test rather than a component choice: the
+   * template is asking «would the typical part do?», and phrases the answer
+   * itself in a `warnings` entry. Its deviations are therefore NOT promoted to
+   * the run — the install is not off-code, the assumed part just doesn't fit.
+   * Citations and assumptions still merge; only deviations are held back.
+   */
+  probe?: boolean
 }
 
 export type TemplateDerived =
@@ -288,6 +316,10 @@ export interface TemplateWarning {
   /** A single condition, or an array (all must hold — AND, like BomRule.when). */
   when: Condition | Condition[]
   text: TemplateLabel
+  /** Present ⇒ this warning is also a compliance deviation of this severity. */
+  severity?: DeviationSeverity
+  /** Article chips, so numbers stop being hand-typed into `text`. */
+  citations?: CitationKey[]
 }
 
 export interface JobTemplate {

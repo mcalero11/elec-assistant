@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { CircleHelp } from 'lucide-react'
 import { glossary, type GlossaryEntry, type GlossaryId } from '@nec-assistant/data'
 import { CitationChips } from '@/components/calculators/citation-chips'
@@ -30,8 +31,12 @@ export function Term({
 }) {
   // Widen from the per-entry literal type so optional fields are accessible.
   const entry: GlossaryEntry = glossary[id]
+  // Controlled so the text trigger can preventDefault: inside a <label
+  // htmlFor>, a click's default action forwards focus to the labeled input,
+  // and Radix then dismisses the popover as an outside interaction.
+  const [open, setOpen] = useState(false)
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       {icon ? (
         <>
           {children}
@@ -48,10 +53,15 @@ export function Term({
           <span
             role="button"
             tabIndex={0}
+            onClick={(e) => {
+              // preventDefault also mutes Radix's own toggle, so toggle by hand.
+              e.preventDefault()
+              setOpen((o) => !o)
+            }}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault()
-                e.currentTarget.click()
+                setOpen((o) => !o)
               }
             }}
             className="cursor-help underline decoration-dotted decoration-muted-foreground/60 underline-offset-4"

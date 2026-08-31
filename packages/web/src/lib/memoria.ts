@@ -1,10 +1,12 @@
 import {
   NEC_EDITION,
+  localPracticeNote,
   presetCatalogs,
   type CitationKey,
   type JobTemplate,
 } from '@nec-assistant/data'
 import type {
+  Deviation,
   ResidentialLoadResult,
   ResolvedTemplateState,
   TemplateCallResult,
@@ -34,6 +36,8 @@ export interface MemoriaRow {
 
 export interface MemoriaItem {
   text: string
+  /** Small print under the item — currently the local-practice context on a deviation. */
+  note?: string
   citations: readonly CitationKey[]
 }
 
@@ -51,7 +55,7 @@ export interface MemoriaBomRow {
 
 export type MemoriaBlock =
   | { kind: 'keyValue'; title: string; rows: MemoriaRow[] }
-  | { kind: 'list'; title: string; items: MemoriaItem[]; tone?: 'warning' }
+  | { kind: 'list'; title: string; items: MemoriaItem[]; tone?: 'warning' | 'deviation' }
   | {
       kind: 'bom'
       title: string
@@ -83,6 +87,44 @@ export interface MemoriaModel {
   blocks: MemoriaBlock[]
   citations: CitationIndex
   disclaimer: string
+  /**
+   * Off-code run — the document gets a prominent stamp under the header. A bare
+   * boolean on purpose: it carries no citations of its own, so the «appendix
+   * covers exactly the row citations» invariant keeps holding.
+   */
+  nonCompliant?: boolean
+}
+
+/**
+ * The «Desviaciones del NEC» block. Deliberately reuses `kind: 'list'` rather
+ * than adding a fourth block kind, which would change the exhaustive narrowing
+ * in the citation walkers (and in the test helper that mirrors them).
+ */
+function deviationBlocks(deviations: readonly Deviation[], m: Messages): MemoriaBlock[] {
+  if (deviations.length === 0) return []
+  return [
+    {
+      kind: 'list',
+      title: m.memoria.deviationsTitle,
+      tone: 'deviation',
+      items: deviations.map((d) => {
+        const local = localPracticeNote(d.key)
+        return {
+          text: d.es,
+          citations: d.citations ?? [],
+          // Context, not an excuse: «the NEC asks for X» alone reads as an
+          // accusation in a document handed to a client.
+          ...(local
+            ? {
+                note: `${m.common.localPractice}: ${local.es}${
+                  local.source ? ` (${local.source.es})` : ''
+                }`,
+              }
+            : {}),
+        }
+      }),
+    },
+  ]
 }
 
 /* ------------------------------- citations ------------------------------- */
@@ -383,6 +425,9 @@ export function buildJobMemoria(args: JobMemoriaArgs): MemoriaModel {
 
   const blocks: MemoriaBlock[] = [
     { kind: 'keyValue', title: m.memoria.sectionInputs, rows: answerRows(template, runInput, state, m) },
+    // Straight after the inputs: the reader must know the document describes an
+    // off-code install before reading a single calculated number from it.
+    ...deviationBlocks(result.deviations, m),
     { kind: 'keyValue', title: m.memoria.sectionParameters, rows: parameterRows(template, result) },
     ...callDetailBlocks(result.calls, m),
     ...(result.warnings.length > 0
@@ -390,7 +435,9 @@ export function buildJobMemoria(args: JobMemoriaArgs): MemoriaModel {
           {
             kind: 'list',
             title: m.jobs.warningsTitle,
-            items: result.warnings.map((w) => ({ text: w.text.es, citations: [] })),
+            // Now carried by ResolvedWarning, so a warning's articles reach the
+            // footnote appendix instead of being hand-typed into the prose.
+            items: result.warnings.map((w) => ({ text: w.text.es, citations: w.citations })),
             tone: 'warning',
           } satisfies MemoriaBlock,
         ]
@@ -414,16 +461,27 @@ export function buildJobMemoria(args: JobMemoriaArgs): MemoriaModel {
     blocks,
     citations: collectCitations(blockCitationGroups(blocks)),
     disclaimer: m.common.disclaimer,
+    nonCompliant: result.deviations.some((d) => d.severity === 'off-code'),
   }
 }
 
 /* ----------------------------- carga memoria ----------------------------- */
+
+/** What the reader most needs: does the conductor already installed carry the load? */
+export interface MemoriaServiceCheck {
+  size: string
+  materialLabel: string
+  capacityA: number
+  headroomA: number
+  verdict: 'carries' | 'tight' | 'short'
+}
 
 export interface CargaMemoriaArgs extends ProjectInfo {
   areaM2: number
   smallApplianceCircuits: number
   laundryCircuits: number
   result: ResidentialLoadResult
+  serviceCheck?: MemoriaServiceCheck
   today: Date
   m: Messages
 }
@@ -472,6 +530,7 @@ function methodBlock(
 
 export function buildCargaMemoria(args: CargaMemoriaArgs): MemoriaModel {
   const { result, m, today } = args
+  const floorNote = localPracticeNote('service-100a-floor')
 
   const blocks: MemoriaBlock[] = [
     {
@@ -487,6 +546,9 @@ export function buildCargaMemoria(args: CargaMemoriaArgs): MemoriaModel {
         { label: m.carga.laundry, value: fmtNumber(args.laundryCircuits), citations: [] },
       ],
     },
+    // The load calculator has no `warnings` channel, so this is the block the
+    // printed memoria has been missing entirely.
+    ...deviationBlocks(result.deviations, m),
     {
       kind: 'keyValue',
       title: m.memoria.deviceListTitle,
@@ -504,6 +566,11 @@ export function buildCargaMemoria(args: CargaMemoriaArgs): MemoriaModel {
       title: m.memoria.resultTitle,
       rows: [
         {
+          label: m.carga.calculatedCurrent,
+          value: `${fmtNumber(result[result.governingMethod].amps)} A`,
+          citations: [],
+        },
+        {
           label: m.carga.governsTitle,
           value:
             result.governingMethod === 'standard'
@@ -512,9 +579,26 @@ export function buildCargaMemoria(args: CargaMemoriaArgs): MemoriaModel {
           note: m.carga.governsDetail,
           citations: [],
         },
+        ...(args.serviceCheck
+          ? [
+              {
+                label: `${m.carga.yourService} · ${args.serviceCheck.size} AWG/kcmil ${args.serviceCheck.materialLabel}`,
+                value: `${fmtNumber(args.serviceCheck.capacityA)} A`,
+                note:
+                  args.serviceCheck.verdict === 'short'
+                    ? `${m.carga.verdictShort}: ${m.carga.verdictMissing} ${fmtNumber(Math.abs(args.serviceCheck.headroomA))} A`
+                    : `${fmtNumber(args.serviceCheck.headroomA)} A ${m.carga.verdictHeadroom}`,
+                citations: ['nec2026.t310_16', 'nec2026.s110_14_c'] as const,
+              },
+            ]
+          : []),
         {
           label: m.carga.suggestedService,
           value: `${fmtNumber(result.minServiceA)} A`,
+          // The local 6 AWG reality travels with the number into the document:
+          // a memoria that states the 100 A minimum without it reads as an
+          // accusation to a client whose service is exactly that.
+          ...(floorNote ? { note: `${m.common.localPractice}: ${floorNote.es}` } : {}),
           citations: result.citations,
         },
       ],
@@ -537,5 +621,6 @@ export function buildCargaMemoria(args: CargaMemoriaArgs): MemoriaModel {
     blocks,
     citations: collectCitations(blockCitationGroups(blocks)),
     disclaimer: m.common.disclaimer,
+    nonCompliant: result.deviations.some((d) => d.severity === 'off-code'),
   }
 }

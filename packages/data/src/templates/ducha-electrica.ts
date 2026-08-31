@@ -495,9 +495,11 @@ export const duchaElectricaTemplate: JobTemplate = {
     {
       id: 'gfci-estandar',
       when: { ref: 'options.proteccion', eq: 'estandar' },
+      severity: 'off-code',
+      citations: ['nec2026.s210_8', 'nec2026.s422_5'],
       text: {
-        es: 'El NEC exige protección GFCI para duchas y calentadores en zona de baño (210.8, 422.5). Con térmico estándar la instalación queda fuera de norma — verifique con electricista autorizado.',
-        en: 'The NEC requires GFCI protection for showers and heaters in bathroom areas (210.8, 422.5). A standard breaker leaves the install out of code — verify with a licensed electrician.',
+        es: 'El NEC exige protección GFCI para duchas y calentadores en zona de baño. Con térmico estándar la instalación queda fuera de norma — verifique con electricista autorizado.',
+        en: 'The NEC requires GFCI protection for showers and heaters in bathroom areas. A standard breaker leaves the install out of code — verify with a licensed electrician.',
       },
     },
     {

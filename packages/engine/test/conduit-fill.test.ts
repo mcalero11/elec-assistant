@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   EngineError,
+  isNonCompliant,
   conduitFill,
   sizeConduit,
   type ConduitFillInput,
@@ -187,16 +188,18 @@ describe('sizeConduit (golden)', () => {
     expect(result.assumptions.some((a) => a.key === 'min-trade-size')).toBe(true)
   })
 
-  it('throws a bilingual EngineError when nothing fits', () => {
-    try {
-      sizeConduit({
-        conduitType: 'LFNC-B',
-        conductors: [{ size: '600', insulation: 'THWN-2', count: 40 }],
-      })
-      expect.unreachable('should have thrown')
-    } catch (e) {
-      expect(e).toBeInstanceOf(EngineError)
-      expect((e as EngineError).es.length).toBeGreaterThan(0)
-    }
+  it('returns the largest trade size, marked, when nothing fits', () => {
+    const result = sizeConduit({
+      conduitType: 'LFNC-B',
+      conductors: [{ size: '600', insulation: 'THWN-2', count: 40 }],
+    })
+    // LFNC-B is only made up to 2 in. — say so with a number, don't refuse.
+    expect(result.tradeSize).toBe('2')
+    expect(result.fits).toBe(false)
+    const deviation = result.deviations.find((d) => d.key === 'conduit-fill-exceeds')
+    expect(deviation?.severity).toBe('off-code')
+    expect(deviation?.es.length).toBeGreaterThan(0)
+    expect(deviation?.en.length).toBeGreaterThan(0)
+    expect(isNonCompliant(result)).toBe(true)
   })
 })

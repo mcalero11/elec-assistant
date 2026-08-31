@@ -249,6 +249,10 @@ export const circuitoRamalTemplate: JobTemplate = {
       // large 100×54 device box; luminaires the 100×38 octagonal.
       id: 'boxfill',
       fn: 'boxFill',
+      // A probe: this asks whether the typical device box would do, and the
+      // 'box-fill' warning below phrases the answer («use a square box with a
+      // mud ring»). Using a bigger box is the fix, so it is not a code failure.
+      probe: true,
       input: {
         boxId: {
           $cond: { if: { ref: 'answers.circuitKind', eq: 'tomas' }, then: 'dev-100x54x54', else: 'oct-100x38' },
@@ -557,9 +561,13 @@ export const circuitoRamalTemplate: JobTemplate = {
         { ref: 'answers.circuitKind', eq: 'tomas' },
         { ref: 'options.proteccion', eq: 'estandar' },
       ],
+      // 'conditional', not 'off-code': whether GFCI is required genuinely depends
+      // on where the receptacles land, which the template cannot know.
+      severity: 'conditional',
+      citations: ['nec2026.s210_8'],
       text: {
-        es: 'Según el lugar de las tomas (cocina, baño, exterior, lavandería, cochera), el NEC exige protección GFCI (210.8) — verifique con electricista autorizado.',
-        en: 'Depending on receptacle location (kitchen, bath, outdoors, laundry, garage), the NEC requires GFCI protection (210.8) — verify with a licensed electrician.',
+        es: 'Según el lugar de las tomas (cocina, baño, exterior, lavandería, cochera), el NEC exige protección GFCI — verifique con electricista autorizado.',
+        en: 'Depending on receptacle location (kitchen, bath, outdoors, laundry, garage), the NEC requires GFCI protection — verify with a licensed electrician.',
       },
     },
     {

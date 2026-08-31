@@ -21,11 +21,16 @@ const acDevicePresets: readonly DevicePreset[] = acPresets.map((p) => ({
   id: p.id,
   label: p.label,
   detail: {
-    es: `MCA ${p.typicalMcaA} A · MOCP ${p.typicalMocpA} A`,
-    en: `MCA ${p.typicalMcaA} A · MOCP ${p.typicalMocpA} A`,
+    es: `${p.typicalW} W · MCA ${p.typicalMcaA} A · MOCP ${p.typicalMocpA} A`,
+    en: `${p.typicalW} W · MCA ${p.typicalMcaA} A · MOCP ${p.typicalMocpA} A`,
   },
   synonyms: p.synonyms,
-  values: { mcaA: p.typicalMcaA, mocpA: p.typicalMocpA, voltage: p.voltage },
+  values: {
+    mcaA: p.typicalMcaA,
+    mocpA: p.typicalMocpA,
+    voltage: p.voltage,
+    typicalW: p.typicalW,
+  },
 }))
 
 /**

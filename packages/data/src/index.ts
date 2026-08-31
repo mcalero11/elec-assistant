@@ -312,6 +312,13 @@ export interface Article220Table {
     centralHeatPercent: number
   }
   minDwellingServiceA: number
+  /**
+   * Line-to-line voltage the demand VA is divided by to get amps. 220 V per the
+   * user (2026-08-31): Salvadoran residential service is nominally 120/240 but
+   * measures nearer 220 at the panel, and a lower divisor is the conservative
+   * direction — it reports MORE amps, not fewer.
+   */
+  nominalServiceVoltage: number
 }
 
 export const lightingDemand: LightingDemandTable = lightingDemandJson
@@ -322,6 +329,14 @@ export const article220: Article220Table = article220Json
 
 export * from './catalog/types.js'
 export { glossary, type GlossaryEntry, type GlossaryId } from './glossary.js'
+export {
+  LOCAL_PRACTICE_REGION,
+  UI_OWNED_PRACTICE_KEYS,
+  localPracticeNote,
+  localPracticeNotes,
+  type LocalPracticeKey,
+  type LocalPracticeNote,
+} from './reference/local-practice.js'
 export { catalogItems, type CatalogItemId } from './catalog/items.js'
 export { acPresets, type AcPresetId } from './catalog/ac-presets.js'
 export { appliancePresets, type AppliancePresetId } from './catalog/appliance-presets.js'

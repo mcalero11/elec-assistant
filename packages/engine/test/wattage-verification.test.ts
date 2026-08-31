@@ -30,6 +30,13 @@ const KNOWN_UNVERIFIED_APPLIANCES = new Set([
 
 const KNOWN_UNVERIFIED_AC = new Set(['ac-9k', 'ac-24k', 'ac-36k'])
 
+/**
+ * Input-power (W) provenance is tracked apart from MCA/MOCP: a preset can have a
+ * verified nameplate MCA and a still-typical wattage. Every entry here shows
+ * «por verificar» in the UI until a spec sheet stamps `typicalWVerifiedAt`.
+ */
+const KNOWN_UNVERIFIED_W = new Set(['ac-9k', 'ac-12k', 'ac-18k', 'ac-24k', 'ac-36k'])
+
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/
 
 // Widen from the `as const` literal types so the optional provenance fields
@@ -46,6 +53,32 @@ const CATALOGS = [
   { name: 'appliancePresets', presets: APPLIANCES, known: KNOWN_UNVERIFIED_APPLIANCES },
   { name: 'acPresets', presets: ACS, known: KNOWN_UNVERIFIED_AC },
 ] as const
+
+describe('A/C input-power provenance', () => {
+  it('every acPreset has a positive typicalW', () => {
+    for (const preset of acPresets) {
+      expect(preset.typicalW, preset.id).toBeGreaterThan(0)
+    }
+  })
+
+  it('unstamped wattages are declared in KNOWN_UNVERIFIED_W', () => {
+    for (const preset of acPresets) {
+      const stamped = 'typicalWVerifiedAt' in preset && preset.typicalWVerifiedAt != null
+      expect(
+        stamped || KNOWN_UNVERIFIED_W.has(preset.id),
+        `${preset.id}: stamp typicalWVerifiedAt or list it in KNOWN_UNVERIFIED_W`,
+      ).toBe(true)
+    }
+  })
+
+  it('KNOWN_UNVERIFIED_W only lists presets that are still unstamped', () => {
+    const stale = [...KNOWN_UNVERIFIED_W].filter((id) => {
+      const p = acPresets.find((x) => x.id === id) as { typicalWVerifiedAt?: string } | undefined
+      return p?.typicalWVerifiedAt != null
+    })
+    expect(stale, `now stamped — remove from KNOWN_UNVERIFIED_W: ${stale.join(', ')}`).toEqual([])
+  })
+})
 
 describe('wattage verification lint', () => {
   for (const { name, presets, known } of CATALOGS) {

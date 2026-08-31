@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { EngineError, residentialLoad, type ResidentialLoadInput } from '@nec-assistant/engine'
+import {
+  EngineError,
+  isNonCompliant,
+  residentialLoad,
+  type ResidentialLoadInput,
+} from '@nec-assistant/engine'
 import golden from './golden/load-calc.json'
 
 describe('residentialLoad (golden)', () => {
@@ -102,8 +107,37 @@ describe('residentialLoad (errors)', () => {
     expectBilingualError({ areaM2: 0 })
   })
 
-  it('rejects fewer than 2 small-appliance circuits (220.52(A))', () => {
-    expectBilingualError({ areaM2: 100, smallApplianceCircuits: 1 })
+  it('accepts fewer than 2 small-appliance circuits and marks the result off-code', () => {
+    // The local reality this whole channel exists for: kitchens wired with one
+    // circuit, or none. Calculate the real house, then say what does not comply.
+    const result = residentialLoad({ areaM2: 100, smallApplianceCircuits: 1 })
+    expect(result.standard.smallApplianceVa).toBe(1500)
+    const deviation = result.deviations.find((d) => d.key === 'small-appliance-below-minimum')
+    expect(deviation?.severity).toBe('off-code')
+    expect(deviation?.citations).toContain('nec2026.s220_52')
+    expect(deviation?.citations).toContain('nec2026.s210_11')
+    expect(deviation?.es).toContain('1 circuito')
+    expect(isNonCompliant(result)).toBe(true)
+  })
+
+  it('accepts zero small-appliance circuits', () => {
+    const result = residentialLoad({ areaM2: 100, smallApplianceCircuits: 0 })
+    expect(result.standard.smallApplianceVa).toBe(0)
+    expect(result.deviations.map((d) => d.key)).toContain('small-appliance-below-minimum')
+  })
+
+  it('emits no deviation at the code minimum', () => {
+    const result = residentialLoad({ areaM2: 100, smallApplianceCircuits: 2 })
+    expect(result.deviations).toEqual([])
+    expect(isNonCompliant(result)).toBe(false)
+  })
+
+  it('still rejects a fractional small-appliance count', () => {
+    expectBilingualError({ areaM2: 100, smallApplianceCircuits: 1.5 })
+  })
+
+  it('still rejects a negative small-appliance count', () => {
+    expectBilingualError({ areaM2: 100, smallApplianceCircuits: -1 })
   })
 
   it('rejects an unknown preset id', () => {

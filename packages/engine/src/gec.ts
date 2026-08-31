@@ -63,8 +63,9 @@ export function gecSize(input: GecInput): GecResult {
   if (!row) {
     const last = gecTable.rows[gecTable.rows.length - 1]
     throw new EngineError(
-      `No Table 250.66 row for service conductors over ${last?.maxServiceCopper} (transcribed range)`,
-      `No hay fila de la Tabla 250.66 para conductores de acometida mayores a ${last?.maxServiceCopper} (rango transcrito)`,
+      `No Table 250.66 row for service conductors over ${last?.maxServiceCopper} — outside the range transcribed into this app`,
+      `No hay fila de la Tabla 250.66 para conductores de acometida mayores a ${last?.maxServiceCopper}: queda fuera del rango que tiene cargado la app.`,
+      'coverage',
     )
   }
   const tableSize = input.material === 'copper' ? row.gecCopper : row.gecAluminum
@@ -80,5 +81,5 @@ export function gecSize(input: GecInput): GecResult {
   if (electrode === 'rod') assumptions.push(ASSUME_ROD_CAP)
   if (idx(size) < idx('6')) assumptions.push(ASSUME_PROTECTION)
 
-  return { size, tableSize, rodCapApplied, electrode, citations, assumptions }
+  return { size, tableSize, rodCapApplied, electrode, citations, assumptions, deviations: [] }
 }

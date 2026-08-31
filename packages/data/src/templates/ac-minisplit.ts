@@ -1,9 +1,14 @@
 import type { JobTemplate, ValueSpec } from '../catalog/types.js'
 
-/** Wet-location rule (PRD US-1): outdoor routing switches to a wet-rated 90 °C insulation. */
+/**
+ * Wet-location rule (PRD US-1): outdoor routing switches to a wet-rated 90 °C
+ * insulation. A roof run counts as wet — «sobre el techo» is rain and sun, and
+ * an entretecho run usually reaches the roof through the same exposed stretch,
+ * so the wet-rated conductor is the honest default for both.
+ */
 const INSULATION_BY_LOCATION: ValueSpec = {
   $cond: {
-    if: { ref: 'answers.location', eq: 'exterior' },
+    if: { ref: 'answers.location', in: ['exterior', 'techo'] },
     then: 'THWN-2',
     else: 'THHN',
   },
@@ -39,7 +44,7 @@ export const acMinisplitTemplate: JobTemplate = {
       catalog: 'ac-presets',
       default: 'ac-12k',
       // answers.device.mcaA / .mocpA ← preset.values (generic-runner contract).
-      sets: { mcaA: 'mcaA', mocpA: 'mocpA' },
+      sets: { mcaA: 'mcaA', mocpA: 'mocpA', typicalW: 'typicalW' },
       manualFields: [
         {
           id: 'mcaA',
@@ -56,10 +61,26 @@ export const acMinisplitTemplate: JobTemplate = {
           label: { es: 'MOCP — protección máxima (A)', en: 'MOCP — maximum overcurrent protection (A)' },
           default: 15,
           min: 5,
-          max: 90,
+          // 60 A, not 90: above that the disconnect table (30/60 A) and the
+          // 2-pole breakers stocked locally run out, and a residential
+          // mini-split needing more than 60 A is outside this template.
+          max: 60,
           step: 5,
           unit: 'A',
           urlKey: 'mocp',
+        },
+        {
+          // Watts is how these units are specified locally, so it is an entry
+          // field, not only a preset value. It is shown and quoted but is NOT
+          // what the conductor is sized from — that is the MCA above.
+          id: 'typicalW',
+          label: { es: 'Consumo de placa (W)', en: 'Nameplate power draw (W)' },
+          default: 1150,
+          min: 200,
+          max: 8000,
+          step: 50,
+          unit: 'W',
+          urlKey: 'pw',
         },
       ],
       presetNote: {
@@ -82,12 +103,30 @@ export const acMinisplitTemplate: JobTemplate = {
       urlKey: 'l',
     },
     {
+      // The plate says 208–230 V; the panel here measures nearer 220 than 240,
+      // and a lower voltage means a HIGHER drop percentage, so 240 was the
+      // optimistic reading. Default 220 (user, 2026-08-31).
+      id: 'systemVoltage',
+      type: 'number',
+      unit: 'V',
+      min: 200,
+      max: 250,
+      step: 1,
+      default: 220,
+      label: { es: 'Voltaje medido en el tablero', en: 'Voltage measured at the panel' },
+      urlKey: 'v',
+    },
+    {
       id: 'location',
       type: 'choice',
       default: 'exterior',
       choices: [
         { value: 'interior', label: { es: 'Interior (seco)', en: 'Indoor (dry)' } },
         { value: 'exterior', label: { es: 'Exterior (intemperie)', en: 'Outdoor (wet)' } },
+        {
+          value: 'techo',
+          label: { es: 'Sobre el techo / entretecho', en: 'On the roof / in the roof space' },
+        },
       ],
       label: { es: 'Recorrido de la tubería', en: 'Conduit routing' },
       urlKey: 'loc',
@@ -95,17 +134,26 @@ export const acMinisplitTemplate: JobTemplate = {
     {
       // El Salvador runs hot: 30°C (the NEC table basis) undersizes real installs.
       // Default depends on the location answer above (questions resolve in order).
+      // Ceiling raised to 65°C (user, 2026-08-31): a condenser and its run sitting
+      // on a roof or in an entretecho at midday go far past the old 50°C cap, and
+      // capping the field there quietly under-derated the very worst case.
       id: 'ambientC',
       type: 'number',
       unit: '°C',
       min: 25,
-      max: 50,
+      max: 65,
       step: 1,
       default: {
         $cond: {
-          if: { ref: 'answers.location', eq: 'exterior' },
-          then: 40,
-          else: 35,
+          if: { ref: 'answers.location', eq: 'techo' },
+          then: 55,
+          else: {
+            $cond: {
+              if: { ref: 'answers.location', eq: 'exterior' },
+              then: 40,
+              else: 35,
+            },
+          },
         },
       },
       label: { es: 'Temperatura donde pasa el cable', en: 'Ambient temperature along the run' },
@@ -182,9 +230,17 @@ export const acMinisplitTemplate: JobTemplate = {
       fn: 'sizeCircuit',
       input: {
         loadA: { $ref: 'answers.device.mcaA' },
-        continuous: true,
+        // NOT continuous. The nameplate MCA is already 125% of the compressor
+        // plus the fan motors (440.32, marked per 440.4(B)) — applying the
+        // continuous factor again double-counted it and bought a gauge nobody
+        // needed. Conductors size to the MCA, full stop.
+        continuous: false,
+        // Article 440 governs the device: taken from the nameplate MOCP so it
+        // rides through locked-rotor inrush, with 240.4(G) exempting the
+        // conductor from the general 240.4 protection rule.
+        mocpA: { $ref: 'answers.device.mocpA' },
         lengthM: { $ref: 'answers.runLengthM' },
-        systemVoltage: 240,
+        systemVoltage: { $ref: 'answers.systemVoltage' },
         material: 'copper',
         insulation: INSULATION_BY_LOCATION,
         ambientC: { $ref: 'answers.ambientC' },
@@ -274,6 +330,16 @@ export const acMinisplitTemplate: JobTemplate = {
       citationsFrom: 'calls.circuit.breaker',
     },
     {
+      id: 'watts',
+      label: {
+        es: 'Consumo aproximado del equipo (por verificar)',
+        en: 'Approximate power draw (to verify)',
+      },
+      value: { $ref: 'answers.device.typicalW' },
+      unit: 'W',
+      citations: ['nec2026.s440_4_b'],
+    },
+    {
       id: 'mocp',
       label: { es: 'Protección máxima (MOCP) según la placa de datos', en: 'Maximum protection (MOCP) per nameplate' },
       value: { $ref: 'answers.device.mocpA' },
@@ -315,7 +381,14 @@ export const acMinisplitTemplate: JobTemplate = {
             '20': 'breaker-2p-20',
             '25': 'breaker-2p-25',
             '30': 'breaker-2p-30',
+            // 440.22 takes the rating from the nameplate MOCP, so the map has to
+            // cover every standard rating the MOCP field can reach (5–60 A), not
+            // just the ones a load-derived breaker used to land on.
+            '35': 'breaker-2p-35',
             '40': 'breaker-2p-40',
+            '45': 'breaker-2p-45',
+            '50': 'breaker-2p-50',
+            '60': 'breaker-2p-60',
           },
         },
       },
@@ -461,6 +534,18 @@ export const acMinisplitTemplate: JobTemplate = {
       },
     },
     {
+      // 3 conductors (2 hots + EGC) terminated at both ends: the unit's terminal
+      // block and the disconnect. Stranded wire under a screw without one of
+      // these splays and loosens — the commonest bad A/C connection here.
+      id: 'punteras',
+      item: { itemId: 'puntera-cable' },
+      qty: { fixed: 6 },
+      note: {
+        es: 'para las borneras del equipo y del desconectador (3 conductores × 2 extremos)',
+        en: "for the unit's and the disconnect's terminal blocks (3 conductors × 2 ends)",
+      },
+    },
+    {
       id: 'bender',
       when: [
         { ref: 'options.conduitType', eq: 'emt' },
@@ -477,6 +562,22 @@ export const acMinisplitTemplate: JobTemplate = {
   ],
 
   warnings: [
+    {
+      // Same 12,000 BTU model line can call for 14 AWG in the on/off version and
+      // 12 AWG in the inverter one. The calculated size is the code floor, not
+      // the manufacturer's floor, and 110.3(B) makes their manual enforceable.
+      id: 'calibre-fabricante',
+      // Only on the small gauges, where a manufacturer minimum plausibly lands
+      // above the code minimum. No `severity`: this is a reminder to read the
+      // manual, not a finding that the install departs from the code — putting
+      // it in `deviations` would make «No cumple NEC» permanent chrome.
+      when: { ref: 'calls.circuit.conductor.size', in: ['14', '12'] },
+      citations: ['nec2026.s110_3_b', 'nec2026.s440_4_b'],
+      text: {
+        es: 'El calibre de arriba es el mínimo que exige el NEC para este MCA. El manual del equipo puede pedir uno más grueso (es común que un 12,000 BTU inverter pida 12 AWG donde el cálculo permite 14 AWG), y 110.3(B) obliga a seguir las instrucciones del fabricante: revise el manual antes de comprar el alambre.',
+        en: 'The gauge above is the minimum the NEC requires for this MCA. The unit\u2019s manual may call for a heavier one (a 12,000 BTU inverter commonly specifies 12 AWG where the calculation allows 14 AWG), and 110.3(B) makes the manufacturer\u2019s instructions enforceable: check the manual before buying wire.',
+      },
+    },
     {
       id: 'panel-space',
       when: { ref: 'answers.panelSlots', eq: 'ninguno' },

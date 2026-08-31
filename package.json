@@ -5,6 +5,7 @@
   "packageManager": "pnpm@10.30.3",
   "scripts": {
     "build": "pnpm --filter @nec-assistant/web build",
+    "dev": "pnpm --filter @nec-assistant/web dev",
     "test": "pnpm -r test",
     "typecheck": "pnpm -r typecheck"
   }

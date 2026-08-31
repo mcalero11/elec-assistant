@@ -23,6 +23,7 @@ export function AppBreadcrumb() {
     calibre: m.nav.calibre,
     tuberia: m.nav.tuberia,
     tierra: m.nav.tierra,
+    acometida: m.nav.acometida,
     cajas: m.nav.cajas,
     carga: m.nav.carga,
   }

@@ -221,4 +221,13 @@
   .memoria sup {
     font-size: 8px;
   }
+
+  /* The four calculators without a memoria print their live UI, where the amber
+     deviation panel would come out as a washed-out grey. Deviations are the one
+     thing that must stay legible on paper. */
+  [data-slot='alert'][data-variant='warning'] {
+    color: black;
+    background: transparent;
+    border-color: #333;
+  }
 }

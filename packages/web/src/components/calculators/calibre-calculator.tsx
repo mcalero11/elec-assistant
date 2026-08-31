@@ -12,6 +12,8 @@ import {
   EngineError,
   INSULATION_TEMP_RATING,
   evaluateConductor,
+  isNonCompliant,
+  mergeDeviations,
   sizeCircuit,
   standardBreaker,
   voltageDrop,
@@ -19,6 +21,7 @@ import {
   type CircuitInput,
   type CircuitResult,
   type ConductorEvaluation,
+  type Deviation,
   type Insulation,
   type VoltageDropResult,
 } from '@nec-assistant/engine'
@@ -52,8 +55,10 @@ import { Term } from '@/components/term'
 import { fmtNumber, fmtPercent, getMessages } from '@/lib/i18n'
 import { cToF, fToC, ftToM, mToFt } from '@/lib/units'
 import { AssumptionsPanel } from './assumptions-panel'
+import { DeviationsPanel, NonComplianceBadge } from './deviations-panel'
 import { DropChart } from './drop-chart'
 import { InputSlider } from './input-slider'
+import { NumberField } from './number-field'
 import { ResultLine, ResultsCard } from './results-card'
 
 const INSULATIONS = Object.keys(INSULATION_TEMP_RATING) as Insulation[]
@@ -68,8 +73,9 @@ type Computation =
       kind: 'pinned'
       conductor: ConductorEvaluation
       drop: VoltageDropResult
-      breaker: BreakerResult | null
-      breakerError: EngineError | null
+      breaker: BreakerResult
+      /** Merged by hand: pinned mode composes three results with no aggregator. */
+      deviations: Deviation[]
     }
   | { kind: 'error'; error: EngineError }
 
@@ -117,20 +123,20 @@ export function CalibreCalculator() {
         size: pinned,
         material,
         systemVoltage,
+        maxDropPercent: maxDrop,
       })
-      let breaker: BreakerResult | null = null
-      let breakerError: EngineError | null = null
-      try {
-        breaker = standardBreaker({
-          loadA,
-          continuous,
-          conductorProtectionAmpacity: conductor.protectionAmpacity,
-        })
-      } catch (e) {
-        if (e instanceof EngineError) breakerError = e
-        else throw e
+      const breaker = standardBreaker({
+        loadA,
+        continuous,
+        conductorProtectionAmpacity: conductor.protectionAmpacity,
+      })
+      return {
+        kind: 'pinned',
+        conductor,
+        drop,
+        breaker,
+        deviations: mergeDeviations(conductor.deviations, drop.deviations, breaker.deviations),
       }
-      return { kind: 'pinned', conductor, drop, breaker, breakerError }
     } catch (e) {
       if (e instanceof EngineError) return { kind: 'error', error: e }
       throw e
@@ -253,16 +259,13 @@ export function CalibreCalculator() {
                 </div>
                 <div className="space-y-1.5">
                   <Label className="text-xs">{m.calibre.cccCount}</Label>
-                  <Input
-                    type="number"
+                  <NumberField
                     className="h-8"
                     min={1}
-                    max={30}
+                    max={60}
+                    integer
                     value={cccCount}
-                    onChange={(e) => {
-                      const v = Number(e.target.value)
-                      if (Number.isInteger(v) && v >= 1 && v <= 30) setCccCount(v)
-                    }}
+                    onChange={setCccCount}
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -282,17 +285,18 @@ export function CalibreCalculator() {
                 </div>
                 <div className="space-y-1.5">
                   <Label className="text-xs">{m.calibre.maxDrop}</Label>
-                  <Input
-                    type="number"
+                  {/* The 3% figure is an Informational Note, not a requirement, so it
+                      is a softMax rather than a hard bound: enter what the job
+                      actually is and the result says how far past the advice it sits. */}
+                  <NumberField
                     className="h-8"
-                    min={1}
-                    max={10}
+                    min={0.5}
+                    max={25}
                     step={0.5}
+                    softMax={3}
+                    hint={m.calibre.maxDropHint}
                     value={maxDrop}
-                    onChange={(e) => {
-                      const v = Number(e.target.value)
-                      if (Number.isFinite(v) && v >= 1 && v <= 10) setMaxDrop(v)
-                    }}
+                    onChange={setMaxDrop}
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -356,7 +360,7 @@ export function CalibreCalculator() {
               <Link
                 href={`/calculadoras/tuberia/?c=${encodeURIComponent(
                   `${cccCount}x${computation.circuit.conductor.size}.${insulation}`,
-                )}&tipo=emt&modo=min`}
+                )}&tipo=emt&modo=min&egc=${computation.circuit.breaker.rating}`}
               >
                 {m.calibre.chainButton} <ArrowRight className="size-3.5" />
               </Link>
@@ -403,32 +407,38 @@ function AutoResults({
 }) {
   const m = getMessages()
   return (
-    <ResultsCard
-      title={m.calibre.results}
-      badge={
-        <Badge variant={circuit.governedBy === 'ampacity' ? 'secondary' : 'default'}>
-          {m.calibre.governedBy}: {governedLabel[circuit.governedBy]}
-        </Badge>
-      }
-    >
-      <ResultLine
-        label={<Term id="calibre">{m.calibre.conductor}</Term>}
-        value={`${circuit.conductor.size} AWG/kcmil`}
-        detail={`${m.calibre.deratedAmpacity}: ${fmtNumber(circuit.conductor.deratedAmpacity)} ${m.common.amps} · terminales ${circuit.conductor.terminalRatingC} °C`}
-        citations={circuit.conductor.citations}
-      />
-      <ResultLine
-        label={<Term id="breaker">{m.calibre.breaker}</Term>}
-        value={`${circuit.breaker.rating} ${m.common.amps}`}
-        detail={circuit.breaker.nextSizeUpApplied ? m.calibre.breakerNextUp : undefined}
-        citations={circuit.breaker.citations}
-      />
-      <ResultLine
-        label={<Term id="caidaDeTension">{m.calibre.voltageDrop}</Term>}
-        value={`${fmtNumber(circuit.voltageDrop.dropVolts)} ${m.common.volts} · ${fmtPercent(circuit.voltageDrop.dropPercent)}`}
-        citations={circuit.voltageDrop.citations}
-      />
-    </ResultsCard>
+    <>
+      <DeviationsPanel deviations={circuit.deviations} />
+      <ResultsCard
+        title={m.calibre.results}
+        badge={
+          <>
+            {isNonCompliant(circuit) ? <NonComplianceBadge /> : null}
+            <Badge variant={circuit.governedBy === 'ampacity' ? 'secondary' : 'default'}>
+              {m.calibre.governedBy}: {governedLabel[circuit.governedBy]}
+            </Badge>
+          </>
+        }
+      >
+        <ResultLine
+          label={<Term id="calibre">{m.calibre.conductor}</Term>}
+          value={`${circuit.conductor.size} AWG/kcmil`}
+          detail={`${m.calibre.deratedAmpacity}: ${fmtNumber(circuit.conductor.deratedAmpacity)} ${m.common.amps} · terminales ${circuit.conductor.terminalRatingC} °C`}
+          citations={circuit.conductor.citations}
+        />
+        <ResultLine
+          label={<Term id="breaker">{m.calibre.breaker}</Term>}
+          value={`${circuit.breaker.rating} ${m.common.amps}`}
+          detail={circuit.breaker.nextSizeUpApplied ? m.calibre.breakerNextUp : undefined}
+          citations={circuit.breaker.citations}
+        />
+        <ResultLine
+          label={<Term id="caidaDeTension">{m.calibre.voltageDrop}</Term>}
+          value={`${fmtNumber(circuit.voltageDrop.dropVolts)} ${m.common.volts} · ${fmtPercent(circuit.voltageDrop.dropPercent)}`}
+          citations={circuit.voltageDrop.citations}
+        />
+      </ResultsCard>
+    </>
   )
 }
 
@@ -440,43 +450,39 @@ function PinnedResults({
   maxDrop: number
 }) {
   const m = getMessages()
-  const { conductor, drop, breaker, breakerError } = computation
+  const { conductor, drop, breaker, deviations } = computation
   const overLimit = drop.dropPercent > maxDrop
+  const nonCompliant = isNonCompliant({ deviations })
   return (
     <>
-      {!conductor.satisfiesLoad ? (
-        <Alert variant="destructive">
-          <TriangleAlert className="size-4" />
-          <AlertTitle>{m.calibre.doesNotSatisfy}</AlertTitle>
-        </Alert>
-      ) : null}
-      {overLimit ? (
-        <Alert variant="destructive">
-          <TriangleAlert className="size-4" />
-          <AlertTitle>{m.calibre.limitExceeded}</AlertTitle>
-          <AlertDescription>{citationLabel('nec2026.in210_19_vd', 'es')}</AlertDescription>
-        </Alert>
-      ) : null}
-      <ResultsCard title={m.calibre.results}>
+      {/* The two hand-rolled red alerts that used to live here (doesNotSatisfy,
+          limitExceeded) are now engine deviations, so they render in the shared
+          panel — amber, because a pinned size that misses is off-code, not
+          uncomputable. */}
+      <DeviationsPanel deviations={deviations} />
+      <ResultsCard
+        title={m.calibre.results}
+        badge={nonCompliant ? <NonComplianceBadge /> : undefined}
+      >
         <ResultLine
           label={<Term id="calibre">{m.calibre.conductor}</Term>}
           value={`${conductor.size} AWG/kcmil`}
           detail={`${m.calibre.deratedAmpacity}: ${fmtNumber(conductor.deratedAmpacity)} ${m.common.amps} · terminales ${conductor.terminalRatingC} °C`}
           citations={conductor.citations}
-          tone={conductor.satisfiesLoad ? 'default' : 'destructive'}
+          tone={conductor.satisfiesLoad ? 'default' : 'warning'}
         />
         <ResultLine
           label={<Term id="breaker">{m.calibre.breaker}</Term>}
-          value={breaker ? `${breaker.rating} ${m.common.amps}` : '—'}
-          detail={breakerError ? breakerError.es : breaker?.nextSizeUpApplied ? m.calibre.breakerNextUp : undefined}
-          citations={breaker?.citations}
-          tone={breakerError ? 'destructive' : 'default'}
+          value={`${breaker.rating} ${m.common.amps}`}
+          detail={breaker.nextSizeUpApplied ? m.calibre.breakerNextUp : undefined}
+          citations={breaker.citations}
+          tone={breaker.protectsConductor ? 'default' : 'warning'}
         />
         <ResultLine
           label={<Term id="caidaDeTension">{m.calibre.voltageDrop}</Term>}
           value={`${fmtNumber(drop.dropVolts)} ${m.common.volts} · ${fmtPercent(drop.dropPercent)}`}
           citations={drop.citations}
-          tone={overLimit ? 'destructive' : 'default'}
+          tone={overLimit ? 'warning' : 'default'}
         />
       </ResultsCard>
     </>

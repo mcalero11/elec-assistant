@@ -7,11 +7,20 @@
   "smallApplianceCircuitVa": 1500,
   "minSmallApplianceCircuits": 2,
   "laundryCircuitVa": 1500,
-  "fixedApplianceDemand": { "minCount": 4, "percent": 75 },
+  "fixedApplianceDemand": {
+    "minCount": 4,
+    "percent": 75
+  },
   "dryerMinVa": 5000,
   "dryerDemandFactors": [
-    { "maxCount": 2, "percent": 100 },
-    { "maxCount": 5, "percent": 80 }
+    {
+      "maxCount": 2,
+      "percent": 100
+    },
+    {
+      "maxCount": 5,
+      "percent": 80
+    }
   ],
   "optionalMethod": {
     "firstTierVa": 8000,
@@ -20,5 +29,6 @@
     "acPercent": 100,
     "centralHeatPercent": 65
   },
-  "minDwellingServiceA": 100
+  "minDwellingServiceA": 100,
+  "nominalServiceVoltage": 220
 }

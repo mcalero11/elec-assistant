@@ -13,6 +13,7 @@ import {
   EngineError,
   INSULATION_TEMP_RATING,
   type Assumption,
+  type Deviation,
   type Insulation,
   type WithProvenance,
 } from './types.js'
@@ -60,8 +61,9 @@ export function ambientFactor(ambientC: number, rating: TempRating): number {
   const factor = row?.factors[String(rating) as TempRatingKey]
   if (factor == null) {
     throw new EngineError(
-      `Ambient ${ambientC}°C is not permitted for a ${rating}°C-rated conductor (Table 310.15(B)(1)(1))`,
-      `Una temperatura ambiente de ${ambientC}°C no está permitida para un conductor de ${rating}°C (Tabla 310.15(B)(1)(1))`,
+      `Ambient ${ambientC}°C has no Table 310.15(B)(1)(1) row for a ${rating}°C-rated conductor — at that ambient it has no usable ampacity left`,
+      `A ${ambientC} °C de temperatura ambiente, un conductor de ${rating} °C ya no tiene fila en la Tabla 310.15(B)(1)(1): no le queda ampacidad utilizable. Use un aislamiento de mayor temperatura.`,
+      'coverage',
     )
   }
   return factor
@@ -142,6 +144,7 @@ export function deratedAmpacity(input: DeratedAmpacityInput): DeratedAmpacityRes
     ampacity: base * fAmbient * fCcc,
     citations,
     assumptions,
+    deviations: [],
   }
 }
 
@@ -183,6 +186,25 @@ export interface ConductorEvaluation extends WithProvenance {
   requiredTermination: number
   terminalRatingC: 60 | 75
   satisfiesLoad: boolean
+}
+
+function deviationAmpacity(
+  size: ConductorSize,
+  loadA: number,
+  deratedA: number,
+  terminationA: number,
+): Deviation {
+  // Name both numbers: either check can be the one that binds, and the reader
+  // needs to know which to change (conditions vs. terminals).
+  const derated = deratedA.toFixed(1)
+  const termination = terminationA.toFixed(1)
+  return {
+    key: 'ampacity-insufficient',
+    en: `Size ${size} is not enough for ${loadA} A under these conditions (it carries ${derated} A after derating, and its terminals allow ${termination} A). Installing it this way leaves the circuit outside the code.`,
+    es: `El calibre ${size} no alcanza para ${loadA} A en estas condiciones (soporta ${derated} A después de los factores y sus bornes permiten ${termination} A). Instalarlo así deja el circuito fuera de norma.`,
+    citations: ['nec2026.t310_16', 'nec2026.s110_14_c'],
+    severity: 'off-code',
+  }
 }
 
 export function evaluateConductor(
@@ -231,6 +253,9 @@ export function evaluateConductor(
     citations.push('nec2026.s240_4_d')
   }
 
+  const satisfiesLoad =
+    terminationAmpacity >= requiredTermination && derated.ampacity >= input.loadA
+
   return {
     size,
     deratedAmpacity: derated.ampacity,
@@ -238,28 +263,40 @@ export function evaluateConductor(
     protectionAmpacity,
     requiredTermination,
     terminalRatingC,
-    satisfiesLoad:
-      terminationAmpacity >= requiredTermination && derated.ampacity >= input.loadA,
+    satisfiesLoad,
     citations,
     assumptions,
+    deviations: satisfiesLoad
+      ? []
+      : [deviationAmpacity(size, input.loadA, derated.ampacity, terminationAmpacity)],
   }
 }
 
-/** Smallest conductor whose termination ampacity covers 125% of continuous load and whose derated ampacity covers the load. */
+/**
+ * Smallest conductor whose termination ampacity covers 125% of continuous load
+ * and whose derated ampacity covers the load. When none does, the largest size
+ * with a Table 310.16 row is returned carrying `satisfiesLoad: false` and the
+ * `ampacity-insufficient` deviation.
+ *
+ * Deliberately does NOT swallow EngineErrors from `evaluateConductor`: the only
+ * throws left after the table-row guard come from the ambient and CCC factor
+ * lookups, which are size-invariant, so catching them would hide an honest
+ * "60 °C ambient is not permitted for a 60 °C conductor" behind a fabricated
+ * 600 kcmil answer.
+ */
 export function minConductorForLoad(input: MinConductorInput): ConductorEvaluation {
+  let last: ConductorEvaluation | undefined
   for (const size of CONDUCTOR_SIZES) {
     if (!table31016[input.material][size]) continue
-    let evaluation: ConductorEvaluation
-    try {
-      evaluation = evaluateConductor(size, input)
-    } catch (e) {
-      if (e instanceof EngineError) continue
-      throw e
-    }
-    if (evaluation.satisfiesLoad) return evaluation
+    last = evaluateConductor(size, input)
+    if (last.satisfiesLoad) return last
   }
-  throw new EngineError(
-    `No conductor size up to 600 kcmil satisfies a ${input.loadA} A load under these conditions`,
-    `Ningún calibre hasta 600 kcmil satisface una carga de ${input.loadA} A en estas condiciones`,
-  )
+  if (!last) {
+    throw new EngineError(
+      `No Table 310.16 rows for ${input.material}`,
+      `No hay filas de la Tabla 310.16 para ${input.material === 'copper' ? 'cobre' : 'aluminio'}`,
+      'coverage',
+    )
+  }
+  return last
 }

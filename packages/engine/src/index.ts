@@ -63,11 +63,17 @@ export {
   type TemplateRunResult,
 } from './template.js'
 export {
+  DEVIATION_KEYS,
   EngineError,
   INSULATION_TEMP_RATING,
+  isNonCompliant,
   mergeAssumptions,
   mergeCitations,
+  mergeDeviations,
   type Assumption,
+  type Deviation,
+  type EngineDeviationKey,
+  type EngineErrorKind,
   type Insulation,
   type WithProvenance,
 } from './types.js'

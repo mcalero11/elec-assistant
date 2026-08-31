@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 import {
   createParser,
   parseAsBoolean,
+  parseAsFloat,
   parseAsStringLiteral,
   useQueryState,
 } from 'nuqs'
@@ -20,15 +21,19 @@ import {
   CONDUIT_FILL_INSULATIONS,
   EngineError,
   conduitFill,
+  egcSize,
+  isNonCompliant,
+  mergeAssumptions,
+  mergeDeviations,
   sizeConduit,
   type ConductorFillEntry,
   type ConduitFillResult,
+  type EgcResult,
   type Insulation,
 } from '@nec-assistant/engine'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
   Select,
@@ -43,8 +48,9 @@ import { Disclaimer } from '@/components/disclaimer'
 import { Term } from '@/components/term'
 import { fmtNumber, getMessages } from '@/lib/i18n'
 import { AssumptionsPanel } from './assumptions-panel'
-import { CitationChips } from './citation-chips'
+import { DeviationsPanel, NonComplianceBadge } from './deviations-panel'
 import { FillGauge } from './fill-gauge'
+import { NumberField } from './number-field'
 import { ResultLine, ResultsCard } from './results-card'
 
 /** Table 5 building wire + PV wire (Note 5 actual dims); UF/USE excluded by the engine. */
@@ -67,21 +73,35 @@ const CONDUIT_LABELS: Record<ConduitKey, string> = {
 
 const MODES = ['min', 'ver'] as const
 
+/**
+ * One `<count>x<size>.<insulation>` token. Null only when structurally
+ * unreadable; an out-of-range count is clamped, so one stale number in a shared
+ * link costs that row's count rather than the whole scenario.
+ */
+function parseFillToken(token: string): ConductorFillEntry | null {
+  const xIdx = token.indexOf('x')
+  const dotIdx = token.lastIndexOf('.')
+  if (xIdx <= 0 || dotIdx <= xIdx) return null
+  const rawCount = Number(token.slice(0, xIdx))
+  const size = token.slice(xIdx + 1, dotIdx)
+  const insulation = token.slice(dotIdx + 1)
+  if (!Number.isInteger(rawCount)) return null
+  if (!(CONDUCTOR_SIZES as readonly string[]).includes(size)) return null
+  if (!(FILL_INSULATIONS as readonly string[]).includes(insulation)) return null
+  return {
+    count: Math.min(60, Math.max(1, rawCount)),
+    size: size as ConductorSize,
+    insulation: insulation as Insulation,
+  }
+}
+
 /** Rows travel in the URL as `<count>x<size>.<insulation>` joined by `_` (e.g. 2x10.THHN_1x10.THHN). */
 const rowsParser = createParser<ConductorFillEntry[]>({
   parse: (value) => {
     const rows: ConductorFillEntry[] = []
     for (const token of value.split('_')) {
-      const xIdx = token.indexOf('x')
-      const dotIdx = token.lastIndexOf('.')
-      if (xIdx <= 0 || dotIdx <= xIdx) return null
-      const count = Number(token.slice(0, xIdx))
-      const size = token.slice(xIdx + 1, dotIdx)
-      const insulation = token.slice(dotIdx + 1)
-      if (!Number.isInteger(count) || count < 1 || count > 60) return null
-      if (!(CONDUCTOR_SIZES as readonly string[]).includes(size)) return null
-      if (!(FILL_INSULATIONS as readonly string[]).includes(insulation)) return null
-      rows.push({ count, size: size as ConductorSize, insulation: insulation as Insulation })
+      const row = parseFillToken(token)
+      if (row) rows.push(row)
     }
     return rows.length > 0 ? rows : null
   },
@@ -97,7 +117,7 @@ const DEFAULT_ROWS: ConductorFillEntry[] = [
 ]
 
 type Computation =
-  | { kind: 'ok'; result: ConduitFillResult }
+  | { kind: 'ok'; result: ConduitFillResult; egc: EgcResult | null }
   | { kind: 'error'; error: EngineError }
 
 export function RellenoCalculator() {
@@ -108,6 +128,9 @@ export function RellenoCalculator() {
   const [tradeSize, setTradeSize] = useQueryState('ts', parseAsStringLiteral(TRADE_SIZES).withDefault('1/2'))
   const [nipple, setNipple] = useQueryState('nip', parseAsBoolean.withDefault(false))
   const [rows, setRows] = useQueryState('c', rowsParser.withDefault(DEFAULT_ROWS))
+  // Breaker amps, or null = no EGC row. The ground travels in the same raceway
+  // and counts toward fill, so it is derived (Table 250.122) instead of typed.
+  const [egcAmps, setEgcAmps] = useQueryState('egc', parseAsFloat)
 
   const conduitType = CONDUIT_BY_KEY[conduitKey]
   const availableTradeSizes = TRADE_SIZES.filter(
@@ -120,16 +143,20 @@ export function RellenoCalculator() {
 
   const computation: Computation = useMemo(() => {
     try {
+      const egc = egcAmps !== null ? egcSize({ ocpdA: egcAmps, material: 'copper' }) : null
+      const conductors = egc
+        ? [...rows, { count: 1, size: egc.size, insulation: 'THHN' as const }]
+        : rows
       const result =
         mode === 'min'
-          ? sizeConduit({ conduitType, conductors: rows, nipple })
-          : conduitFill({ conduitType, tradeSize: effectiveTradeSize, conductors: rows, nipple })
-      return { kind: 'ok', result }
+          ? sizeConduit({ conduitType, conductors, nipple })
+          : conduitFill({ conduitType, tradeSize: effectiveTradeSize, conductors, nipple })
+      return { kind: 'ok', result, egc }
     } catch (e) {
       if (e instanceof EngineError) return { kind: 'error', error: e }
       throw e
     }
-  }, [mode, conduitType, effectiveTradeSize, rows, nipple])
+  }, [mode, conduitType, effectiveTradeSize, rows, nipple, egcAmps])
 
   const updateRow = (index: number, patch: Partial<ConductorFillEntry>) =>
     void setRows(rows.map((row, i) => (i === index ? { ...row, ...patch } : row)))
@@ -208,17 +235,14 @@ export function RellenoCalculator() {
             <Label className="text-xs">{m.relleno.conductorsTitle}</Label>
             {rows.map((row, index) => (
               <div key={index} className="flex items-center gap-2">
-                <Input
-                  type="number"
+                <NumberField
                   className="h-8 w-16 text-right tabular-nums"
                   min={1}
                   max={60}
+                  integer
                   value={row.count}
                   aria-label={m.relleno.count}
-                  onChange={(e) => {
-                    const v = Number(e.target.value)
-                    if (Number.isInteger(v) && v >= 1 && v <= 60) updateRow(index, { count: v })
-                  }}
+                  onChange={(v) => updateRow(index, { count: v })}
                 />
                 <span className="text-xs text-muted-foreground">×</span>
                 <Select value={row.size} onValueChange={(v) => updateRow(index, { size: v as ConductorSize })}>
@@ -264,6 +288,37 @@ export function RellenoCalculator() {
               <Plus className="size-3.5" /> {m.relleno.addConductor}
             </Button>
           </div>
+
+          <div className="space-y-3 rounded-lg border p-3">
+            <label className="flex items-center gap-2 text-sm font-medium">
+              <Switch
+                checked={egcAmps !== null}
+                onCheckedChange={(on) => void setEgcAmps(on ? 20 : null)}
+              />
+              {m.relleno.egcSwitch}
+            </label>
+            <p className="text-xs text-muted-foreground">{m.relleno.egcHint}</p>
+            {egcAmps !== null ? (
+              <div className="flex flex-wrap items-center gap-2">
+                <Label className="text-xs">{m.relleno.egcBreaker}</Label>
+                <NumberField
+                  className="h-8 w-20 text-right font-mono tabular-nums"
+                  min={15}
+                  max={400}
+                  integer
+                  value={egcAmps}
+                  aria-label={m.relleno.egcBreaker}
+                  onChange={(v) => void setEgcAmps(v)}
+                />
+                <span className="text-sm text-muted-foreground">{m.common.amps}</span>
+                {computation.kind === 'ok' && computation.egc ? (
+                  <span className="text-xs text-muted-foreground">
+                    {m.relleno.egcAdded}: 1 × {computation.egc.size} THHN Cu
+                  </span>
+                ) : null}
+              </div>
+            ) : null}
+          </div>
         </CardContent>
       </Card>
 
@@ -276,7 +331,7 @@ export function RellenoCalculator() {
             <AlertDescription>{computation.error.es}</AlertDescription>
           </Alert>
         ) : (
-          <RellenoResults result={computation.result} mode={mode} />
+          <RellenoResults result={computation.result} egc={computation.egc} mode={mode} />
         )}
         <Disclaimer />
       </div>
@@ -284,32 +339,46 @@ export function RellenoCalculator() {
   )
 }
 
-function RellenoResults({ result, mode }: { result: ConduitFillResult; mode: 'min' | 'ver' }) {
+function RellenoResults({
+  result,
+  egc,
+  mode,
+}: {
+  result: ConduitFillResult
+  egc: EgcResult | null
+  mode: 'min' | 'ver'
+}) {
   const m = getMessages()
+  const deviations = egc ? mergeDeviations(result.deviations, egc.deviations) : result.deviations
+  const nonCompliant = isNonCompliant({ deviations })
   return (
     <>
-      {mode === 'ver' && !result.fits ? (
-        <Alert variant="destructive">
-          <TriangleAlert className="size-4" />
-          <AlertTitle>{m.relleno.fitsNo}</AlertTitle>
-          <AlertDescription>
-            <CitationChips keys={['nec2026.ch9_t1']} />
-          </AlertDescription>
-        </Alert>
-      ) : null}
-      <ResultsCard title={m.relleno.results}>
+      {/* Replaces the hand-rolled red over-fill alert: conduitFill now reports it
+          as a deviation, with its own prose and citation. */}
+      <DeviationsPanel deviations={deviations} />
+      <ResultsCard
+        title={m.relleno.results}
+        badge={nonCompliant ? <NonComplianceBadge /> : undefined}
+      >
         <ResultLine
           label={mode === 'min' ? m.relleno.minTradeSize : m.relleno.checkedTradeSize}
           value={`${result.tradeSize} ${m.relleno.inches} (${result.metricDesignator} mm)`}
           detail={`${result.conduitType}`}
           citations={result.citations}
-          tone={mode === 'ver' && !result.fits ? 'destructive' : 'default'}
+          tone={result.fits ? 'default' : 'warning'}
         />
         <ResultLine
           label={m.relleno.conductorArea}
           value={`${fmtNumber(result.conductorAreaMm2)} mm²`}
           detail={`${result.conductorCount} conductores · ${m.relleno.fillLimit}: ${fmtNumber(result.allowedFillAreaMm2)} mm²`}
         />
+        {egc ? (
+          <ResultLine
+            label={m.relleno.egcLine}
+            value={`1 × ${egc.size} THHN Cu`}
+            citations={egc.citations}
+          />
+        ) : null}
         <div className="py-2">
           <FillGauge
             fillPercentActual={result.fillPercentActual}
@@ -321,7 +390,9 @@ function RellenoResults({ result, mode }: { result: ConduitFillResult; mode: 'mi
           <p className="py-2 text-xs text-muted-foreground">{m.relleno.note7}</p>
         ) : null}
       </ResultsCard>
-      <AssumptionsPanel assumptions={result.assumptions} />
+      <AssumptionsPanel
+        assumptions={egc ? mergeAssumptions(result.assumptions, egc.assumptions) : result.assumptions}
+      />
     </>
   )
 }
